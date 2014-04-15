@@ -1,0 +1,519 @@
+/**
+ * Created with JetBrains WebStorm.
+ * User: mcandela
+ * Date: 9/20/13
+ * Time: 10:59 AM
+ * To change this template use File | Settings | File Templates.
+ */
+
+define([
+    "env.utils",
+    "lib.d3"
+], function(utils, d3){
+
+    var GesturesManager =  function(env){
+        var $this, config;
+
+        $this = this;
+        config = env.config;
+
+        this.alreadyInit = false;
+        this.eventsList = {};
+        this.eventsList.scrollDown = [];
+        this.eventsList.scrollUp = [];
+        this.eventsList.scrollLeft = [];
+        this.eventsList.scrollRight = [];
+
+        this.timeEventsActive = true;
+
+        this.on = function(evt, func, context){
+
+            if (!this.alreadyInit) {
+                this._init();
+                this.alreadyInit = true;
+            }
+
+            this.eventsList[evt].push({
+                bindedFunction: func,
+                context: context
+            });
+
+        };
+
+        this._initMouseWheel = function(){
+            env.container.chart.dom.$.on('DOMMouseScroll mousewheel', function (evt) {
+                evt.preventDefault();
+
+                var list, element, newYDomain, wheelDelta, characherization;
+
+                list = [];
+
+                if ($this.timeEventsActive ==  true){
+
+                    wheelDelta = evt.originalEvent.detail || -(evt.originalEvent.wheelDelta/120);
+
+                    if (wheelDelta > 0) { //alternative options for wheelData: wheelDeltaX & wheelDeltaY
+
+                        list = $this.eventsList.scrollUp;
+                    }else{
+
+                        if ($this.rowsSubSelection){
+
+                            $this.rowsSubSelection = false;
+
+                            env.timeEventsActive = false;
+
+                            //env.params.selectedRows = env.rows.map(function (d) {return d.id;});
+                            env.params.selectedRows = [];
+
+                            characherization = env.mainView.rowsCharacterization(env.mainView.rows);
+
+                            newYDomain = characherization.domain;
+
+                            env.mainView.yAxis.setDomain(function(){return newYDomain;});
+
+                            env.mainView.redraw();
+
+                        }else{
+                            list = $this.eventsList.scrollDown;
+                        }
+                    }
+
+                    for (var n=0,length=list.length; n<length; n++){
+                        element = list[n];
+                        element.bindedFunction.call(element.context, wheelDelta);
+                    };
+
+                }
+                return false;
+            });
+
+            $(document).keydown(function(evt){
+                var list, element;
+
+                if (env.timeEventsActive ==  true){
+                    switch(evt.keyCode){
+                        case 37: //Left
+                            list = $this.eventsList.scrollLeft;
+                            break;
+
+                        case 39: //Right
+                            list = $this.eventsList.scrollRight;
+                            break;
+
+                        case 38: //Up
+                            list = $this.eventsList.scrollUp;
+                            break;
+
+                        case 40: //Down
+                            list = $this.eventsList.scrollDown;
+                            break;
+                    }
+
+                    if (list){
+                        evt.preventDefault();
+
+                        for (var n=0,length=list.length; n<length; n++){
+                            element = list[n];
+                            element.bindedFunction.call(element.context);
+                        }
+                    };
+                }
+
+            });
+
+
+
+        };
+
+        this._init = function(){
+            env.timeEventsActive = true;
+            this._initMouseWheel();
+            this._initializeSelectionTool();
+            this._initializeActiveLabels();
+        };
+
+        this._initializeActiveLabels = function(){
+            env.mainView.yAxis.onClick(function(evt){
+                var selectedRow, queryType;
+
+                queryType = env.params.type;
+                selectedRow = $(this).attr("magnet");
+
+                switch(queryType){
+
+                    case "probes":
+                        env.params.selectedRows = [selectedRow];
+                        break;
+
+                    case "servers":
+                        env.params.type = "probes";
+                        env.params.root = env.params.group;
+                        env.params.group = selectedRow;
+                        env.params.selectedRows = [];
+                        break;
+                }
+
+                env.mainView.breadcrumbs.addLevel($(this).text());
+                env.mainView.redraw();
+            });
+        }
+
+        this._initializeSelectionTool = function(){
+            var svg, body, rect, endCoords, trackerDomElement, container, params, chart, selectedCells,
+                resetWhenMouseOutside, coords, startCoords, currentElement, offset, coordsMousemove, finalStartCoords,
+                finalEndCoords, removeRect, startSelection, updateSelection, stopSelection, cellValue,
+                previouslySelectedRects;
+
+            container = env.container;
+            params = env.params;
+            chart = container.chart;
+            svg = chart.svg;
+            body = d3.select("body");
+
+            cellValue = env.mainView.getCellValue;
+
+            trackerDomElement = svg;
+
+            trackerDomElement.style("cursor", config.style.selectionCursor);
+
+            resetWhenMouseOutside = function(event){ //Remove selection when the cursor is outside the widget area
+
+                if (event.target.nodeName != 'rect' && event.target.nodeName != 'svg'){
+
+                    if (rect && env.lowProfile == true){ //Remove the low profile selection rect
+                        rect
+                            .transition()
+                            .duration(config.selectionWithdrawalDuration)
+                            .attr("width", "0")
+                            .attr("height", "0")
+                            .remove();
+
+                    }else if(selectedCells && env.lowProfile == false){ //Remove the selected rectangles
+                        selectedCells
+                            .transition()
+                            .duration(config.selectionWithdrawalDuration)
+                            .style("fill", function(d){
+                                return env.mainView.color(cellValue(d));
+                            });
+                    }
+
+                    currentElement = null;
+                    body.classed("stat-noselect", false); //Remove the non-selection from all the dom
+                    document.onselectstart = function () {return true;}; //Remove the cursor hack
+                    //trackerDomElement.on("mousemove", null).on("mouseup", null); //Remove the selection events
+                }
+            };
+
+<<<<<<< HEAD
+            startSelection = function() {
+                env.mainView.popUp.hide();
+                env.mainView.selectColumn(false);
+                env.mainView.selectRow(false);
+=======
+                case "servers":
+                    environment.params.type = "probes";
+                    environment.params.root = environment.params.group;
+                    environment.params.group = selectedRow;
+                    environment.params.selectedRows = [];
+                                                                                                                                                           break;
+            }
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+
+                //[Cursor selection Hack
+                document.onselectstart = function () {return false;}; //Cursor hack to avoid browser default dragging cursor
+                //Cursor selection Hack]
+
+                currentElement = this;
+
+                offset = {};
+
+//                offset.x = env.mainView.cellWidth(); //For now, should be in cell for High cohesion
+//                offset.y = env.mainView.yAxis.scale.rangeBand() - config.xCellsMargin;
+
+                coords = d3.mouse(currentElement);
+
+                env.timeEventsActive = false;
+
+                if (env.lowProfile == true){
+
+                    if (rect){ //Remove any possible old selection rectangles (can happen when the window goes out of focus)
+                        rect.remove();
+                    }
+
+                    rect = svg //Introduce the selection rectangle in low profile mode
+                        .append("rect")
+                        .attr("class", "selection-rect")
+                        .style({
+                            stroke: 'blue',
+                            'stroke-opacity': 0.6,
+                            fill: 'blue',
+                            'fill-opacity': 0.3
+                        });
+                }
+
+                startCoords = {x: coords[0], y: coords[1]};
+                endCoords = {x: coords[0], y: coords[1]};
+
+                body.classed("stat-noselect", true);
+                $('body').on("mousemove", resetWhenMouseOutside);
+            };
+
+<<<<<<< HEAD
+            updateSelection = function() {
+                var selectionVertices;
+=======
+
+            //[Cursor selection Hack
+            document.onselectstart = function () {return false;}; //Cursor hack to avoid browser default dragging cursor
+            //Cursor selection Hack]
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+                if (currentElement == null) return;
+
+
+<<<<<<< HEAD
+                coordsMousemove = d3.mouse(currentElement);
+=======
+            offset.x = environment.mainView.cellWidth; //For now, should be in cell for High cohesion
+            offset.y = environment.mainView.yAxis.scale.rangeBand() - environment.config.xCellsMargin;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+                endCoords = {x: coordsMousemove[0], y: coordsMousemove[1]};
+
+
+                if (env.lowProfile == true){
+
+                    rect.attr("x", Math.min(startCoords.x, endCoords.x)) //Update the selection rectangle in low profile mode
+                        .attr("y", Math.min(startCoords.y, endCoords.y))
+                        .attr("width", Math.abs(startCoords.x - endCoords.x))
+                        .attr("height", Math.abs(startCoords.y - endCoords.y))
+
+                }else{
+                    finalStartCoords = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)}; //Calculate the bounding box of the cells touched by the selection
+                    finalEndCoords = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
+
+                    selectionVertices = $this._getRectangularShapeVertexPoints(finalStartCoords.x, finalStartCoords.y, finalEndCoords.x - finalStartCoords.x, finalEndCoords.y - finalStartCoords.y);
+
+
+                    env.mainView.d3Cells //Find all the cells outside the bouding box
+                        .filter(function(d){
+                            var out;
+
+                            out = d.selected;
+
+                            if (out == true){
+                                d.selected = false;
+                            }
+
+                            return out;
+                        })
+                        .style("fill", function(d){ //Replace the color of the cells outside with the default one (useful for cells no longer involved in the selection)
+                            return env.mainView.color(cellValue(d));
+                        });
+
+
+
+                    selectedCells = env.mainView.d3Cells //Find the subset of cells inside the bounding box
+                        .filter(function(d){
+                            var out, rectVertices;
+
+                            rectVertices = $this._getRectangularShapeVertexPoints(d.xPosition, d.yPosition, parseFloat(d3.select(this).attr("width")), parseFloat(d3.select(this).attr("height")));
+                            out = $this._isThisCellSelected(selectionVertices, rectVertices);// && d.selected == false;
+
+
+                            if (out == true){
+                                d.selected = true;
+                            }
+
+<<<<<<< HEAD
+                            return out;
+                        })
+                        .style("fill", function(d){ //Change the color of the selected cell
+                            return env.mainView.blueColor(cellValue(d));
+                        });
+
+                }
+
+            };
+
+            this._getRectangularShapeVertexPoints = function(x, y, width, height){
+                var leftTop, leftBottom, rightTop, rightBottom;
+
+                leftTop = {x: x, y: y};
+                leftBottom = {x: x, y: y + height};
+=======
+                selectedCells = environment.mainView.d3Cells //Find the subset of cells inside the bounding box
+                    .filter(function(d){
+                        var out;
+
+                        out = d.xPosition < finalEndCoords.x &&
+                            d.xPosition > finalStartCoords.x - offset.x &&
+                            d.yPosition < finalEndCoords.y &&
+                            d.yPosition > (finalStartCoords.y - offset.y) &&
+                            d.selected == false;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+                rightTop = {x: x + width, y: y};
+                rightBottom = {x: x + width, y: y + height};
+
+                return [leftTop, rightTop, rightBottom, leftBottom]; //returned clockwise
+            };
+
+<<<<<<< HEAD
+            this._isThisCellSelected = function(selectionVertices, cellVertices){
+                var a, b, c, d, e, f, g, h, isInside, isOnBorder;
+
+                a = selectionVertices[0];
+                b = selectionVertices[1];
+                c = selectionVertices[2];
+                d = selectionVertices[3];
+
+                e = cellVertices[0];
+                f = cellVertices[1];
+                g = cellVertices[2];
+                h = cellVertices[3];
+
+                function isPointInside(a, b, c, d, p){
+=======
+                environment.mainView.d3Cells //Find all the cells outside the bouding box
+                    .filter(function(d){
+                        var out;
+
+                        out = !(d.xPosition < finalEndCoords.x &&
+                            d.xPosition > finalStartCoords.x - offset.x &&
+                            d.yPosition < finalEndCoords.y &&
+                            d.yPosition > finalStartCoords.y - offset.y);
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+                    return p.x >= a.x && p.x <= b.x && p.y >= a.y && p.y <= d.y;
+                }
+
+                //base case
+
+//                isInside = (e.x >= a.x && e.y >= a.y && g.x <= c.x && g.y <= c.y);
+
+                isInside = isPointInside(a,b,c,d, e) && isPointInside(a,b,c,d, g);
+                isOnBorder = isPointInside(a,b,c,d, e) || isPointInside(a,b,c,d, f) || isPointInside(a,b,c,d, g) || isPointInside(a,b,c,d, h);
+
+                return isInside || isOnBorder;
+            };
+
+            stopSelection = function() {
+
+                if (currentElement == null) return;
+
+                body.classed("stat-noselect", false);
+                $('body').off("mousemove");
+                document.onselectstart = function () {return true;}; //Remove the cursor hack
+
+                if (env.lowProfile == true){ //Enlarge the selection rect to give the feeling of a zoom action
+
+                    removeRect = function(){ //This function will be pushed as a callback of the redraw function in order to remove the selection rect
+                        rect
+                            .transition()
+                            .delay(config.zoomAnimationDuration)
+                            .duration(config.zoomAnimationDuration)
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .attr("width", chart.width())
+                            .attr("height", chart.height())
+                            .remove();
+                    }
+                }
+
+                if (!$this._computeSubDomainsAndApply(startCoords, endCoords, offset, removeRect)){ //checks if the new subselection is not applicable
+
+                    if (env.lowProfile == true){
+
+                    }else{
+
+                        selectedCells //Gives a feedback to the user about the inapplicability of the subselection
+                            .style("fill", function(d){
+                                return "#C0C0C0";
+                            })
+                            .transition()
+                            .duration(config.selectionWithdrawalDuration)
+                            .style("fill", function(d){
+                                return env.mainView.color(cellValue(d));
+                            });
+                    }
+                }
+
+                //trackerDomElement.on("mousemove", null).on("mouseup", null); //Removes the selection events
+                currentElement = null; //Reset the selection start point
+            };
+
+            trackerDomElement
+                .on("mousedown", startSelection)
+                .on("mousemove", updateSelection)
+                .on("mouseup", stopSelection);
+        };
+
+        this._computeSubDomains = function(startCoords, endCoords, offset){
+            var newXDomain, newXRange, finalStartCoords, finalEndCoords, newYRange, newYDomain;
+
+            finalStartCoords = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)};
+            finalEndCoords = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
+
+            newXRange = [finalStartCoords.x - offset.x, finalEndCoords.x + offset.x];
+
+            newYRange = [finalStartCoords.y, finalEndCoords.y];
+
+            newXDomain = env.mainView.xAxis.getSubDomain(newXRange);
+            newYDomain = env.mainView.yAxis.getSubDomain(newYRange);
+
+            return [newXDomain, newYDomain];
+        };
+
+        this._computeSubDomainsAndApply = function(startCoords, endCoords, offset, callback){
+            var newXDomain, newYDomain, domains, row, tmpSelectedRows, tmpStartDate, tmpEndDate;
+
+            domains = this._computeSubDomains(startCoords, endCoords, offset);
+            newXDomain = domains[0];
+            newYDomain = domains[1];
+
+            if ((endCoords.x !== startCoords.x) && (newXDomain.length > 0 ) &&
+                (endCoords.y !== startCoords.y) && (newYDomain.length > 0)) {  // Zoom damper
+
+                tmpStartDate = newXDomain[0];
+                tmpEndDate = newXDomain[1];
+
+                tmpSelectedRows = [];
+
+
+                for (var n= 0,length=env.mainView.rows.length; n<length ;n++){
+                    row = env.mainView.rows[n];
+
+                    if (utils.indexOf(row.label, newYDomain) != -1){
+                        tmpSelectedRows.push(row.id);
+                        this.rowsSubSelection = true;
+                    }
+                }
+
+                if (env.mainView.timeController.isSubSelectable(tmpStartDate, tmpEndDate, tmpSelectedRows)){
+
+                    env.params.selectedRows = tmpSelectedRows;
+
+                    env.params.startDate = tmpStartDate;
+                    env.params.endDate = tmpEndDate;
+
+                    //env.mainView.xAxis.setDomain(function(){return newXDomain;});
+                    //env.mainView.yAxis.setDomain(function(){return newYDomain;});
+
+                    env.mainView.redraw(callback, this);
+                    return true;
+                }else{
+                    env.mainView.showMessage(env.lang.tooZoomedMessage);
+                    return false;
+                }
+            }
+        }
+
+    };
+
+    return GesturesManager;
+});
+
+

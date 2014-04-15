@@ -1,0 +1,187 @@
+/**
+ * Created by mcandela on 19/11/13.
+ */
+define([
+    "lib.d3",
+    "env.utils"
+], function(d3, utils){
+
+    var PopUpView = function(env){
+        var config;
+
+        config = env.config;
+
+        this.hide = function(){
+            clearTimeout(this._popupDelayTimer);
+
+            if (this.svgBalloon){
+                this.svgBalloon.group
+                    .remove();
+
+                this.svgBalloon = null;
+            }
+        };
+
+        this.show = function(cell, mouseCoords){
+            var $this, container, chart;
+            $this = this;
+
+            clearTimeout(this._popupDelayTimer);
+
+            if (!container){
+                container = env.container;
+                chart = container.chart;
+            }
+
+            this._popupDelayTimer = setTimeout(function(){
+                    var balloonWidth, balloonHeight, svgBallonLeft, svgBallonRight, cursorOffset, arrowPoint,
+                        chartCenter, translationVector, arrowTop, absTranslationVector, balloonArray, lineFunction,
+                        cursorOffsetUnit, roundingFactor, balloonCellPosition;
+
+<<<<<<< HEAD
+                    if (env.timeEventsActive){
+                        chartCenter = chart.getCenter();
+
+                        balloonWidth = config.balloonWidth;
+                        balloonHeight = config.balloonHeight;
+=======
+                if (environment.timeEventsActive){
+
+                    chartCenter = chart.getCenter();
+
+                    balloonWidth = 150;
+                    balloonHeight = 100;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+                        cursorOffsetUnit = 3;
+
+                        absTranslationVector = {x: balloonWidth/4, y: balloonHeight/4};
+                        translationVector = {x: 0, y: 0};
+
+                        arrowTop = false;
+
+                        svgBallonLeft = [];
+                        svgBallonRight = [];
+
+                        roundingFactor = 3;
+
+                        //Balloon points
+
+                        // ---Left
+                        svgBallonLeft.push({x: balloonWidth/4, y: 0});
+
+                        svgBallonLeft.push({x: roundingFactor, y: 0}); //Rounded
+                        svgBallonLeft.push({x: 0, y: roundingFactor}); //Rounded
+
+                        svgBallonLeft.push({x: 0, y: balloonHeight - roundingFactor}); //Rounded
+                        svgBallonLeft.push({x: roundingFactor, y: balloonHeight}); //Rounded
+
+                        svgBallonLeft.push({x: balloonWidth/4, y: balloonHeight});
+
+
+                        // ---Right
+                        svgBallonRight.push({x: (balloonWidth/4)*3, y: balloonHeight});
+
+                        svgBallonRight.push({x: balloonWidth - roundingFactor, y: balloonHeight}); //Rounded
+                        svgBallonRight.push({x: balloonWidth, y: balloonHeight - roundingFactor}); //Rounded
+
+                        svgBallonRight.push({x: balloonWidth, y: roundingFactor}); //Rounded
+                        svgBallonRight.push({x: balloonWidth - roundingFactor, y: 0}); //Rounded
+
+                        svgBallonRight.push({x: (balloonWidth/4)*3, y: 0});
+
+                        if (mouseCoords.x > chartCenter.x && mouseCoords.y < chartCenter.y){ //First quadrant
+                            arrowTop = true;
+                            cursorOffset = {x: -cursorOffsetUnit, y: cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                            translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);
+                            translationVector.y = mouseCoords.y + absTranslationVector.y;
+
+                        }else if (mouseCoords.x < chartCenter.x && mouseCoords.y < chartCenter.y){ //Second quadrant
+                            arrowTop = true;
+                            cursorOffset = {x: cursorOffsetUnit, y: cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                            translationVector.x = mouseCoords.x + absTranslationVector.x;
+                            translationVector.y = mouseCoords.y + absTranslationVector.y;
+
+                        }else if (mouseCoords.x < chartCenter.x && mouseCoords.y > chartCenter.y){ //Third quadrant
+                            arrowTop = false;
+                            cursorOffset = {x: cursorOffsetUnit, y: -cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                            translationVector.x = mouseCoords.x + absTranslationVector.x;
+                            translationVector.y = mouseCoords.y - (absTranslationVector.y + balloonHeight);
+
+                        }else{ //Fourth quadrant
+                            arrowTop = false;
+                            cursorOffset = {x: -cursorOffsetUnit, y: -cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                            translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);;
+                            translationVector.y = mouseCoords.y - (absTranslationVector.y + balloonHeight);
+
+                        }
+
+                        console.log(utils);
+
+                        svgBallonLeft = utils.translate(svgBallonLeft, translationVector);
+                        svgBallonRight = utils.translate(svgBallonRight, translationVector);
+
+                        arrowPoint = {x: mouseCoords.x + cursorOffset.x , y: mouseCoords.y + cursorOffset.y};
+
+                        //Add the arrow
+                        if (arrowTop == false){
+                            svgBallonLeft.push(arrowPoint);
+                            balloonArray = svgBallonLeft.concat(svgBallonRight);
+                        }else{
+                            svgBallonRight.push(arrowPoint);
+                            balloonArray = svgBallonRight.concat(svgBallonLeft);
+                        }
+
+                        lineFunction = d3.svg.line()
+                            .x(function(d) { return d.x; })
+                            .y(function(d) { return d.y; })
+                            .interpolate("linear-closed");
+
+
+                        if (!$this.svgBalloon){
+
+                            $this.svgBalloon = {};
+
+                            $this.svgBalloon.group = container.svg
+                                .append('g');
+
+                            $this.svgBalloon.cloud = $this.svgBalloon.group
+                                .append("path")
+                                .attr("class", "svg-balloon");
+
+                            $this.svgBalloon.cell = $this.svgBalloon.group
+                                .append("rect")
+                                .attr("class", "balloon-rect");
+
+                            $this.svgBalloon.text = $this.svgBalloon.group
+                                .append('g');
+                        }
+
+                        $this.svgBalloon.cloud
+                            .attr("d", lineFunction(balloonArray))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 1)
+                            .attr("opacity", 0.8)
+                            .attr("fill", "white");
+
+                        balloonCellPosition = utils.translate([{x: 0, y: 0}], translationVector)[0];
+
+                        $this.svgBalloon.cell
+                            .attr("width", balloonWidth - 10)
+                            .attr("height", balloonHeight - 10)
+                            .attr("rx", 3)
+                            .attr("ry", 3)
+                            .attr("x", balloonCellPosition.x + 5)
+                            .attr("y", balloonCellPosition.y + 5)
+                            .attr("fill", function(){
+                                return env.mainView.color(env.mainView.getCellValue(cell));
+                            });
+
+                        utils.writeSvgText($this.svgBalloon.text, cell.toArrayString(), balloonCellPosition, {left: 10, top: 20});
+                    }
+                },
+                config.popupDelay);
+        };
+    };
+    return PopUpView;
+});

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>view/PopUpView.js - DNSMON</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="DNSMON"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 14.4.15.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AggregationLevelConnector.html">AggregationLevelConnector</a></li>
+            
+                <li><a href="../classes/AntiFloodConnector.html">AntiFloodConnector</a></li>
+            
+                <li><a href="../classes/BreadcrumbsView.html">BreadcrumbsView</a></li>
+            
+                <li><a href="../classes/CacheConnectorAtlas.html">CacheConnectorAtlas</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Connector.html">Connector</a></li>
+            
+                <li><a href="../classes/ConnectorFacade.html">ConnectorFacade</a></li>
+            
+                <li><a href="../classes/ControlPanelView.html">ControlPanelView</a></li>
+            
+                <li><a href="../classes/ErrorsHandlerConnectorAtlas.html">ErrorsHandlerConnectorAtlas</a></li>
+            
+                <li><a href="../classes/FullScreenView.html">FullScreenView</a></li>
+            
+                <li><a href="../classes/GesturesManager.html">GesturesManager</a></li>
+            
+                <li><a href="../classes/HistoryManager.html">HistoryManager</a></li>
+            
+                <li><a href="../classes/IsolationLevelConnectorAtlas.html">IsolationLevelConnectorAtlas</a></li>
+            
+                <li><a href="../classes/MainView.html">MainView</a></li>
+            
+                <li><a href="../classes/ParamsManager.html">ParamsManager</a></li>
+            
+                <li><a href="../classes/PopUpView.html">PopUpView</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/SessionManager.html">SessionManager</a></li>
+            
+                <li><a href="../classes/SvgChartView.html">SvgChartView</a></li>
+            
+                <li><a href="../classes/SvgContainerView.html">SvgContainerView</a></li>
+            
+                <li><a href="../classes/SvgOrdinalAxisView.html">SvgOrdinalAxisView</a></li>
+            
+                <li><a href="../classes/SvgTimeAxisView.html">SvgTimeAxisView</a></li>
+            
+                <li><a href="../classes/TemplateManagerView.html">TemplateManagerView</a></li>
+            
+                <li><a href="../classes/TimeController.html">TimeController</a></li>
+            
+                <li><a href="../classes/TimeOverviewView.html">TimeOverviewView</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/connector.html">connector</a></li>
+            
+                <li><a href="../modules/connector.Atlas.html">connector.Atlas</a></li>
+            
+                <li><a href="../modules/controller.html">controller</a></li>
+            
+                <li><a href="../modules/environment.html">environment</a></li>
+            
+                <li><a href="../modules/model.html">model</a></li>
+            
+                <li><a href="../modules/session.html">session</a></li>
+            
+                <li><a href="../modules/view.html">view</a></li>
+            
+                <li><a href="../modules/view.svg.html">view.svg</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: view/PopUpView.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Created by mcandela on 19/11/13.
+ */
+define([
+    &quot;lib.d3&quot;,
+    &quot;env.utils&quot;
+], function(d3, utils){
+
+    /**
+     * PopUpView is the view component for the cell&#x27;s pop-up function
+     *
+     * @class PopUpView
+     * @constructor
+     * @module view
+     */
+
+    var PopUpView = function(env){
+        var config;
+
+        config = env.config;
+
+
+        /**
+         * This method hides the pop-up describing a cell
+         *
+         * @method hide
+         */
+
+        this.hide = function(){
+            clearTimeout(this._popupDelayTimer);
+
+            if (this.svgBalloon){
+                this.svgBalloon.group
+                    .remove();
+
+                this.svgBalloon = null;
+            }
+        };
+
+
+        /**
+         * This method shows the pop-up describing a cell
+         *
+         * @method show
+         * @input {Object} cell A cell
+         * @input {Object} mouseCoords The coordinates of the mouse cursor
+         */
+
+        this.show = function(cell, mouseCoords){
+            if (env.timeEventsActive){
+                var $this, container, chart;
+                $this = this;
+
+                clearTimeout(this._popupDelayTimer);
+
+                if (!container){
+                    container = env.container;
+                    chart = container.chart;
+                }
+
+                this._popupDelayTimer = setTimeout(function(){
+                        var balloonWidth, balloonHeight, svgBallonLeft, svgBallonRight, cursorOffset, arrowPoint,
+                            chartCenter, translationVector, arrowTop, absTranslationVector, balloonArray, lineFunction,
+                            cursorOffsetUnit, roundingFactor, balloonCellPosition, cellText, fontCharWidth,
+                            defaultYTranslation;
+
+                        fontCharWidth = 20; // Pixels
+                        defaultYTranslation = chart.margin.top + 20; // Pixels
+
+
+                        if (env.timeEventsActive){
+                            chartCenter = chart.getCenter();
+
+                            cellText = cell.toArrayString();
+
+                            balloonWidth = utils.getLongestString(cellText) * 7;
+                            balloonHeight = cellText.length * fontCharWidth;
+
+                            chartCenter.y = Math.max(balloonHeight + defaultYTranslation, chartCenter.y); // This line avoids the pop-up to overflow the chart top margin
+
+                            cursorOffsetUnit = 3;
+
+                            absTranslationVector = {x: balloonWidth/4, y: balloonHeight/4};
+                            translationVector = {x: 0, y: 0};
+
+                            arrowTop = false;
+
+                            svgBallonLeft = [];
+                            svgBallonRight = [];
+
+                            roundingFactor = 3;
+
+                            //Balloon points
+
+                            // ---Left
+                            svgBallonLeft.push({x: balloonWidth/4, y: 0});
+
+                            svgBallonLeft.push({x: roundingFactor, y: 0}); //Rounded
+                            svgBallonLeft.push({x: 0, y: roundingFactor}); //Rounded
+
+                            svgBallonLeft.push({x: 0, y: balloonHeight - roundingFactor}); //Rounded
+                            svgBallonLeft.push({x: roundingFactor, y: balloonHeight}); //Rounded
+
+                            svgBallonLeft.push({x: balloonWidth/4, y: balloonHeight});
+
+
+                            // ---Right
+                            svgBallonRight.push({x: (balloonWidth/4)*3, y: balloonHeight});
+
+                            svgBallonRight.push({x: balloonWidth - roundingFactor, y: balloonHeight}); //Rounded
+                            svgBallonRight.push({x: balloonWidth, y: balloonHeight - roundingFactor}); //Rounded
+
+                            svgBallonRight.push({x: balloonWidth, y: roundingFactor}); //Rounded
+                            svgBallonRight.push({x: balloonWidth - roundingFactor, y: 0}); //Rounded
+
+                            svgBallonRight.push({x: (balloonWidth/4)*3, y: 0});
+
+                            if (mouseCoords.x &gt; chartCenter.x &amp;&amp; mouseCoords.y &lt; chartCenter.y){ //First quadrant
+                                arrowTop = true;
+                                cursorOffset = {x: -cursorOffsetUnit, y: cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                                translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);
+                                translationVector.y = mouseCoords.y + absTranslationVector.y;
+
+                            }else if (mouseCoords.x &lt; chartCenter.x &amp;&amp; mouseCoords.y &lt; chartCenter.y){ //Second quadrant
+                                arrowTop = true;
+                                cursorOffset = {x: cursorOffsetUnit, y: cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                                translationVector.x = mouseCoords.x + absTranslationVector.x;
+                                translationVector.y = mouseCoords.y + absTranslationVector.y;
+
+                            }else if (mouseCoords.x &lt; chartCenter.x &amp;&amp; mouseCoords.y &gt; chartCenter.y){ //Third quadrant
+                                arrowTop = false;
+                                cursorOffset = {x: cursorOffsetUnit, y: -cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                                translationVector.x = mouseCoords.x + absTranslationVector.x;
+                                translationVector.y = mouseCoords.y - (absTranslationVector.y + balloonHeight);
+
+                            }else{ //Fourth quadrant
+                                arrowTop = false;
+                                cursorOffset = {x: -cursorOffsetUnit, y: -cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
+                                translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);;
+                                translationVector.y = mouseCoords.y - (absTranslationVector.y + balloonHeight);
+
+                            }
+
+                            svgBallonLeft = utils.translate(svgBallonLeft, translationVector);
+                            svgBallonRight = utils.translate(svgBallonRight, translationVector);
+
+                            arrowPoint = {x: mouseCoords.x + cursorOffset.x , y: mouseCoords.y + cursorOffset.y};
+
+                            //Add the arrow
+                            if (arrowTop == false){
+                                svgBallonLeft.push(arrowPoint);
+                                balloonArray = svgBallonLeft.concat(svgBallonRight);
+                            }else{
+                                svgBallonRight.push(arrowPoint);
+                                balloonArray = svgBallonRight.concat(svgBallonLeft);
+                            }
+
+                            lineFunction = d3.svg.line()
+                                .x(function(d) { return d.x; })
+                                .y(function(d) { return d.y; })
+                                .interpolate(&quot;linear-closed&quot;);
+
+
+                            if (!$this.svgBalloon){
+
+                                $this.svgBalloon = {};
+
+                                $this.svgBalloon.group = container.svg
+                                    .append(&#x27;g&#x27;);
+
+                                $this.svgBalloon.cloud = $this.svgBalloon.group
+                                    .append(&quot;path&quot;)
+                                    .attr(&quot;class&quot;, &quot;svg-balloon&quot;);
+
+                                $this.svgBalloon.cell = $this.svgBalloon.group
+                                    .append(&quot;rect&quot;)
+                                    .attr(&quot;class&quot;, &quot;balloon-rect&quot;);
+
+                                $this.svgBalloon.text = $this.svgBalloon.group
+                                    .append(&#x27;g&#x27;);
+                            }
+
+                            $this.svgBalloon.cloud
+                                .attr(&quot;d&quot;, lineFunction(balloonArray))
+                                .attr(&quot;stroke&quot;, &quot;#757575&quot;)
+                                .attr(&quot;stroke-width&quot;, 2)
+                                .attr(&quot;opacity&quot;, 0.8)
+                                .attr(&quot;fill&quot;, &quot;white&quot;);
+
+                            balloonCellPosition = utils.translate([{x: 0, y: 0}], translationVector)[0];
+
+                            $this.svgBalloon.cell
+                                .attr(&quot;width&quot;, balloonWidth - 10)
+                                .attr(&quot;height&quot;, balloonHeight - 10)
+                                .attr(&quot;rx&quot;, 3)
+                                .attr(&quot;ry&quot;, 3)
+                                .attr(&quot;x&quot;, balloonCellPosition.x + 5)
+                                .attr(&quot;y&quot;, balloonCellPosition.y + 5)
+                                .attr(&quot;fill&quot;, function(){
+                                    return env.mainView.getCellColor(cell);
+                                });
+
+                            utils.writeSvgText($this.svgBalloon.text, cellText, balloonCellPosition, {left: 10, top: 20});
+                        }
+                    },
+                    config.popupDelay);
+
+            }
+        };
+    };
+    return PopUpView;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

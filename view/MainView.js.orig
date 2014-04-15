@@ -1,0 +1,892 @@
+/**
+ * Created with JetBrains WebStorm.
+ * User: mcandela
+ * Date: 9/20/13
+ * Time: 10:59 AM
+ * To change this template use File | Settings | File Templates.
+ */
+
+
+<<<<<<< HEAD
+define([
+    "env.utils",
+    "lib.d3",
+    "view.template-manager",
+    "view.time-brusher",
+    "view.svg.container",
+    "view.svg.chart",
+    "view.pop-up",
+    "view.breadcrumbs",
+    "view.control-panel",
+    "view.time-brusher",
+    "controller.time",
+    "view.svg.time-axis",
+    "view.svg.ordinal-axis"
+], function(utils, d3, TemplateManagerView, TimeBrusherView,
+            SvgContainerView, SvgChartView, PopUpView, BreadcrumbsView,
+            ControlPanelView, TimeBrusherView, TimeController, SvgTimeAxisView, SvgOrdinalAxisView){
+
+
+    var MainView = function(env){
+        var representedTimeWindowInSeconds, updateTimer, timeWindowAligned, loadingImageDom, config;
+        config = env.config;
+=======
+var MainView = function(environment){
+    var config, container, connector, chartMargin, templateManager, loadingImageDom, representedTimeWindowInSeconds,
+        updateTimer, timeWindowAligned;
+
+    config = environment.config;
+    container = environment.container;
+    connector = environment.connector;
+    templateManager = environment.templateManager;
+
+
+    /*
+     * Defaults
+     */
+    chartMargin = {top: 20, bottom: 70, left: config.labelWidth, right: 5};
+    container.chart = new Chart(environment, container, chartMargin);
+
+    container.chart.hidden = false;
+
+    environment.excludeErrors = config.excludeErrorsByDefault;
+    environment.showFilter = config.showFilterDefaultValue;
+
+    timeWindowAligned = true;
+
+    loadingImageDom = $(templateManager.loadingImage);
+    environment.mainDom.$.append(loadingImageDom);
+
+    this.message = $(templateManager.overlayMessage);
+    environment.mainDom.$.append(this.message);
+
+    environment.controlPanel = new ControlPanelView(environment);
+    environment.stackedTitle = new StackedTitleView(environment);
+    environment.timeBrusher = new TimeBrusher(environment);
+    environment.timeBrusher.init(environment.mainDom);
+
+    environment.mouse = {};
+
+    environment.mainDom.$.on("mousemove", function(evt){
+        var offset = $(this).offset();
+        environment.mouse = {x: evt.pageX - offset.left, y: evt.pageY - offset.top};
+    });
+
+
+    /*
+     * Initialize the representation layer
+     */
+    this.init = function(data){
+        var rows;
+        rows = data.rows;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+        /*
+         * Initialize the representation layer
+         */
+<<<<<<< HEAD
+        this.init = function(mainDom, instanceParam){
+            /*
+             * Create the dom elements needed
+             */
+            this.templateManager = new TemplateManagerView(env);
+            this.templateManager.createDom(mainDom, instanceParam);
+            env.container = new SvgContainerView(this.templateManager.dom.svgContainer);
+
+            /*
+             * Instantiate all components
+             */
+            this.timeController = new TimeController(env);
+            this.popUp = new PopUpView(env);
+            this.controlPanel = new ControlPanelView(env);
+            this.breadcrumbs = new BreadcrumbsView(env);
+            this.timeBrusher = new TimeBrusherView(env);
+
+            /*
+             * Mouse tracking globally visible (to optimize)
+             */
+            env.mouse = {};
+            env.mainDom.$.on("mousemove", function(evt){
+                var offset = $(this).offset();
+                env.mouse = {x: evt.pageX - offset.left, y: evt.pageY - offset.top};
+            });
+
+
+            env.connector.retrieveData(this.firstDraw, this); // Get the data and start the visualization
+        };
+
+        /*
+         * Draw the chart
+         */
+        this.firstDraw = function(data){
+
+            this.rows = data.rows;
+
+            /*
+             * Set dimensions of the elements based on data
+             */
+            env.container.height(env.container.chart.computeBestHeight(this.rows.length));
+
+            this._initAxis(data);
+            this._render(data);
+            this.timeController.init();
+            this.timeBrusher.init(env.mainDom);
+            this.controlPanel.render(env.mainDom);
+            this.breadcrumbs.addLevel(env.params.group);
+            this.timeBrusher.render();
+=======
+        container.height(container.chart.computeBestHeight(rows.length));
+
+        this.popUp = new PopUpView(environment);
+
+        this._initAxis(data);
+        this._render(data);
+        environment.controlPanel.render(environment.mainDom.$);
+        environment.stackedTitle.addLevel(environment.params.group);
+        environment.timeBrusher.render();
+
+        environment.timeController.updateStatus();
+        environment.controlPanel.update();
+    };
+
+
+     this.updateColorScales = function(){
+        this.colorDomainAndRange = environment.utils.computeColorScale(config.normalColorScales[environment.showFilter]);
+        this.selectionColorDomainAndRange = environment.utils.computeColorScale(config.selectionColorScales[environment.showFilter]);
+
+        this.colorDomainBreakPoints = [this.colorDomainAndRange.valueRange[2], this.colorDomainAndRange.valueRange[3]];
+
+        this.color = d3.scale.linear().domain(this.colorDomainAndRange.valueRange).range(this.colorDomainAndRange.colorRange);
+        this.blueColor = d3.scale.linear().domain(this.selectionColorDomainAndRange.valueRange).range(this.selectionColorDomainAndRange.colorRange);
+    };
+
+    this._numerOfRowsInvolved = function(newSpace, oldSpace){
+        var offsetHeight, rowsInvolved;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+
+            this.timeController.updateStatus();
+            this.controlPanel.update();
+        };
+
+        this.updateColorScales = function(){
+
+            if (!this.normalColorScales){
+                this.normalColorScales = config.normalColorScales;
+                this.selectionColorScales = config.selectionColorScales;
+            }
+
+            this.colorDomainAndRange = utils.computeColorScale(this.normalColorScales[env.showFilter]);
+            this.selectionColorDomainAndRange = utils.computeColorScale(this.selectionColorScales[env.showFilter]);
+
+            this.colorDomainBreakPoints = [this.colorDomainAndRange.valueRange[2], this.colorDomainAndRange.valueRange[3]];
+
+            this.color = d3.scale.linear().domain(this.colorDomainAndRange.valueRange).range(this.colorDomainAndRange.colorRange);
+            this.blueColor = d3.scale.linear().domain(this.selectionColorDomainAndRange.valueRange).range(this.selectionColorDomainAndRange.colorRange);
+        };
+
+        this.updateOnlyColors = function(newValuesRange){
+            var $this;
+
+            $this = this;
+
+            this.normalColorScales[env.showFilter] = newValuesRange;
+            this.colorDomainAndRange.valueRange = newValuesRange;
+
+            this.color = d3.scale.linear().domain(newValuesRange).range(this.colorDomainAndRange.colorRange);
+            this.blueColor = d3.scale.linear().domain(newValuesRange).range(this.selectionColorDomainAndRange.colorRange);
+
+            this.d3Cells
+                .style("fill", function(d){
+                    return $this.color($this.getCellValue(d));
+                });
+        };
+
+//        this._numerOfRowsInvolved = function(newSpace, oldSpace){
+//            var offsetHeight, rowsInvolved;
+//
+//            offsetHeight = (newSpace - oldSpace);
+//
+//            rowsInvolved = offsetHeight / (oldSpace - config.visibleCellsHeight);
+//
+//            return rowsInvolved;
+//        };
+
+//        this._getRowsInvolved = function(labelRow, newSpace, oldSpace){
+//            var pointer, previus, next, parent, numberRows, orderedRows, rowsUp, rowsDown, rowsBefore, rowsAfter;
+//
+//            rowsBefore = [];
+//            rowsAfter = [];
+//            orderedRows = [];
+//            numberRows = this._numerOfRowsInvolved(newSpace, oldSpace);
+//
+//            pointer = $("g.tick text:contains('" + labelRow + "')");
+//
+//            parent = pointer.parent();
+//
+//            rowsUp = Math.floor(numberRows/2);
+//            rowsDown = Math.ceil(numberRows/2);
+//
+//            previus = parent;
+//            next = parent;
+//
+//            while (rowsUp > 0){
+//                previus = previus.prev();
+//
+//                rowsBefore.push({id: previus.find('text').text(), dom: previus});
+//
+//                rowsUp -= 2;
+//            }
+//
+//            while (rowsDown > 0){
+//                next = next.next();
+//
+//                rowsAfter.push({id: next.find('text').text(), dom: next});
+//
+//                rowsDown -= 2;
+//            }
+//
+//
+//            rowsBefore = rowsBefore.sort(function(a, b){
+//                if (a.id < b.id){
+//                    return -1;
+//                }else if(a.id > b.id){
+//                    return 1;
+//                }else{
+//                    return 0;
+//                }
+//            });
+//
+//            rowsAfter = rowsAfter.sort(function(a, b){
+//                if (a.id < b.id){
+//                    return -1;
+//                }else if(a.id > b.id){
+//                    return 1;
+//                }else{
+//                    return 0;
+//                }
+//            });
+//
+//            return [rowsBefore, rowsAfter];
+//        };
+//
+//
+//        this._getRowNewHeight = function(rows, labelRow, newSpace, oldSpace){
+//            var rowsBefore, rowsAfter, totalLength;
+//
+//            rowsBefore = rows[0];
+//            rowsAfter = rows[1];
+//
+//            totalLength = rowsBefore.length + rowsAfter.length;
+//
+//            return (totalLength * oldSpace) - (newSpace - oldSpace) / totalLength;
+//        };
+
+
+        /*
+         * Declaring initial Domain and Range functions
+         */
+        this._initAxis = function(data){
+            var $this, yRowsToDomainAndMagnets;
+
+            $this = this;
+            yRowsToDomainAndMagnets = this.rowsCharacterization(this.rows);
+
+            this.xDomain = function(){
+                return [env.params.startDate, env.params.endDate];
+            };
+
+            this.xRange = function(){
+                return [0, env.container.chart.width()];
+            };
+
+
+            this.yDomain = function(){
+                return yRowsToDomainAndMagnets.domain;
+            };
+
+            this.yRange = function(){
+                return [0, env.container.chart.height()];
+            };
+
+<<<<<<< HEAD
+            this.updateColorScales();
+
+            this.xAxis = new SvgTimeAxisView(env.container, {domain: this.xDomain, range: this.xRange, orient: "bottom", offset: config.xSeparationOffset});
+            this.yAxis = new SvgOrdinalAxisView(env.container,
+                {
+                    domain: this.yDomain,
+                    range: this.yRange,
+                    orient: "left",
+                    offset: config.ySeparationOffset,
+                    magnetValues: yRowsToDomainAndMagnets.magnets,
+                    descriptions: yRowsToDomainAndMagnets.descriptions,
+                    groups: yRowsToDomainAndMagnets.groups
+                });
+=======
+
+        rowsBefore = rows[0];
+        rowsAfter = rows[1];
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+            this.yAxis.onMouseOver(function(evt){
+                $this.selectRow(true, $(this).attr("magnet"));
+            });
+
+            this.yAxis.onMouseOut(function(evt){
+                $this.selectRow(false, $(this).attr("magnet"));
+            });
+
+        };
+
+        this.redraw = function(callback, context){
+            var context = context || this;
+
+            this.loadingImage(true);
+
+            this.selectColumn(false);
+            this.selectRow(false);
+
+            env.connector.retrieveData(function(data){
+                    this.update(data);
+
+                    this.loadingImage(false);
+
+                    if (callback != null){
+                        callback.call(context, data);
+                    }
+                }, this);
+        };
+
+        this.selectColumn = function(selected, position, width){
+            if (selected && env.timeEventsActive){
+                env.container.svg
+                    .select("." + config.domClasses.chartSelectorVertical)
+                    .attr("transform", "translate(" + (position - 1) + ", " + 0 + ")")
+                    .style("display", "block")
+                    .attr("width", width + 2);
+            }else{
+                env.container.svg
+                    .select("." + config.domClasses.chartSelectorVertical)
+                    .style("display", "none");
+            }
+        };
+
+        this._selectLabel = function(selected, rowId){
+            var $this = this;
+
+            if ($this._previousSelectedYLabel){
+                $this._previousSelectedYLabel
+                    .css("font-size", config.style.axisLabelsFontSizeDefault)
+                    .css("font-weight", "normal");
+            }
+
+            if (selected){
+                env.mainDom.$.find('text').each(function(){
+                    var label = $(this);
+                    if ((label.attr("magnet") == rowId)){
+
+                        label
+                            .css("font-size", config.style.axisLabelsFontSizeSelected)
+                            .css("font-weight", "bold");
+
+                        $this._previousSelectedYLabel = label;
+                    }
+                });
+            }
+        };
+
+        this.selectRow = function(selected, rowId){
+            this._selectLabel(selected, rowId);
+
+            var chartSvg;
+            chartSvg = env.container.chart.svg;
+
+
+            if (selected  && env.timeEventsActive){
+
+                if (!env.lowProfile){
+
+                    chartSvg
+                        .selectAll(".cell")
+                        .style("opacity", config.cellUnselectedOpacity);
+
+                    chartSvg
+                        .selectAll(".origin" + rowId)
+                        .style("opacity", "1")
+                        .style("stroke", "#616161")
+                        .style("stroke-width", "1px");
+
+                }else{
+
+                    if (this._previusoSelectedRowCells){
+                        this._previusoSelectedRowCells
+                            .style("stroke-width", "0px");
+                    }
+
+                    this._previusoSelectedRowCells = chartSvg
+                        .selectAll(".origin" + rowId)
+                        .style("stroke", "#616161")
+                        .style("stroke-width", "1px");
+                }
+
+            }else{
+
+                if (!env.lowProfile){
+                    chartSvg
+                        .selectAll(".cell")
+                        .style("opacity", "1")
+                        .style("stroke-width", "0px");
+                }else{
+                    if (this._previusoSelectedRowCells){
+                        this._previusoSelectedRowCells
+                            .style("stroke-width", "0px");
+                    }
+                }
+
+            }
+        };
+
+
+        this.loadingImage = function(isVisible){
+            var moveLoadingImage, mouseCoords;
+
+            loadingImageDom = this.templateManager.dom.loadingImage.$;
+            mouseCoords = env.mouse;
+            moveLoadingImage = this._moveLoadingImage;
+
+            if (isVisible){
+                loadingImageDom
+                    .css("left", mouseCoords.x)
+                    .css("top", mouseCoords.y)
+                    .show();
+                $(document).on("mousemove", moveLoadingImage);
+            }else{
+                loadingImageDom.hide();
+                $(document).off("mousemove", moveLoadingImage);
+            }
+        };
+
+        this._moveLoadingImage = function(evt){
+            var mouseCoords;
+
+            mouseCoords = env.mouse;
+
+            loadingImageDom
+                .css("left", mouseCoords.x)
+                .css("top", mouseCoords.y);
+        };
+
+        this.updateXDomain = function(){
+            var chart, elementIndex, shakeIterations, shakeDuration, shakeTransform, shakingElementsReduction;
+
+            chart = env.container.chart;
+
+            this.xAxis.setDomain(function(){
+                return [env.params.startDate, env.params.endDate];
+            });
+
+            if (!chart.hidden && env.lowProfile == true) {
+                chart.dom.$.fadeOut(config.redrawFadeOut);
+                chart.hidden = true;
+            }else{
+
+                shakeTransform = function(d){
+                    var x, y;
+
+                    x = d.xPosition + Math.floor(Math.random() * config.shakeTuner);
+                    y = d.yPosition + Math.floor(Math.random() * config.shakeTuner);
+
+                    return "translate(" + x + "," + y + ")";
+                };
+
+                elementIndex = 0;
+                shakeIterations = 5;
+                shakingElementsReduction = (this.d3Cells.length < 40) ? 1 : 4;
+                shakeDuration = config.shakeDuration/shakeIterations;
+
+                this.d3Cells
+                    .each(function(d){
+                        var that = this;
+                        if (elementIndex % shakingElementsReduction == 0){
+                            for (var n=5; n>0; n--){
+                                setTimeout(
+                                    function(){
+                                        d3.select(that)
+                                            .attr("transform", shakeTransform);
+                                    },
+                                    shakeDuration * n
+                                );
+                            }
+                        }
+<<<<<<< HEAD
+                        elementIndex++;
+                    });
+=======
+                    }
+
+                    elementIndex++;
+                });
+
+        }
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+            }
+
+            this.redraw(
+                function(){
+
+                    if (chart.hidden == true){
+                        chart.dom.$.fadeIn(config.redrawFadeIn);
+                        chart.hidden = false;
+                    }
+                }
+                , this);
+        };
+
+        this._render = function(data){
+            this.xAxis.render();
+            this.yAxis.render();
+            this._setLowProfile(data);
+            this._renderCells(data);
+        };
+
+//        this.enlargeRow = function(labelOrigin, oldSize, newSize){
+//            var label = 'origin_' + labelOrigin;
+//            var rows, newHeight, $this;
+//
+//            $this = this;
+//            rows = this._getRowsInvolved(label, oldSize, newSize);
+//
+//            rows.forEach(function(element){
+//                newHeight = $this._getRowNewHeight(rows, element.label, oldSize, newSize);
+//                d3.select(element.dom.node)
+//                    .attr("height", newHeight);
+//            });
+//        };
+
+
+        this.getCellValue = function(d){
+            var value;
+
+            switch(env.showFilter){
+                case 'pls':
+                    value = ((env.excludeErrors) ? d.getNumberCorrectResponses() : d.getPacketLoss());
+                    break;
+
+                case 'rtt':
+                    value = d.getRelativeRespondingTime();
+                    break;
+            }
+
+            return value;
+        };
+
+<<<<<<< HEAD
+        this._renderCells = function(data){
+            var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, shakeTransform, containerWidth,
+                computedCellWitdh, transformSet, orderingFunction;
+=======
+
+
+    this._renderCells = function(data){
+        var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, shakeTransform, containerWidth,
+            computedCellWitdh, transformSet, orderingFunction;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+            $this = this;
+
+            representedTimeWindowInSeconds = data.timeWindowSeconds;
+
+            orderingFunction = function(d){
+                return d.row.id + "-" + d.group + "-" + d.time;
+            };
+
+            cellsTransform = function(d) {
+                d.selected = false;
+                d.xPosition = $this.xAxis.scale(d.time);
+                d.yPosition = $this.yAxis.scale(d.row.label);
+                return "translate(" + d.xPosition + "," + d.yPosition + ")";
+            };
+
+            cellClass = function(d){
+                var out = 'cell time_' + d.time.getTime() + ' origin' + d.row.id;
+                return out;
+            };
+
+            this.cellsSVG = env.container.chart.svg.selectAll("rect.cell");
+
+        containerWidth = (container.chart.width() / data.timeWindowSeconds) * data.usedTimeWindowSeconds;
+
+            //computedCellWitdh = Math.floor(containerWidth / (data.crowdestRow.cells.length)) - config.xCellsMargin;
+
+        computedCellWitdh = (config.xSeparationOffset == 0) ?
+            (containerWidth / (data.crowdestRow.cells.length-1))
+            : Math.floor(containerWidth / (data.crowdestRow.cells.length)) - config.xCellsMargin;
+
+
+<<<<<<< HEAD
+            cellWidth = function(cellData){
+                var cellWidth, pxToSec;
+
+                pxToSec = (env.container.chart.width() / data.timeWindowSeconds);
+
+                if (cellData.endTime){
+                    cellWidth = (pxToSec * (cellData.endTime - cellData.time)) - config.xCellsMargin;
+                }else{
+                    cellWidth = (pxToSec * cellData.row.smallerSamplesDistance) - config.xCellsMargin;
+                }
+                return cellWidth;
+            };
+
+//        cellWidth = Math.min(config.cellsMaxWidth, Math.max(config.cellsMinWidth, computedCellWitdh));
+=======
+        cellWidth = Math.min(config.cellsMaxWidth, Math.max(config.cellsMinWidth, computedCellWitdh));
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+            cellHeight = function(d){
+
+                if (window.dynamicHeight == true && d.getPacketLoss() > 66 && d.getPacketLoss() < 99){
+                    var height = $this.yAxis.scale.rangeBand() * config.yCellsMargin;
+                    return Math.min(d.respondingTime, height);
+                }
+                return $this.yAxis.scale.rangeBand() - ($this.yAxis.scale.rangeBand() * config.yCellsMargin);
+            }
+
+            this.cellWidth = cellWidth;
+
+            this.d3Cells = this.cellsSVG
+                .data(data.cells, orderingFunction);
+
+            this.d3Cells
+                .exit()
+                .remove();
+
+            this.d3Cells
+                .enter()
+                .append("rect")
+                .attr("class", cellClass)
+                .attr("rx", 2)
+                .attr("ry", 2)
+                .attr("y", 0)
+                .style("fill", function(d){
+                    return $this.color($this.getCellValue(d));
+                })
+                .style("cursor", config.style.selectionCursor)
+                .on("mousemove", function(d){
+                    var mouseCursor, mouseCursorFormatted;
+                    mouseCursor = d3.mouse(env.container.chart.dom.plain);
+                    mouseCursorFormatted = {x: mouseCursor[0] + env.container.chart.margin.left, y: mouseCursor[1] + env.container.chart.margin.top};
+                    $this.popUp.show(d, mouseCursorFormatted);
+
+                    if (this._mouseEntered != true){
+                        var xPosition, columnWidth;
+
+                        columnWidth = parseFloat(d3.select(this).attr("width"));
+                        xPosition = d.xPosition;
+
+                        $this.selectRow(true, d.row.id);
+                        $this.selectColumn(true, xPosition, columnWidth);
+                        this._mouseEntered = true;
+                    }
+                })
+                .on("mouseenter", function(d){
+                    var xPosition, columnWidth;
+
+                    columnWidth = parseFloat(d3.select(this).attr("width"));
+                    xPosition = d.xPosition;
+
+                    $this.popUp.hide();
+                    $this.selectRow(true, d.row.id);
+                    $this.selectColumn(true, xPosition, columnWidth);
+
+                })
+                .on("mouseout", function(d){
+                    $this.popUp.hide();
+
+                    $this.selectRow(false, d.row.id);
+                    $this.selectColumn(false);
+
+                    this._mouseEntered = false;
+                });
+
+
+            if (this.drawn && env.lowProfile == false && this.previosNumberOfCells > this.d3Cells[0].length){
+                transformSet = this.d3Cells
+                    .transition()
+                    .duration(config.zoomAnimationDuration)
+                    .attr("width", cellWidth)
+                    .attr("height", cellHeight)
+                    .attr("transform", cellsTransform)
+                    .style("stroke-width", "0px")
+                    .delay(config.zoomAnimationDuration)
+                    .style("fill", function(d){
+                        return $this.color($this.getCellValue(d));
+                    });
+            }else{
+                this.d3Cells
+                    .attr("width", cellWidth)
+                    .attr("height", cellHeight)
+                    .attr("transform", cellsTransform)
+                    .style("stroke-width", "0px")
+                    .style("fill", function(d){
+                        return $this.color($this.getCellValue(d));
+                    });
+            }
+
+//        transformSet
+//            .attr("width", cellWidth)
+//            .attr("height", cellHeight)
+//            .attr("transform", cellsTransform)
+//            .style("stroke-width", "0px")
+//            .transition()
+//            .delay(400)
+//            .style("fill", function(d){
+//                return $this.color(d.getPacketLoss());
+//            });
+
+            this.previosNumberOfCells = this.d3Cells[0].length;
+
+            this.drawn = true;
+            //container.chart.hidden = false;
+
+        };
+
+
+        this.update = function(data){
+            var yRowsToDomainAndMagnets, $this, numberOfRows;
+
+            $this = this;
+            this.rows = data.rows;
+
+            env.timeEventsActive = true;
+
+            this.timeBrusher.update();
+            this.timeController.updateStatus();
+            this.controlPanel.update();
+
+            numberOfRows = (env.params.selectedRows) ? env.params.selectedRows.length : this.rows.length;
+
+//      container.height(Math.max(Math.min((numberOfRows * config.cellsMinHeight), config.chartMaxHeight), config.chartMinHeight));
+            env.container.height(env.container.chart.computeBestHeight(numberOfRows));
+
+            yRowsToDomainAndMagnets = this.rowsCharacterization(this.rows);
+
+            this.xAxis.setDomain(function(){
+                return [env.params.startDate, env.params.endDate];
+            });
+
+            this.yAxis.setDomain(
+                function(){
+                    return yRowsToDomainAndMagnets.domain;
+                },
+                yRowsToDomainAndMagnets.magnets,
+                yRowsToDomainAndMagnets.descriptions,
+                yRowsToDomainAndMagnets.groups
+            );
+
+            this._setLowProfile(data);
+            this._renderCells(data);
+        };
+
+        this._setLowProfile = function(data){
+            var lowProfileLimitations;
+            lowProfileLimitations = config.lowProfileLimitations;
+
+            env.lowProfile = (config.forceLowProfile) || (lowProfileLimitations.numerOfCells < data.cells.length);
+        };
+
+        this.rowsCharacterization = function(list){
+            var domain, magnets, domainElement, idParsed, descriptions, groups;
+            domain = [];
+            magnets = {};
+            descriptions = {};
+            groups = {};
+
+            list = list.sort(function(a, b) {
+
+                if (a.group != ""){
+                    a = a.group + "-" + a.internalOrder;
+                    b = b.group + "-" + b.internalOrder;
+                }else{
+                    a = parseInt(a.id);
+                    b = parseInt(b.id);
+                }
+                return a < b ? -1 : a > b ? 1 : 0;
+            });
+
+
+            for (var n=0,length=list.length; n<length; n++){
+                domainElement = list[n];
+                if (domainElement.label){
+                    domain.push(domainElement.label);
+                    idParsed = domainElement.label.replace(" ", "_");
+                    magnets[idParsed] = domainElement.id;
+                    descriptions[idParsed] = domainElement.description;
+                    groups[idParsed] = domainElement.group;
+                }
+            }
+            return {
+                domain: domain,
+                magnets: magnets,
+                descriptions: descriptions,
+                groups: groups
+            };
+        };
+
+
+        this.showMessage = function(text){
+            this.templateManager.dom.message.$.html(text).show().fadeOut(config.messagesFadeOutSeconds);
+        };
+
+<<<<<<< HEAD
+        this.keepUpdated = function(keepIt){
+            var $this = this;
+=======
+
+    this.updateOnlyColors = function(newValuesRange){
+        var $this;
+
+        $this = this;
+
+        this.color = d3.scale.linear().domain(newValuesRange).range(this.colorDomainAndRange.colorRange);
+        this.blueColor = d3.scale.linear().domain(newValuesRange).range(this.selectionColorDomainAndRange.colorRange);
+
+        this.d3Cells
+            .style("fill", function(d){
+                return $this.color($this.getCellValue(d));
+            });
+    };
+
+
+    this.keepUpdated = function(keepIt){
+        var $this = this;
+>>>>>>> d7775c9f70ee9117392a6ab5175081eec7be022b
+
+            if (keepIt){
+                updateTimer = setInterval(function(){
+
+                    env.params.random = true; //For now
+
+                    if (env.timeWindowAligned || true){
+//                    environment.params.endDate = null;
+//                  environment.params.startDate = environment.utils.subMinutes(new Date(), (representedTimeWindowInSeconds/60));
+                        env.params.startDate = utils.addMinutes(env.params.startDate, 60 * 2);
+
+                    }else{
+                        env.params.startDate = env.params.endDate;
+                        env.params.endDate = new Date();
+                        timeWindowAligned = true;
+                    }
+
+                    $this.redraw();
+                }, config.updateEverySeconds * 1000);
+            }else{
+                clearInterval(updateTimer);
+            }
+        };
+
+    };
+
+    return MainView;
+});

@@ -1,0 +1,501 @@
+.default-text{
+    font-size: 11px !important;
+    font-family: Verdana !important;
+    visibility: visible!important;
+}
+
+.dnsmon-external{
+    margin: auto;
+    border: 1px solid #C0C0C0;
+    background: #FFFFFF;
+    font-size: 10px;
+    /*font-size: 100%;*/
+    font-family: Verdana;
+    border-radius: 4px;
+    min-width: 860px!important;
+}
+
+.dnsmon-container{
+    font-size: 10px;
+    /*font-size: 70%;*/
+    position: relative;
+
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dnsmon-container .dnsmon-svg{
+    background: #FFFFFF;
+}
+
+.dnsmon-container .axis{
+    fill: none;
+    stroke: #000000;
+}
+
+.dnsmon-container .axis path,
+.dnsmon-container .axis line {
+    stroke-width: 1px;
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.dnsmon-container .axis text{
+    font-size: 10px;
+    shape-rendering: crispEdges;
+    stroke-width: 0px;
+    font-weight: normal;
+    fill: #000000;
+    font-family: Arial, sans-serif;
+}
+
+.dnsmon-container .dnsmon-chart{
+}
+
+.selected-label{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.dnsmon-container .selection-rect{
+    stroke: #4a71ad;
+    stroke-opacity: 1;
+    stroke-dasharray: 3, 3;
+    fill: #4a71ad;
+    /*fill-opacity: 0.4;*/
+}
+
+.dnsmon-container .axis.y text{
+    fill: #4a71ad;
+}
+
+.dnsmon-container title{
+    display: none;
+}
+
+.popup-traceroute .traceroute-title{
+    width: 100%;
+    clear: both;
+}
+
+.resized-dialog-traceroute textarea{
+    width: 440px!important;
+    height: 400px!important;
+    margin-right: 5px;
+}
+
+.popup-traceroute textarea{
+    width: 470px;
+    height: 110px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 9pt;
+    resize: none;
+    float: left;
+}
+
+.dnsmon-container .tick{
+    cursor: pointer;
+}
+
+.popup-text{
+    font-size: 10px;
+}
+
+.dnsmon-container .loading-image{
+    display: none;
+    position: absolute;
+    padding: 2px;
+    margin-top: 5px;
+    margin-left: 5px;
+    border: 1px solid #C0C0C0 !important;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    border-radius: 20px;
+    z-index: 100;
+}
+
+.dnsmon-zoom-cursor{
+    cursor: help!important;
+}
+
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+.button-group {
+    border: 1px solid #CCC;
+    margin: 0 4px 4px 4px;
+    padding: 4px 4px 2px 4px;
+    display: inline-block;
+
+    background-color: #FFFFFF;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D0D0D0));
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #D0D0D0);
+    background-image:    -moz-linear-gradient(top, #FFFFFF, #D0D0D0);
+    background-image:      -o-linear-gradient(top, #FFFFFF, #D0D0D0);
+    background-image:         linear-gradient(to bottom, #FFFFFF, #D0D0D0);
+    border-radius: 5px;
+}
+
+.dnsmon-container .control-panel{
+    z-index: 4;
+}
+
+.dnsmon-container .control-panel .button{
+    width: 26px;
+    border-left: 1px solid #C0C0C0;
+    /*border-right: 1px solid #C0C0C0;*/
+    float: right;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dnsmon-container .control-panel .legend{
+    width: 310px;
+    float: left;
+    margin-top: 3px;
+    margin-left: 3px;
+    text-shadow: 1px 1px 2px #C0C0C0;
+}
+
+.dnsmon-container .dnsmon-popup{
+    display: none;
+}
+
+.date-field{
+    width: 120px;
+    font-size: 12px;
+}
+
+.dnsmon-container .control-panel .legend>div{
+    float: left;
+    position: relative;
+    /*visibility: visible!important;*/
+}
+
+.dnsmon-container .control-panel .legend-controller-select{
+    border-radius: 3px;
+    float: left;
+    width: 135px;
+}
+
+.dnsmon-container .control-panel .legend .legend-pls-item{
+    float: right;
+    position: relative;
+    cursor: pointer;
+}
+
+.dnsmon-container .control-panel .legend .legend-pls{
+    width: 130px;
+    margin-left: 3px;
+}
+
+input.pls-percentage{
+    width: 30px;
+}
+
+.dnsmon-container .control-panel .legend .pls-color{
+    width: 12px;
+    height: 12px;
+    float: left;
+    margin-top: 1px;
+    border-radius: 3px;
+}
+
+.dnsmon-container .control-panel .legend .legend-agr-level{
+    float: left;
+    width: 160px;
+    margin-left: 5px;
+    padding-left: 5px;
+    border-left: 1px solid #C0C0C0;
+    text-shadow: 1px 1px 2px #C0C0C0;
+    transition: text-shadow 0.5s ease-in-out;
+    font-weight: normal;
+    cursor: help;
+}
+
+.dnsmon-container .control-panel .legend .legend-agr-level.updated {
+    text-shadow: 1px 1px 20px #000000;
+    font-weight: bold;
+}
+
+.dnsmon-container .time-margins .updated{
+    text-shadow: 1px 1px 8px #000000;
+}
+
+.dnsmon-container-svg{
+    position: relative;
+    width: 100%;
+}
+
+.dnsmon-container .stacked-title{
+    position: absolute;
+    top: 35px;
+    font-size: 11px;
+    height: 12px;
+    cursor: pointer;
+}
+
+.dnsmon-container .stacked-title .stacked-title-item{
+    text-decoration: underline;
+    color: #006DB0;
+}
+
+.dnsmon-container .dnsmon-message{
+    text-align: center;
+    z-index: 3;
+    position: absolute;
+    top: 100px;
+    left: 42%;
+    opacity: 0.7;
+    text-shadow: 1px 1px 3px #C0C0C0;
+    font-size: 26px;
+    width: 200px;
+    height: 40px;
+    display: none;
+    line-height: 28px;
+}
+
+
+.thresholds-slider a.ui-slider-handle{
+    background: transparent;
+    border-radius: 10px;
+    border: 5px solid #6D9CF7;
+    box-shadow: 0px 0px 5px #0039a6;
+    width: 6px;
+    height: 6px;
+    cursor: pointer;
+}
+
+.dnsmon-popup .popup-pls-item{
+    float: right;
+    margin-top: 18px;
+    position: relative;
+    width: 160px;
+}
+
+.dnsmon-popup .popup-pls-item .pls-color{
+    width: 20px;
+    height: 30px;
+    float: left;
+    margin-top: 1px;
+    background: #000000;
+    border-radius: 4px;
+    margin-top: -8px;
+}
+
+.dnsmon-popup .thresholds-slider{
+    margin-top: 53px;
+}
+
+.custom-jquery-ui-tooltip{
+    font-size: 13px!important;
+    font-family: Verdana;
+    background: rgba(255, 255, 255, 1);
+    text-shadow: 1px 1px #C0C0C0;
+}
+
+.dnsmon-tooltip{
+    position: fixed;
+    padding: 5px;
+    border: 2px solid #C0C0C0;
+    border-radius: 4px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 1px 1px 4px #464646;
+}
+
+.dnsmon-popup .popup-pls-apply{
+    display: none;
+    width: 200px;
+    margin-left: -100px;
+    height: 20px;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dnsmon-popup .thresholds-internal-legend{
+    width: 100%;
+    margin: auto;
+}
+
+.time-overview-container{
+    position: relative;
+    overflow: hidden;
+}
+
+
+.time-overview .axis text {
+    font: 11px sans-serif;
+}
+
+.time-overview .axis path {
+    display: none;
+}
+
+.time-overview .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.time-overview .grid-background {
+    fill: #C0C0C0;
+    /*stroke: #000000;*/
+}
+
+.time-overview .grid line,
+.time-overview .grid path {
+    fill: none;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}
+
+.time-overview .grid .minor.tick line {
+    stroke-opacity: .5;
+}
+
+.time-overview .brush .extent {
+    stroke: #4a71ad;
+    stroke-opacity: 0.9;
+    fill: #4a71ad;
+    fill-opacity: 0.4;
+    shape-rendering: crispEdges;
+}
+
+.packetLossTooltip{
+    position: fixed;
+    text-align: left;
+    font: 12px sans-serif;
+    border: 0px;
+    z-index: 100000;
+    text-shadow: 1px 1px 3px #FFFFFF;
+}
+
+.ui-dialog{
+    position: fixed !important; /* Fix jQuery-ui -.-' */
+    visibility: visible !important;
+    z-index: 100 !important;
+}
+
+.dnsmon-container .time-margins{
+    position: absolute;
+    right: 5px;
+    padding-top: 7px;
+    width: 370px;
+    font-size: 11px;
+    color: #5d5d5d;
+}
+
+.dns-response-table{
+    border-collapse:collapse;
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.dns-response-table .dns-response-top{
+    width: 100%;
+}
+
+.dns-response-table .dns-response-bottom{
+    width: 100%;
+}
+
+.dns-response-table .dns-response-plaintext{
+    padding-left: 20px;
+    background: url('../img/dnsmon_success_ico.png') no-repeat left;
+}
+
+.dns-response-table .dns-response-error{
+    background: url('../img/dnsmon_error_ico.png') no-repeat left;
+}
+
+.dnsmon-container .sliding-panel{
+    position: absolute;
+    width: 30px;
+    height: 0px;
+    display: none;
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    z-index: 1000;
+
+}
+
+.dnsmon-container .get-last-data-sliding-panel > div{
+    width: 15px;
+    margin-left: 7px;
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 1px 1px #C0C0C0;
+    cursor: pointer;
+}
+
+.full-screen-throbber{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    visibility: visible !important;
+}
+
+.open-timeoverview-button{
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.time-overview-external-container{
+    overflow: hidden!important;
+}
+
+.floating-panel{
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+    background: #FFFFFF;
+}
+
+
+.dnsmon-container .cone-time-boundaries{
+    stroke: #4a71ad;
+    stroke-width: 1px;
+    stroke-dasharray: 3, 3;
+    fill: #dbe0f6;
+}
+
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+.ui-icon-gripsmall-diagonal-se{ /*Workaround for jquery-ui bug*/
+    background-position: -64px -224px !important;
+    bottom: 0 !important;
+    right: 0 !important;
+}

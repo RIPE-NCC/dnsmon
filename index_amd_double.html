@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DNSMON 2</title>
+    <script>DNSMON_EXTERNAL_WIDGET_URL = ""</script>
+    <script src="dnsmon-widget-main.js"></script>
+</head>
+<body>
+
+<div class="dnsmon"></div>
+<script>
+    var dnsmon = initDNSmon('.dnsmon',
+            {
+                width: 935,
+                height: 800,
+                lang: "en",
+                grouping: true,
+                autoUpdate: false,
+
+                "callbacks": {
+                    change: function(){},
+                    load: function(){}
+                }
+            },
+
+            {
+                type: "zone-servers",
+                zone: "root",
+                ipVersion: null
+//                zone: "fr.",
+//                type: "servers"
+            });
+
+
+</script>
+
+
+<div class="dnsmon2"></div>
+<script>
+    var dnsmon = initDNSmon('.dnsmon2',
+            {
+                width: 935,
+                height: 800,
+                lang: "en",
+                grouping: true,
+                autoUpdate: false,
+
+                "callbacks": {
+                    change: function(){},
+                    load: function(){}
+                }
+            },
+
+            {
+                type: "zone-servers",
+                zone: "root",
+                ipVersion: null
+//                zone: "fr.",
+//                type: "servers"
+            });
+
+
+</script>
+
+</body>
+</html>

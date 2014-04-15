@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>connector/atlas/CacheConnectorAtlas.js - DNSMON</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="DNSMON"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 14.4.15.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AggregationLevelConnector.html">AggregationLevelConnector</a></li>
+            
+                <li><a href="../classes/AntiFloodConnector.html">AntiFloodConnector</a></li>
+            
+                <li><a href="../classes/BreadcrumbsView.html">BreadcrumbsView</a></li>
+            
+                <li><a href="../classes/CacheConnectorAtlas.html">CacheConnectorAtlas</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Connector.html">Connector</a></li>
+            
+                <li><a href="../classes/ConnectorFacade.html">ConnectorFacade</a></li>
+            
+                <li><a href="../classes/ControlPanelView.html">ControlPanelView</a></li>
+            
+                <li><a href="../classes/ErrorsHandlerConnectorAtlas.html">ErrorsHandlerConnectorAtlas</a></li>
+            
+                <li><a href="../classes/FullScreenView.html">FullScreenView</a></li>
+            
+                <li><a href="../classes/GesturesManager.html">GesturesManager</a></li>
+            
+                <li><a href="../classes/HistoryManager.html">HistoryManager</a></li>
+            
+                <li><a href="../classes/IsolationLevelConnectorAtlas.html">IsolationLevelConnectorAtlas</a></li>
+            
+                <li><a href="../classes/MainView.html">MainView</a></li>
+            
+                <li><a href="../classes/ParamsManager.html">ParamsManager</a></li>
+            
+                <li><a href="../classes/PopUpView.html">PopUpView</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/SessionManager.html">SessionManager</a></li>
+            
+                <li><a href="../classes/SvgChartView.html">SvgChartView</a></li>
+            
+                <li><a href="../classes/SvgContainerView.html">SvgContainerView</a></li>
+            
+                <li><a href="../classes/SvgOrdinalAxisView.html">SvgOrdinalAxisView</a></li>
+            
+                <li><a href="../classes/SvgTimeAxisView.html">SvgTimeAxisView</a></li>
+            
+                <li><a href="../classes/TemplateManagerView.html">TemplateManagerView</a></li>
+            
+                <li><a href="../classes/TimeController.html">TimeController</a></li>
+            
+                <li><a href="../classes/TimeOverviewView.html">TimeOverviewView</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/connector.html">connector</a></li>
+            
+                <li><a href="../modules/connector.Atlas.html">connector.Atlas</a></li>
+            
+                <li><a href="../modules/controller.html">controller</a></li>
+            
+                <li><a href="../modules/environment.html">environment</a></li>
+            
+                <li><a href="../modules/model.html">model</a></li>
+            
+                <li><a href="../modules/session.html">session</a></li>
+            
+                <li><a href="../modules/view.html">view</a></li>
+            
+                <li><a href="../modules/view.svg.html">view.svg</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: connector/atlas/CacheConnectorAtlas.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Created with JetBrains WebStorm.
+ * User: mcandela
+ * Date: 10/16/13
+ * Time: 4:38 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+define(
+    [
+        &quot;env.utils&quot;,
+        &quot;connector.atlas.error-handler&quot;
+    ],
+    function(utils, Connector){
+
+        /**
+         * CacheConnectorAtlas is the cache level dedicated to the atlas data-api for DNSMON.
+         * It provides a bottom-up incremental cache and top-down decremental queries.
+         *
+         * @class CacheConnectorAtlas
+         * @constructor
+         * @module connector.Atlas
+         */
+
+        var CacheConnectorAtlas = function(env){
+            var connector, oldRows, oldCells, dataNomenclatureMapping, minimumResultDate, maximumResultDate;
+
+            connector = new Connector(env);
+
+            // The map declaring the low-level data nomenclature
+            dataNomenclatureMapping = {
+                startTimestamp: &quot;start_time&quot;,
+                endTimestamp: &quot;end_time&quot;,
+                aggregationLevel: &quot;aggregation&quot;,
+                probesList: &quot;probes&quot;,
+                serversList: &quot;servers&quot;,
+                aggregationLevels: &quot;aggregation_levels&quot;,
+                measurementStartTime: &quot;earliest_available&quot;,
+                measurementEndTime: &quot;latest_available&quot;,
+                aggregationLabel: &quot;aggregation_label&quot;,
+                nativeAvailable: &quot;native_available&quot;,
+
+                server: {
+                    id: &quot;id&quot;,
+                    label: &quot;label&quot;,
+                    group: &quot;grouping&quot;,
+                    resultsList: &quot;results&quot;,
+                    ipVersion: &quot;ip_version&quot;,
+                    description: &quot;description&quot;
+                },
+
+                probe: {
+                    id: &quot;id&quot;,
+                    label: &quot;label&quot;,
+                    group: &quot;grouping&quot;,
+                    resultsList: &quot;results&quot;,
+                    description: &quot;description&quot;
+                },
+
+                result: {
+                    respondingTime: &quot;rtt50&quot;,
+                    packetSent: &quot;queries&quot;,
+                    packetReceived: &quot;replies&quot;,
+                    time: &quot;time&quot;
+                }
+            };
+
+
+            this.cache = {
+                data: null,
+                params: null,
+                aggregationLevel: null
+            };
+
+            /**
+             * It is strongly related to a particular JSON format.
+             * From top to bottom: tries to reduce the amount of data requested based on the available data in cache.
+             * From bottom to top: enrich the retrieved subset of data with the data already in cache.
+             *
+             * @method retrieveData
+             * @param {Object} params A params vector
+             * @param {Function} callback A function taking the retrieved data as input when it is ready
+             * @param {Object} context The context of the callback
+             */
+
+            this.retrieveData = function(params, callback, context){
+
+                if (!env.config.disableLocalCache &amp;&amp; this.cache.data &amp;&amp; this._isCacheValid(params)){
+
+                    if (this._isCacheEnough(params)){
+                        utils.log(&quot;Query in cache&quot;);
+
+                        this.cache = {
+                            data: this._filterData(params, this.cache.data),
+                            params: params,
+                            aggregationLevel: env.aggregationLevel
+                        };
+
+                        callback.call(context, this.cache.data);
+
+                    }else{
+
+                        utils.log(&quot;Query partially in cache&quot;);
+
+                        connector.retrieveData(params, function(data){
+
+                            this.cache = {
+                                data: this._filterData(params, data),
+                                params: params,
+                                aggregationLevel: env.aggregationLevel
+                            };
+
+                            callback.call(context, this.cache.data);
+
+                        }, this);
+
+                    }
+
+                }else{
+                    connector.retrieveData(params, function(data){
+
+                        this.cache = {
+                            data: data,
+                            params: params,
+                            aggregationLevel: env.aggregationLevel
+                        };
+
+                        callback.call(context, data);
+                    }, this);
+                }
+
+            };
+
+
+            this._isCacheEnough = function(params){
+                var oldParams;
+
+                oldParams = this.cache.params;
+
+                return (
+                    oldParams.startTime &lt;= params.startTime &amp;&amp;
+                    oldParams.endTime &gt;= params.endTime
+                    );
+            };
+
+
+            this._isCacheValid = function(params){
+                return true;
+
+                var n1, n2, c1, c2;
+
+
+                if (!this._isSameTarget(params) || this.cache.aggregationLevel != env.aggregationLevel){
+                    return false;
+                }
+
+                if (this.cache.params.selectedRows.length &lt; params.selectedRows.length){
+                    return false;
+                }
+
+                n1 = params.startDate;
+                n2 = params.endDate;
+                c1 = this.cache.params.startDate;
+                c2 = this.cache.params.endDate;
+
+                return ((c1 &gt;= n1 &amp;&amp; c1&lt;= n2) ||
+                    (c2 &gt;= n1 &amp;&amp; c2&lt;= n2) ||
+                    (n1 &gt;= c1 &amp;&amp; n1&lt;= c2) ||
+                    (n2 &gt;= c1 &amp;&amp; n2&lt;= c2));
+            };
+
+
+            this._filterData = function(params, data){
+
+                return data; // For now
+
+                var type, servers, probes;
+
+                type = (data[dataNomenclatureMapping.serversList]) ? &quot;servers&quot; : &quot;probes&quot;;
+
+                minimumResultDate = 0;
+                maximumResultDate = 0;
+
+//                this._filterRows(params, data, type);
+
+                data[dataNomenclatureMapping.startTimestamp] = minimumResultDate;
+                data[dataNomenclatureMapping.endTimestamp] = maximumResultDate;
+
+                if (type == &quot;servers&quot;){
+                    servers = data[dataNomenclatureMapping.serversList];
+
+                }else{
+                    probes = data[dataNomenclatureMapping.probesList];
+                }
+
+                return data;
+            };
+
+            this._filterResults = function(results){
+                var filteredResults;
+
+                filteredResults = [];
+
+
+                return filteredResults;
+            };
+
+
+            this._filterRows = function(params, data, type){
+                var rows, newResults, row;
+                newResults = [];
+
+                rows = (type == &quot;servers&quot;) ? data[dataNomenclatureMapping.serversList] : data[dataNomenclatureMapping.probesList];
+
+                function isRowSelected(rowId){
+                    return params.selectedRows.length == 0 || utils.indexOf(rowId, params.selectedRows) != -1;
+                }
+
+                for (var n=0,length=rows.length; n&lt;length; n++){
+                    row = rows[n];
+                    if (isRowSelected(row.id)){
+                        newResults.push(row);
+                        this._filterResults(params, row, type);
+                    }
+                }
+
+                data[((type == &quot;servers&quot;) ? dataNomenclatureMapping.serversList : dataNomenclatureMapping.probesList )] = newResults; //Replace the filtered data
+            };
+
+
+            this._filterResults = function(params, row, type){
+                var result, newResults, results;
+                newResults = [];
+
+                results = (type == &quot;servers&quot;) ? row[dataNomenclatureMapping.server.resultsList] : row[dataNomenclatureMapping.probe.resultsList];
+
+                for (var n=0,length=results.length; n&lt;length; n++){
+                    result = results[n];
+                    if (result.time &lt;= params.endDate &amp;&amp; result.time &gt;= params.startDate){
+                        minimumResultDate = (result.time &lt; minimumResultDate || !minimumResultDate) ? result.time : minimumResultDate;
+                        maximumResultDate = (result.time &gt; maximumResultDate || !maximumResultDate) ? result.time : maximumResultDate;
+                        newResults.push(result);
+                    }
+                }
+
+                row[((type == &quot;servers&quot;) ? dataNomenclatureMapping.server.resultsList : dataNomenclatureMapping.probe.resultsList )] = newResults; //Replace the filtered data
+            };
+
+
+            this._isSameTarget = function(newParams){
+                var oldParams, importantParams, paramTmp;
+
+                oldParams = this.cache.params;
+                importantParams = [&quot;root&quot;, &quot;group&quot;];
+
+                for (var n=0,length=importantParams.length; n&lt;length; n++){
+                    paramTmp = importantParams[n];
+                    if (oldParams[paramTmp] != newParams[paramTmp]){
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            this._mergeData = function(oldData, newData){
+                var rows, row;
+                rows = [];
+
+                for (var n=0,length=rows.length; n&lt;length; n++){
+                    row = rows[n];
+
+                    if (isRowSelected(row.id)){
+                        newResults.push(row);
+                        this._filterResults(params, row);
+                    }
+                }
+            };
+
+            this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){
+                connector.getNativeDnsResult(msmId, prbId, timestamp, callback, context);
+            };
+
+            this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
+                connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);
+            };
+
+        };
+
+        return CacheConnectorAtlas;
+    });
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

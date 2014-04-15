@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>view/ControlPanelView.js - DNSMON</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="DNSMON"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 14.4.15.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AggregationLevelConnector.html">AggregationLevelConnector</a></li>
+            
+                <li><a href="../classes/AntiFloodConnector.html">AntiFloodConnector</a></li>
+            
+                <li><a href="../classes/BreadcrumbsView.html">BreadcrumbsView</a></li>
+            
+                <li><a href="../classes/CacheConnectorAtlas.html">CacheConnectorAtlas</a></li>
+            
+                <li><a href="../classes/Cell.html">Cell</a></li>
+            
+                <li><a href="../classes/Connector.html">Connector</a></li>
+            
+                <li><a href="../classes/ConnectorFacade.html">ConnectorFacade</a></li>
+            
+                <li><a href="../classes/ControlPanelView.html">ControlPanelView</a></li>
+            
+                <li><a href="../classes/ErrorsHandlerConnectorAtlas.html">ErrorsHandlerConnectorAtlas</a></li>
+            
+                <li><a href="../classes/FullScreenView.html">FullScreenView</a></li>
+            
+                <li><a href="../classes/GesturesManager.html">GesturesManager</a></li>
+            
+                <li><a href="../classes/HistoryManager.html">HistoryManager</a></li>
+            
+                <li><a href="../classes/IsolationLevelConnectorAtlas.html">IsolationLevelConnectorAtlas</a></li>
+            
+                <li><a href="../classes/MainView.html">MainView</a></li>
+            
+                <li><a href="../classes/ParamsManager.html">ParamsManager</a></li>
+            
+                <li><a href="../classes/PopUpView.html">PopUpView</a></li>
+            
+                <li><a href="../classes/Row.html">Row</a></li>
+            
+                <li><a href="../classes/SessionManager.html">SessionManager</a></li>
+            
+                <li><a href="../classes/SvgChartView.html">SvgChartView</a></li>
+            
+                <li><a href="../classes/SvgContainerView.html">SvgContainerView</a></li>
+            
+                <li><a href="../classes/SvgOrdinalAxisView.html">SvgOrdinalAxisView</a></li>
+            
+                <li><a href="../classes/SvgTimeAxisView.html">SvgTimeAxisView</a></li>
+            
+                <li><a href="../classes/TemplateManagerView.html">TemplateManagerView</a></li>
+            
+                <li><a href="../classes/TimeController.html">TimeController</a></li>
+            
+                <li><a href="../classes/TimeOverviewView.html">TimeOverviewView</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/connector.html">connector</a></li>
+            
+                <li><a href="../modules/connector.Atlas.html">connector.Atlas</a></li>
+            
+                <li><a href="../modules/controller.html">controller</a></li>
+            
+                <li><a href="../modules/environment.html">environment</a></li>
+            
+                <li><a href="../modules/model.html">model</a></li>
+            
+                <li><a href="../modules/session.html">session</a></li>
+            
+                <li><a href="../modules/view.html">view</a></li>
+            
+                <li><a href="../modules/view.svg.html">view.svg</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: view/ControlPanelView.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Created by mcandela on 20/11/13.
+ */
+
+define([
+    &quot;env.utils&quot;,
+    &quot;env.params-manager&quot;,
+    &quot;view.full-screen&quot;,
+    &quot;lib.jquery-ui.timepicker&quot;
+], function(utils, paramsManager, FullScreenView){
+
+    /**
+     * ControlPanelView is the view component managing the representation of the control panel
+     *
+     * @class ControlPanelView
+     * @constructor
+     * @module view
+     */
+
+    var ControlPanelView = function(env){
+        var container, chart, thresholdsPopup, legendColors, legendPercentages, legendUnit, config, lang, templateManager,
+            disabledOpacity, normalOpacity, filtersPopup, extraDataPopup, dnsResponseDom, tracerouteDom,
+            autoUpdateButton, slidingMenu, insideSubMenu, slidingMenuOpened, fullScreenButton;
+
+        config = env.config;
+        lang = env.lang;
+        container = env.container;
+        chart = container.chart;
+        templateManager = env.mainView.templateManager;
+
+        disabledOpacity = config.style.disabledControllerOpacity;
+        normalOpacity = config.style.normalControllerOpacity;
+        this.dom = $(templateManager.controlPanel);
+
+
+        /**
+         * This method updates the width of this view
+         *
+         * @method updateWidth
+         */
+
+        this.updateWidth = function(){
+            var margin;
+
+            margin = 9;
+            this.dom.css(&quot;width&quot;, env.container.chart.width() - margin + &quot;px&quot;);
+        };
+
+
+        /**
+         * This method renders this view
+         *
+         * @method render
+         * @input {Object} parentDom The parent DOM where this view should be drawn
+         */
+
+        this.render = function(parentDom){
+            var $this, datepickers;
+
+            $this = this;
+            parentDom.$.prepend($this.dom);
+            this.dom.css(&quot;margin-left&quot;, config.labelWidth);
+
+            this.fullScreenView = new FullScreenView(env);
+
+            datepickers = $(templateManager.timepickersPopup);
+            filtersPopup = $(templateManager.filtersPopup);
+            thresholdsPopup = $(templateManager.thresholdsPopup);
+            extraDataPopup = $(templateManager.extraDataPopup);
+            dnsResponseDom = $(templateManager.dnsResponse);
+            tracerouteDom = $(templateManager.tracerouteRensponse);
+            slidingMenu = $(templateManager.slidingMenu);
+
+            autoUpdateButton = this.dom.find(&quot;.keep-updated&quot;);
+            fullScreenButton = this.dom.find(&quot;.full-screen&quot;);
+
+            this.dialogPopUp = this.dom.find(&quot;.dnsmon-popup&quot;);
+
+            this.legend = this.dom.find(&quot;.legend&quot;);
+            this.aggregationLevelLegend = this.dom.find(&quot;.legend-agr-level&quot;);
+
+            this.updatePeriodically = {
+                &quot;dom&quot;: autoUpdateButton,
+                &quot;icon&quot;: autoUpdateButton.find(&quot;img&quot;)
+            };
+
+            this.fullScreenButton = {
+                &quot;dom&quot;: fullScreenButton,
+                &quot;icon&quot;: fullScreenButton.find(&quot;img&quot;)
+            };
+
+            this.aggregationLevelLegend.html(lang.aggregationLevelLabel + env.aggregationLabel);
+
+            this.viewSelect = this.dom.find(&quot;.legend-controller-select&quot;);
+
+
+
+            this.thresholdsPopup = {
+                &quot;dom&quot;: thresholdsPopup,
+                &quot;slider&quot;: thresholdsPopup.find(&quot;.thresholds-slider&quot;),
+                &quot;legendPercentages&quot;: thresholdsPopup.find(&quot;.pls-percentage&quot;),
+                &quot;legendUnit&quot;: thresholdsPopup.find(&quot;.pls-unit&quot;),
+                &quot;legendColors&quot;: thresholdsPopup.find(&quot;.pls-color&quot;),
+                &quot;description&quot;: thresholdsPopup.find(&quot;.popup-pls-text&quot;),
+                &quot;messageApply&quot;: thresholdsPopup.find(&quot;.popup-pls-apply&quot;)
+            };
+
+            this.extraDataPopup = {
+                &quot;dom&quot;: extraDataPopup,
+                &quot;rawUrl&quot;: extraDataPopup.find(&quot;.popup-raw-data&quot;),
+                &quot;overviewRawUrl&quot;: extraDataPopup.find(&quot;.popup-overview-raw-data&quot;),
+                &quot;dnsResponse&quot;:extraDataPopup.find(&quot;.popup-dns-response&quot;),
+                &quot;traceroutePlace&quot;:extraDataPopup.find(&quot;.popup-traceroute&quot;),
+
+                &quot;dnsResponseDom&quot;: dnsResponseDom,
+                &quot;tracerouteDom&quot;: tracerouteDom
+            };
+
+            this.filtersPopup = {
+                &quot;dom&quot;: filtersPopup,
+                &quot;excludeErrorsCheck&quot;: filtersPopup.find(&quot;.exclude-errors&quot;)
+            };
+
+            this.datepickers = {
+                &quot;dom&quot;: datepickers
+            };
+
+            legendColors = $this.legend.find(&quot;.pls-color&quot;);
+            legendUnit = $this.legend.find(&quot;.pls-unit&quot;);
+            legendPercentages = $this.legend.find(&quot;.pls-percentage&quot;);
+
+            legendColors.last().css(&quot;background-color&quot;, env.mainView.color(env.mainView.colorDomainBreakPoints[0]));
+            legendColors.first().css(&quot;background-color&quot;, env.mainView.color(env.mainView.colorDomainBreakPoints[1] + config.colorSeparationOffset)); // Greater than
+
+            this.thresholdsPopup.legendPercentages.last().val(env.mainView.colorDomainBreakPoints[0]);
+            this.thresholdsPopup.legendPercentages.first().val(env.mainView.colorDomainBreakPoints[1]);
+
+            this.thresholdsPopup.legendColors.last().css(&quot;background-color&quot;, env.mainView.color(env.mainView.colorDomainBreakPoints[0]));
+            this.thresholdsPopup.legendColors.first().css(&quot;background-color&quot;, env.mainView.color(env.mainView.colorDomainBreakPoints[1] + config.colorSeparationOffset)); // Greater than
+
+
+            this.dialogPopUp.dialog({
+                resizable: false,
+                modal: true,
+                hide: 200,
+                autoOpen: false,
+                show: 100,
+                open: function(){
+                    $(&#x27;.ui-dialog&#x27;).addClass(&#x27;default-text&#x27;);
+                },
+                close: function(){
+                    $(&#x27;.ui-dialog&#x27;).removeClass(&#x27;default-text&#x27;);
+                }
+            });
+
+            this.initButtonEventHandlers();
+        };
+
+
+        /**
+         * This method creates sliding menus
+         *
+         * @method bindSlidingMenu
+         * @input {Object} callerButton The DOM element where to attach the sliding menu
+         * @input {Object} menuItemsHtml The DOM to draw inside the sliding menu
+         * @input {Number} height The height of the menu
+         * @input {String} cssClass The class to be applied to the sliding menu
+         * @input {Function} callback The callback to be called on click
+         */
+
+        this.bindSlidingMenu = function(callerButton, menuItemsHtml, height, cssClass, callback){
+            var timerHide;
+
+            if (insideSubMenu == null){
+                env.mainDom.$.append(slidingMenu); // Append the sub menu dom
+                slidingMenuOpened = false;
+                insideSubMenu = false;
+
+                slidingMenu
+                    .on(&quot;mouseenter&quot;, function(){
+                        insideSubMenu = true;
+                    })
+                    .on(&quot;mouseleave&quot;, function(evt){
+                        insideSubMenu = false;
+                        if ($(evt.target).attr(&#x27;class&#x27;) == slidingMenu.attr(&#x27;class&#x27;)){
+                            hideSubMenu();
+                        }
+                    });
+            }
+
+            function hideSubMenu(){
+                if (insideSubMenu == false){
+                    slidingMenu
+                        .removeClass(cssClass)
+                        .off(&quot;click&quot;)
+                        .hide()
+                        .css({
+                            height: &quot;0&quot;
+                        });
+                    slidingMenuOpened = false;
+                    env.mainDom.$.tooltip(&quot;enable&quot;);
+                }
+            };
+
+            callerButton
+                .on(&quot;mouseenter&quot;,
+                function(){
+                    if (slidingMenuOpened == false){
+                        clearTimeout(timerHide);
+                        slidingMenuOpened = true;
+                        slidingMenu.html(menuItemsHtml);
+
+                        slidingMenu
+                            .on(&quot;click&quot;, callback)
+                            .addClass(cssClass)
+                            .css({
+                                left: callerButton.position().left,
+                                top: callerButton.position().top + 20
+                            })
+                            .show()
+                            .animate({
+                                height: height
+                            }, 300);
+
+                        env.mainDom.$.tooltip(&quot;disable&quot;);
+                    }
+                })
+                .on(&quot;mouseleave&quot;, function(){
+                    clearTimeout(timerHide);
+                    timerHide = setTimeout(hideSubMenu, 1000);
+                });
+
+
+        };
+
+
+        /**
+         * This method populates the view selectbox with all the options
+         *
+         * @method loadPossibleView
+         */
+
+        this.loadPossibleView = function(){
+            var queryType;
+            queryType = env.params.type;
+
+            this.removeAllViews();
+
+            switch(queryType){
+                case &quot;probes&quot;:
+                    this.addPossibleView(lang.packetLossLabel, &quot;pls&quot;);
+                    this.addPossibleView(lang.responseTimeLabel, &quot;rtt&quot;);
+                    this.addPossibleView(lang.relativeResponseTimeLabel, &quot;relative-rtt&quot;);
+                    break;
+
+                case &quot;servers&quot;:
+                    this.addPossibleView(lang.packetLossLabel, &quot;pls&quot;);
+                    this.addPossibleView(lang.responseTimeLabel, &quot;rtt&quot;);
+                    this.addPossibleView(lang.relativeResponseTimeLabel, &quot;relative-rtt&quot;);
+                    break;
+
+                case &quot;instances&quot;:
+                    this.addPossibleView(lang.numberProbesLabel, &quot;prb&quot;);
+                    this.addPossibleView(lang.responseTimeLabel, &quot;rtt&quot;);
+                    this.addPossibleView(lang.relativeResponseTimeLabel, &quot;relative-rtt&quot;);
+                    break;
+            }
+        };
+
+
+        /**
+         * This method manages the auto-update function. It is an indirection for keepUpdated in MainView but it manages
+         * the menu and the feedback for the user
+         *
+         * @method keepUpdatedActive
+         * @input {Boolean} active If true the auto-update function will be activated
+         */
+
+        this.keepUpdatedActive = function(active){
+            if(env.isOngoing){ // Is the measurement ongoing?
+                if (!active){
+                    env.mainView.showMessage(lang.keepUpdatedNotActive);
+                    this.updatePeriodically.icon.attr(&quot;src&quot;, env.widgetUrl + &#x27;view/img/keep_updated_icon.png&#x27;);
+                }else{
+                    env.mainView.showMessage(lang.keepUpdatedActive);
+                    this.updatePeriodically.icon.attr(&quot;src&quot;, env.widgetUrl + &#x27;view/img/keep_updated_icon_move2.png&#x27;);
+                }
+
+                env.isUpdatedPeriodicallyActive = active;
+                env.mainView.timeController.keepUpdated(active);
+            }
+        };
+
+
+        /**
+         * This method manages all the auto-start functions
+         *
+         * @method _initAutoStartFunctions
+         * @private
+         */
+
+        this._initAutoStartFunctions = function(){
+            var $this;
+
+            $this = this;
+
+            env.mainView.on(&quot;load&quot;, function(){
+
+                if (env.isUpdatedPeriodicallyActive){
+                    $this.keepUpdatedActive(true); // Start the auto-update function
+                }
+
+                if (env.fullScreenActive){
+                    $this.fullScreenView.fullScreenMode(true); // Start the full-screen
+                }
+
+            });
+        };
+
+
+        /**
+         * This method creates all the listeners for the controllers
+         *
+         * @method initButtonEventHandlers
+         */
+
+        this.initButtonEventHandlers = function(){
+            var timeController, manualZoomFactor, $this;
+
+            timeController = env.mainView.timeController;
+            manualZoomFactor = config.manualZoomFactor;
+            $this = this;
+
+            this._initAutoStartFunctions();
+
+            this.updatePeriodicallyButton = this.updatePeriodically.dom
+                .attr(&quot;title&quot;, lang.keepUpdatedTitle)
+                .css(&quot;opacity&quot;, disabledOpacity)
+                .on(&quot;click&quot;, function(){
+                    env.isUpdatedPeriodicallyActive = !env.isUpdatedPeriodicallyActive;
+                    $this.keepUpdatedActive(env.isUpdatedPeriodicallyActive);
+                });
+
+
+            this.zoomInButton = this.dom
+                .find(&quot;.zoom-in&quot;)
+                .attr(&quot;title&quot;, lang.zoomInTitle)
+                .on(&quot;click&quot;, function(){
+                    if (env.isZoomableIn){
+                        timeController.zoomIn.call(timeController, manualZoomFactor);
+                    }
+                });
+
+            this.zoomOutButton = this.dom
+                .find(&quot;.zoom-out&quot;)
+                .attr(&quot;title&quot;, lang.zoomOutTitle)
+                .on(&quot;click&quot;, function(){
+                    if (env.isZoomableOut){
+                        timeController.zoomOut.call(timeController, manualZoomFactor);
+                    }
+                });
+
+            this.leftButton = this.dom
+                .find(&quot;.left&quot;)
+                .attr(&quot;title&quot;, lang.shiftLeftTitle)
+                .on(&quot;click&quot;, function(){
+                    if (env.isTranslableLeft){
+                        timeController.shiftLeft.call(timeController);
+                    }
+                });
+
+            this.rightButton = this.dom
+                .find(&quot;.right&quot;)
+                .attr(&quot;title&quot;, lang.shiftRightTitle)
+                .on(&quot;click&quot;, function(){
+                    if (env.isTranslableRight){
+                        timeController.shiftRight.call(timeController);
+                    }
+                });
+
+            this.fullScreenButton.dom
+                .attr(&quot;title&quot;, lang.fullScreenTitle)
+                .on(&quot;click&quot;, function(){
+                    env.fullScreenActive = !env.fullScreenActive; // Toggle full screen
+                    $this.setFullScreen(env.fullScreenActive);
+                });
+
+            this.forwardButton = this.dom
+                .find(&quot;.forward&quot;)
+                .attr(&quot;title&quot;, lang.forwardTitle)
+                .on(&quot;click&quot;, function(){
+                    timeController.getNewData.call(timeController, null);
+                });
+
+            this.bindSlidingMenu(this.forwardButton, $(templateManager.getLastData), 90, &#x27;get-last-data-sliding-panel&#x27;, function(evt){
+                var value;
+
+                value = paramsManager.convertRemoteToLocalTimeWindow($(evt.target).text());
+
+                timeController.getNewData.call(timeController, value);
+            });
+
+
+            this.datepickerButton = this.dom
+                .find(&quot;.timepicker&quot;)
+                .attr(&quot;title&quot;, lang.changeTimeWindowTitle)
+                .on(&quot;click&quot;, function(){
+
+                    $this.dialogPopUp.html($this.datepickers.dom);
+                    $this.dialogPopUp.dialog(&quot;open&quot;);
+
+                    $this.datepickers.start = $this.dialogPopUp.find(&quot;.timepicker-start&quot;);
+                    $this.datepickers.stop = $this.dialogPopUp.find(&quot;.timepicker-stop&quot;);
+
+                    $this.datepickers.start.datetimepicker({
+                        minDate: utils.localDateToUTCDate(env.measurementStartTime),
+                        maxDate: utils.localDateToUTCDate(env.measurementEndTime),
+                        dateFormat: &quot;yy-mm-dd&quot;,
+                        beforeShow: function(){
+                            $(&#x27;#ui-datepicker-div&#x27;).addClass(&#x27;default-text&#x27;);
+                        },
+                        onClose: function(){
+                            $(&#x27;#ui-datepicker-div&#x27;).removeClass(&#x27;default-text&#x27;);
+                        }
+                    });
+
+                    $this.datepickers.stop.datetimepicker({
+                        minDate: utils.localDateToUTCDate(env.measurementStartTime),
+                        maxDate: utils.localDateToUTCDate(env.measurementEndTime),
+                        dateFormat: &quot;yy-mm-dd&quot;,
+                        beforeShow: function(){
+                            $(&#x27;#ui-datepicker-div&#x27;).addClass(&#x27;default-text&#x27;);
+                        },
+                        onClose: function(){
+                            $(&#x27;#ui-datepicker-div&#x27;).removeClass(&#x27;default-text&#x27;);
+                        }
+                    });
+
+                    $this.datepickers.start.datepicker(&quot;setDate&quot;, utils.localDateToUTCDate(env.params.startDate));
+                    $this.datepickers.stop.datepicker(&quot;setDate&quot;, utils.localDateToUTCDate(env.params.endDate));
+
+
+                    $this.dialogPopUp.dialog({
+                        title: lang.changeTimeWindowTitle,
+                        width: 380,
+                        height: 140,
+                        buttons: {
+                            &quot;Cancel&quot;: function() {
+                                $(this).dialog(&quot;close&quot;);
+                            },
+
+                            &quot;Apply&quot;: function() {
+                                env.params.startDate = utils.UTCDateToLocalDate($this.datepickers.start.datetimepicker(&#x27;getDate&#x27;));
+                                env.params.endDate = utils.UTCDateToLocalDate($this.datepickers.stop.datetimepicker(&#x27;getDate&#x27;));
+                                env.mainView.updateXDomain(true);
+                                $(this).dialog(&quot;close&quot;);
+                            }
+                        },
+                        beforeClose: function() {
+                            $this.datepickers.start.datepicker(&quot;destroy&quot;);
+                            $this.datepickers.stop.datepicker(&quot;destroy&quot;);
+                        }
+                    });
+
+                });
+
+            this.thresholdsButton = this.dom
+                .find(&quot;.thresholds,.legend-pls&quot;) // Both button and legend are clickable STAT-511
+                .attr(&quot;title&quot;, lang.changeColorsRangeTitle)
+                .on(&quot;click&quot;, function(){
+                    var thresholdsRanges;
+
+                    $this.dialogPopUp.dialog(&quot;open&quot;);
+
+                    thresholdsRanges = $this._getThresholdsRanges();
+                    $this.dialogPopUp.html($this.thresholdsPopup.dom);
+
+                    $this.dialogPopUp.dialog({
+                        title: lang.changeColorsRangeTitle,
+                        width: 460,
+                        height: 200,
+                        buttons: {
+
+                            &quot;Default&quot;: function(){
+                                var newColorScale, showFilter;
+
+                                showFilter = env.session.getValue(&#x27;show-filter&#x27;);
+
+                                newColorScale = utils.computeColorScale(config.normalColorScales[showFilter]);
+                                env.mainView.updateOnlyColors(newColorScale.valueRange);
+                                $this.updateLegend(newColorScale.valueRange[2], newColorScale.valueRange[3]);
+                                env.history.update();
+                                $(this).dialog(&quot;close&quot;);
+                            },
+
+                            &quot;Close&quot;: function() {
+                                $(this).dialog(&quot;close&quot;);
+                            }
+                        }
+                    });
+
+                    $this.thresholdsPopup.description.html(lang.thresholdsDescritions[env.session.getValue(&#x27;show-filter&#x27;)]);
+
+                    $this.thresholdsPopup.slider.show();
+                    $this.thresholdsPopup.messageApply.hide();
+
+                    $this.thresholdsPopup
+                        .slider
+                        .slider({
+                            range: true,
+                            min: thresholdsRanges[0],
+                            max: thresholdsRanges[1],
+                            values: env.mainView.colorDomainBreakPoints,
+                            stop: function(){
+                                env.history.update();
+                            },
+                            slide: function(event, ui) {
+                                var newValuesRange;
+
+                                $this.updateLegend(ui.values[0], ui.values[1]);
+
+                                newValuesRange = [
+                                    thresholdsRanges[0],
+                                    ui.values[0],
+                                    ui.values[0],
+                                    ui.values[1],
+                                    thresholdsRanges[1]
+                                ];
+                                env.mainView.updateOnlyColors(newValuesRange);
+                            }
+                        });
+
+                    $this.thresholdsPopup.legendPercentages
+                        .off(&#x27;keydown&#x27;)
+                        .off(&#x27;change&#x27;)
+                        .on(&#x27;keydown&#x27;, function(evt){
+                            var unicode;
+
+                            evt.stopPropagation();
+                            unicode = (evt.which) ? evt.which : evt.keyCode;
+                            if (!(unicode &gt; 31 &amp;&amp; (unicode &lt; 48 || unicode &gt; 57) &amp;&amp; (unicode &lt; 96 || unicode &gt; 105))) {
+                                $this.thresholdsPopup.slider.hide();
+                                $this.thresholdsPopup.messageApply.show();
+                            }
+                        })
+                        .on(&#x27;change keyup&#x27;, function(evt){
+                            var max, min, valueMax, valueMin, values, slider, parent, unicode;
+                            evt.stopPropagation();
+
+                            unicode = (evt.which) ? evt.which : evt.keyCode;
+
+                            if (!unicode || unicode == 13){
+
+                                $this.thresholdsPopup.messageApply.hide();
+                                slider = $this.thresholdsPopup.slider;
+
+                                slider.show();
+
+                                max = slider.slider(&#x27;option&#x27;, &#x27;max&#x27;);
+                                min = slider.slider(&#x27;option&#x27;, &#x27;min&#x27;);
+
+                                parent = $this.thresholdsPopup.dom;
+
+                                values = [parseFloat(parent.find(&#x27;.min-val&#x27;).val()), parseFloat(parent.find(&#x27;.max-val&#x27;).val())];
+
+                                valueMin = (utils.isNumber(values[0]) &amp;&amp; values[0] &lt; max &amp;&amp; values[0] &gt; min) ? parseFloat(values[0]) : parseFloat(min);
+                                valueMax = (utils.isNumber(values[1]) &amp;&amp; values[1] &lt; max &amp;&amp; values[1] &gt; min) ? parseFloat(values[1]) : parseFloat(max);
+
+
+                                if (valueMax &lt; valueMin){ // Don&#x27;t invert the boundaries
+                                    if (valueMax == parseFloat($(this).val())){ // Give to the user a feedback related to what is changed in the last interaction
+                                        valueMax = valueMin;
+                                    }else{
+                                        valueMin = valueMax;
+                                    }
+
+                                }
+
+                                slider.slider(&quot;values&quot;, 1, valueMin);
+                                $this.thresholdsPopup.legendPercentages.last().val(valueMin);
+
+                                slider.slider(&quot;values&quot;, 0, valueMax);
+                                $this.thresholdsPopup.legendPercentages.first().val(valueMax);
+
+                                $this.updateLegend(valueMin, valueMax);
+                                env.mainView.updateOnlyColors([min, valueMin, valueMin, valueMax, max]);
+                            }
+                        });
+                });
+
+            this.allRowsButton = this.dom
+                .find(&quot;.allrows&quot;)
+                .attr(&quot;title&quot;, lang.allRowsTitle)
+                .css(&quot;opacity&quot;, disabledOpacity)
+                .on(&quot;click&quot;, function(){
+                    if (env.params.selectedRows.length != 0){
+
+                        env.params.selectedRows = [];
+                        env.params.filterProbes = false;
+                        env.mainView.redraw();
+                    }
+                });
+
+            this.filterSelection = this.dom
+                .find(&quot;.filters&quot;)
+                .attr(&quot;title&quot;, lang.filterSelectionTitle)
+                .on(&quot;click&quot;, function(){
+
+                    $this.dialogPopUp.dialog(&quot;open&quot;);
+                    $this.dialogPopUp.html($this.filtersPopup.dom);
+
+                    $this.dialogPopUp.dialog({
+                        title: lang.filtersPopupTitle,
+                        width: 300,
+                        height: 140,
+                        buttons: {
+                            &quot;Close&quot;: function() {
+                                $(this).dialog(&quot;close&quot;);
+                            }
+                        }
+                    });
+
+                    $this.filtersPopup
+                        .excludeErrorsCheck
+                        .off(&quot;click&quot;)
+                        .attr(&#x27;checked&#x27;, (env.session.getValue(&#x27;exclude-errors&#x27;) == &#x27;true&#x27;))
+                        .on(&quot;click&quot;, function(){
+                            env.session.saveValue(&#x27;exclude-errors&#x27;, $(this).is(&quot;:checked&quot;));
+                            env.mainView.redraw();
+                        });
+
+                });
+
+            this.viewSelect
+                .on(&quot;change&quot;, function(){
+                    env.session.saveValue(&quot;show-filter&quot;, $(this).val());
+                    env.mainView.redraw();
+                });
+        };
+
+
+        /**
+         * This method returns the ranges for the colors thresholds
+         *
+         * @method _getThresholdsRanges
+         * @private
+         * @return {Array} An array composed of two integers
+         */
+
+        this._getThresholdsRanges = function(){
+            var showFilter;
+
+            showFilter = env.session.getValue(&#x27;show-filter&#x27;);
+            switch(showFilter){
+                case &quot;pls&quot;:
+                    return [0, 100];
+                    break;
+
+                case &quot;rtt&quot;:
+                    return [0, 5000];
+                    break;
+
+                case &quot;relative-rtt&quot;:
+                    return [0, 1000];
+                    break;
+
+                case &quot;prb&quot;:
+                    return [0, 5000];
+                    break;
+            }
+        };
+
+
+        /**
+         * This method manages the full screen mode. It is an indirection for fullScreenMode in FullScreenView
+         * but it manages the menu and the feedback for the user
+         *
+         * @method setFullScreen
+         * @return {Boolean} fullScreen If true the full screen will be activated
+         */
+
+        this.setFullScreen = function(fullScreen){
+            var icon;
+
+            icon = (fullScreen) ? &#x27;view/img/dnsmon_smallscreen_icon.png&#x27; : &#x27;view/img/dnsmon_fullscreen_icon.png&#x27;;
+
+            this.fullScreenButton.icon.attr(&quot;src&quot;, env.widgetUrl + icon);
+            this.fullScreenView.fullScreenMode(fullScreen);
+        };
+
+
+        /**
+         * This method updates the status of all the items in the menu (e.g. if a button is clickable or not)
+         *
+         * @method update
+         */
+
+        this.update = function(){
+            this.allRowsButton.css(&quot;opacity&quot;, (env.params.selectedRows.length == 0) ? disabledOpacity : normalOpacity);
+            this.rightButton.css(&quot;opacity&quot;, (env.isTranslableRight == false) ? disabledOpacity : normalOpacity);
+            this.leftButton.css(&quot;opacity&quot;, (env.isTranslableLeft == false) ? disabledOpacity : normalOpacity);
+            this.zoomInButton.css(&quot;opacity&quot;, (env.isZoomableIn == false) ? disabledOpacity : normalOpacity);
+            this.zoomOutButton.css(&quot;opacity&quot;, (env.isZoomableOut == false) ? disabledOpacity : normalOpacity);
+
+            this.updatePeriodicallyButton.css(&quot;opacity&quot;, (env.isOngoing == false) ? disabledOpacity : normalOpacity);
+
+
+            this.updateAggregationLevelLegend(lang.aggregationLevelLabel + &#x27;: &#x27; + env.aggregationLabel);
+
+            this.updateLegend(env.mainView.colorDomainBreakPoints[0], env.mainView.colorDomainBreakPoints[1]);
+
+            this.loadPossibleView();
+        };
+
+
+        /**
+         * This method updates the color thresholds with the new values
+         *
+         * @method updateLegend
+         * @input {Number} firstValue An integer for the first threshold
+         * @input {Number} secondValue An integer for the second threshold
+         */
+
+        this.updateLegend = function(firstValue, secondValue){
+            var firstUnit, secondUnit, showFilter, realFirstValue, realSecondValue, realFirstUnit, realSecondUnit;
+
+            showFilter = env.session.getValue(&#x27;show-filter&#x27;);
+
+            realFirstValue = firstValue;
+            realSecondValue = secondValue;
+
+            switch(showFilter){
+                case &quot;pls&quot;:
+                    realFirstUnit = &quot;%&quot;;
+                    realSecondUnit = &quot;%&quot;;
+                    firstUnit = realFirstUnit;
+                    secondUnit = realSecondUnit;
+                    break;
+
+                case &quot;rtt&quot;:
+                    if (firstValue &gt;= 1000){
+                        firstValue = (firstValue/1000).toFixed(1);
+                        realFirstUnit = &quot;ms&quot;;
+                        firstUnit = &quot;s&quot;;
+                    }else{
+                        realFirstUnit = &quot;ms&quot;;
+                        firstUnit = &quot;ms&quot;;
+                    }
+
+                    if (secondValue &gt;= 1000){
+                        secondValue = (secondValue/1000).toFixed(1);
+                        realSecondUnit = &quot;ms&quot;;
+                        secondUnit = &quot;s&quot;;
+                    }else{
+                        realSecondUnit = &quot;ms&quot;;
+                        secondUnit = &quot;ms&quot;;
+                    }
+
+                    break;
+
+                case &quot;relative-rtt&quot;:
+                    realFirstUnit = &quot;%&quot;;
+                    realSecondUnit = &quot;%&quot;;
+                    firstUnit = realFirstUnit;
+                    secondUnit = realSecondUnit;
+                    break;
+
+                case &quot;prb&quot;:
+                    firstUnit = &quot;#p&quot;;
+                    secondUnit = &quot;#p&quot;;
+                    break;
+            }
+
+            legendPercentages.last().html(firstValue);
+            legendPercentages.first().html(secondValue);
+
+            legendUnit.last().html(firstUnit);
+            legendUnit.first().html(secondUnit);
+
+            this.thresholdsPopup.legendPercentages.last().val(realFirstValue);
+            this.thresholdsPopup.legendPercentages.first().val(realSecondValue);
+
+            this.thresholdsPopup.legendUnit.last().html(realFirstUnit);
+            this.thresholdsPopup.legendUnit.first().html(realSecondUnit);
+        };
+
+
+        /**
+         * This method updates the data resolution legend
+         *
+         * @method updateAggregationLevelLegend
+         * @input {String} newLabel The new legend
+         */
+
+        this.updateAggregationLevelLegend = function(newLabel){
+            var domElement;
+            domElement = this.aggregationLevelLegend;
+
+            if (domElement.text() != newLabel){
+                domElement
+                    .html(newLabel)
+                    .attr(&quot;title&quot;, lang.aggregationLevelTitle)
+                    .toggleClass(&quot;updated&quot;);
+
+                setTimeout(function(){
+                    domElement.toggleClass(&quot;updated&quot;);
+                }, config.aggregationLegendUpdatedDuration);
+            }
+
+        };
+
+
+        /**
+         * This method appends an option for the selectobox fo the views
+         *
+         * @method addPossibleView
+         * @input {String} label The name of the view
+         * @input {String} value The value/key of the view
+         */
+
+        this.addPossibleView = function(label, value){
+            var checked, showFilter;
+
+            showFilter = env.session.getValue(&#x27;show-filter&#x27;);
+
+            checked = (value == showFilter) ? &#x27;selected=&quot;selected&quot;&#x27; : &#x27;&#x27; ;
+            this.viewSelect.append(&#x27;&lt;option value=&quot;&#x27; + value + &#x27;&quot; &#x27; + checked + &#x27;&gt;&#x27; + label + &#x27;&lt;/option&gt;&#x27;);
+        };
+
+
+        /**
+         * This method removes all the options of the selectobox fo the views
+         *
+         * @method removeAllViews
+         */
+
+        this.removeAllViews = function(){
+            this.viewSelect.html(&quot;&quot;);
+        };
+
+
+        /**
+         * This method renders a dialog box with all the information related to a cell
+         *
+         * @method showExtraInfoDialog
+         * @input {Object} cell A cell object
+         */
+
+        this.showExtraInfoDialog = function(cell){
+            var overviewUrls, sampleUrls, parentOverview, parentSample, linkText, linkUrl, linkCurrent, urlItem,
+                htmlDnsResponse, dnsResponsePlace, traceroutePlace, tracerouteArea, tracerouteDom, dataItem,
+                dialogHeight, textareaWidth;
+
+            overviewUrls = env.connector.getDataUrls(cell);
+            sampleUrls = env.connector.getCellDataUrls(cell);
+
+            dialogHeight = 210;
+
+            this.dialogPopUp.dialog({
+                title: lang.extraInfoDialogTitle,
+                width: 500,
+                height: dialogHeight,
+                buttons: {
+                    &quot;Close&quot;: function() {
+                        var $this;
+
+                        $this = $(this);
+
+                        $this.removeClass(&quot;resized-dialog-traceroute&quot;);
+                        $this.dialog(&quot;option&quot;, &quot;resizable&quot;, false);
+                        $this.dialog(&quot;close&quot;);
+                    }
+                }
+            });
+
+            this.dialogPopUp.dialog(&quot;open&quot;);
+            this.dialogPopUp.html(this.extraDataPopup.dom);
+
+            parentOverview = this.extraDataPopup.overviewRawUrl;
+            parentSample = this.extraDataPopup.rawUrl;
+
+            parentOverview.html(&#x27;&#x27;);
+            parentSample.html(&#x27;&#x27;);
+
+            for (var n=0,length=sampleUrls.length; n&lt;length; n++){
+                urlItem = sampleUrls[n];
+                linkUrl = urlItem.url;
+                linkText = urlItem.label;
+                linkCurrent = urlItem.current;
+
+                if (env.retrievedAggregationLevel != 0 || linkCurrent){
+                    parentSample.append(&#x27;&lt;a target=&quot;_blank&quot; href=&quot;&#x27; + linkUrl + &#x27;&quot; title=&quot;&#x27; + linkText + &#x27;&quot;&gt;&#x27; + linkText + ((linkCurrent) ? &#x27; (current)&#x27; : &#x27;&#x27;) + &#x27;&lt;/a&gt; &#x27;);
+                }
+            }
+
+            for (var n=0,length=overviewUrls.length; n&lt;length; n++){
+                urlItem = overviewUrls[n];
+                linkUrl = urlItem.url;
+                linkText = urlItem.label;
+                linkCurrent = urlItem.current;
+                if (env.retrievedAggregationLevel != 0 || linkCurrent){
+                    parentOverview.append(&#x27;&lt;a target=&quot;_blank&quot; href=&quot;&#x27; + linkUrl + &#x27;&quot; title=&quot;&#x27; + linkText + &#x27;&quot;&gt;&#x27; + linkText + ((linkCurrent) ? &#x27; (current)&#x27; : &#x27;&#x27;) + &#x27;&lt;/a&gt; &#x27;);
+                }
+            }
+
+            dnsResponsePlace = this.extraDataPopup.dnsResponse;
+            dnsResponsePlace.html(&quot;&quot;).removeClass(&#x27;dns-response-error&#x27;);
+
+            traceroutePlace = this.extraDataPopup.traceroutePlace;
+            traceroutePlace.html(&quot;&quot;);
+
+            this.dialogPopUp.dialog(&quot;option&quot;, &quot;resizable&quot;, false);
+
+            if (env.retrievedAggregationLevel == 0){ // If native resolution
+
+                env.connector.getNativeDnsResult(cell, function(data){ // Show the DNS response
+
+                    for (var n=0,length=data.length; n&lt;length; n++){
+                        dataItem = data[n];
+
+                        dialogHeight += 30;
+                        this.dialogPopUp.dialog({height: dialogHeight}); //Enlarge the dialog to fit in the dns response
+                        htmlDnsResponse = this.extraDataPopup.dnsResponseDom.clone();
+
+                        htmlDnsResponse.find(&quot;.dns-response-prbid&quot;).html(dataItem.probeId);
+                        htmlDnsResponse.find(&quot;.dns-response-rt&quot;).html(dataItem.responseTime);
+                        htmlDnsResponse.find(&quot;.dns-response-date&quot;).html(utils.dateToString(dataItem.date));
+
+                        if (dataItem.nsId){
+                            htmlDnsResponse.find(&quot;.dns-response-nsid&quot;).html(dataItem.nsId);
+                        }else{
+                            htmlDnsResponse.find(&quot;.dns-response-nsid-rd&quot;).hide();
+                        }
+
+                        if (dataItem.response &amp;&amp; dataItem.response != &#x27;&#x27;){
+                            htmlDnsResponse.find(&quot;.dns-response-plaintext&quot;).html(dataItem.response);
+                        }
+
+                        if (dataItem.error){
+                            htmlDnsResponse.find(&quot;.dns-response-plaintext&quot;).addClass(&quot;dns-response-error&quot;).html(&#x27;[&#x27; + dataItem.error.type + &#x27;] &#x27; + dataItem.error.message);
+                        }
+
+                        dnsResponsePlace.append(htmlDnsResponse);
+                    }
+
+                }, this);
+
+
+                env.connector.getClosestTraceroutes(cell, function(data){ // Show the closest Traceroutes
+
+                    if (data.length &gt; 0){
+                        dialogHeight += 150;
+                        this.dialogPopUp.dialog({ height: dialogHeight }); //Enlarge the dialog to fit in the traceroutes
+
+                        tracerouteDom = this.extraDataPopup.tracerouteDom.clone();
+
+                        traceroutePlace.append(tracerouteDom);
+
+                        if (data.length &gt;= 2){
+                            this.dialogPopUp.dialog(&quot;option&quot;, &quot;resizable&quot;, true);
+                            this.dialogPopUp.dialog({
+                                resize: function(event, ui){
+                                    if (ui.size.width &gt; textareaWidth * 2){
+                                        $(this).addClass(&quot;resized-dialog-traceroute&quot;);
+                                    }else{
+                                        $(this).removeClass(&quot;resized-dialog-traceroute&quot;);
+                                    }
+                                }
+                            });
+
+                        }else{
+                            this.dialogPopUp.dialog(&quot;option&quot;, &quot;resizable&quot;, false);
+                        }
+
+                        for (var n=0,length=data.length; n&lt;length; n++){
+
+                            dataItem = data[n];
+
+                            tracerouteArea = $(&#x27;&lt;textarea readonly=&quot;readonly&quot;&gt;&lt;/textarea&gt;&#x27;);
+                            tracerouteArea.text(&#x27;&gt;&gt;&gt;&#x27; + utils.dateToString(dataItem.date) + &#x27;\n&#x27; + dataItem.response);
+                            tracerouteDom.append(tracerouteArea);
+                            textareaWidth = tracerouteArea.width();
+                        }
+
+                    }
+                }, this);
+            }
+
+        };
+
+
+    };
+
+    return ControlPanelView;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
