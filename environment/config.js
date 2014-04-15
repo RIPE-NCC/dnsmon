@@ -58,7 +58,7 @@ define([], function(){
         historyInUrl: true,
         historyInUrlAtInitialisation: false,
         allowPermalinks: true,
-        allRowsZoomingOut: true,
+        allRowsZoomingOut: false,
         useLocalPersistenceForSettings: true,
         localPersistenceValidityTimeMinutes: 24 * 60 * 120, // ~ 4 months
         timeEventsActiveByDefault: true,
