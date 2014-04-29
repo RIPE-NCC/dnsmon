@@ -28,6 +28,7 @@ define(
             connector = new Connector(env);
 
             env.totalSavedBytes = 0;
+            env.stats = "";
 
             // The map declaring the low-level data nomenclature
             dataNomenclatureMapping = {
