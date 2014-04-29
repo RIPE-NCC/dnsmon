@@ -147,6 +147,7 @@ define(
                         totalBytes = utils.objectSize(data);
                         savedBytes = totalBytes - env.lastDownloadBytes;
                         env.totalSavedBytes += savedBytes;
+                        env.stats += "t" + totalBytes + "s" + savedBytes + ",";
                         utils.log('Retrieved bytes: ' + env.lastDownloadBytes + ' Total bytes: ' + totalBytes + ' Saved bytes: ' +  savedBytes, env.debugMode);
                         utils.log('Total bytes saved until now: ' + env.totalSavedBytes, env.debugMode);
                     }
@@ -199,6 +200,7 @@ define(
                     totalBytes = utils.objectSize(filteredCacheData);
                     savedBytes = totalBytes;
                     env.totalSavedBytes += savedBytes;
+                    env.stats += "t" + totalBytes + "s" + savedBytes + ",";
                     utils.log('Retrieved bytes: 0 Total bytes: ' + totalBytes + ' Saved bytes: ' +  savedBytes, env.debugMode);
                     utils.log('Total bytes saved until now: ' + env.totalSavedBytes, env.debugMode);
                 }
@@ -243,6 +245,7 @@ define(
                             totalBytes = utils.objectSize(data);
                             savedBytes = totalBytes - env.lastDownloadBytes;
                             env.totalSavedBytes += savedBytes;
+                            env.stats += "t" + totalBytes + "s" + savedBytes + ",";
                             utils.log('Retrieved bytes: ' + env.lastDownloadBytes + ' Total bytes: ' + totalBytes + ' Saved bytes: ' + savedBytes, env.debugMode);
                             utils.log('Total bytes saved until now: ' + env.totalSavedBytes, env.debugMode);
                         }

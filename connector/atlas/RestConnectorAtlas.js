@@ -82,6 +82,8 @@ define([
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";
             }
 
+
+            if (env.stats) url += "&stats=" +  env.stats;
             return url;
         };
 
