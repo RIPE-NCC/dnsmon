@@ -56,7 +56,7 @@ define([
             this.templateManager.createDom(mainDom, instanceParam);
             this.defaultDimensions = {width: instanceParam.width, height: instanceParam.height};
 
-            if (utils.getUrlParam("dnsmon-info") == "true"){
+            if (utils.getUrlParam("dnsmon_info") == "true"){
                 alert("Version: " + env.version);
             }
 
@@ -150,6 +150,7 @@ define([
                 env.mouse = {x: evt.pageX - offset.left, y: evt.pageY - offset.top};
             });
 
+            this.loadingImage(true);
             env.connector.retrieveData(this.firstDraw, this); // Get the data and start the visualization
         };
 
@@ -201,6 +202,7 @@ define([
 
             utils.callCallbacks(env.callbacks["load"], paramsManager.fromInternalToExternal(env.params));
 
+            this.loadingImage(false);
             utils.log("Visualization ends", env.debugMode);
         };
 
