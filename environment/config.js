@@ -15,7 +15,7 @@ define([], function(){
         chartMinHeight: 500,
 
         chartMargins: {top: 20, bottom: 70, right: 5},
-        timeOverviewMargins:  {top: 0, right: 4, bottom: 70, left: 0},
+        timeOverviewMargins:  {top: 0, right: 0, bottom: 70, left: 20},
 
         maxNumberOfCells: 20000,
 

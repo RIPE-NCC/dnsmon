@@ -88,7 +88,7 @@ define([
                     verticalLabels: true,
                     hideIfLessThanSeconds: config.hideTimeOverviewWhenLessThanSeconds,
                     granularityLevels: config.brusherBucketLevelsMinutes,
-                    width: this.templateManager.dom.timeOverviewContainer.$.width(),
+                    width: env.container.chart.width() + config.timeOverviewMargins.left,
                     height: config.style.timeOverviewHeight
                 },
 
@@ -131,8 +131,8 @@ define([
 
                     newWidth = env.container.chart.width();
 
-                    this.templateManager.dom.timeOverviewContainer.$.width(newWidth);
-                    this.timeOverview.width(newWidth);
+                    this.templateManager.dom.timeOverviewContainer.$.width(newWidth + config.timeOverviewMargins.left);
+                    this.timeOverview.width(newWidth + config.timeOverviewMargins.left);
                 },
                 context: this});
 

@@ -196,7 +196,7 @@ define([
             }
 
             externalDom.css("width", (instanceParams.width || config.containerWidthDefault) - (config.style.externalBorderWidth * 2));
-            timeOvervireContainerDom.css("margin-left", config.labelWidth);
+            timeOvervireContainerDom.css("margin-left", config.labelWidth - config.timeOverviewMargins.left);
 
             containerDom.tooltip(
                 {
