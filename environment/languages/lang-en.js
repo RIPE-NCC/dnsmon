@@ -15,7 +15,6 @@ define([], function(){
         numberProbesLabel: "Number of probes",
         startDateLabel: "Start date:",
         endDateLabel: "End date:",
-        tooZoomedMessage: "Sorry, we don't have more details. Try to select a single server",
         changeTimeWindowTitle: "Change time window",
         changeColorsRangeTitle: "Change colours range",
         shiftLeftTitle: "Shift the time window left",
@@ -56,6 +55,7 @@ define([], function(){
         fullScreenTitle: "Full screen",
 
         minimumSelectionImposed: "Sorry, the selection was too small",
+        tooZoomedMessage: "Sorry, we don't have more details. Try to click on a row's label",
 
         thresholdsDescritions: {
             pls: "Change the unanswered queries colours range: these thresholds are used to colours the cells based on the percentage of packets lost.",
