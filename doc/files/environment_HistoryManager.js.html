@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -212,7 +212,11 @@ define([
 
                 currentState = this._generateStateUrl(params, session);
 
-                window.history.pushState({}, &#x27;dnsmon_state&#x27;, currentState);
+                if (!env.isUpdatedPeriodicallyActive) {
+                    window.history.pushState({}, &#x27;dnsmon_state&#x27;, currentState);
+                }else{
+                    window.history.replaceState({}, &#x27;dnsmon_state&#x27;, currentState);
+                }
             }else{
                 pushNewStatuses = true;
             }

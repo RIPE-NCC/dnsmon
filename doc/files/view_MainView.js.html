@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1117,9 +1117,7 @@ define([
 
             this.timeController.updateStatus();
             this.controlPanel.update();
-            if (!env.isUpdatedPeriodicallyActive){
-                env.history.update();
-            }
+            env.history.update();
 
             env.container.height(this._computeWidgetBestHeight());
 
@@ -1150,7 +1148,6 @@ define([
 
             this.timeOverview.update([env.measurementStartTime, env.measurementEndTime], [env.params.startDate, env.params.endDate]);
 
-            //console.log(env.callbacks[&quot;change&quot;]);
             utils.callCallbacks(env.callbacks[&quot;change&quot;], paramsManager.fromInternalToExternal(env.params)); // Call all the &quot;change&quot; callbacks
 
             utils.log(&quot;Visualization update ends&quot;, env.debugMode);

@@ -2,7 +2,7 @@
     "project": {
         "name": "DNSMON",
         "description": "The RIPE NCC DNS Monitoring Service (DNSMON) provides a comprehensive, objective and up-to-date overview of the quality of the service offered by high-level Domain Name System (DNS) servers",
-        "version": "14.4.25.2",
+        "version": "14.4.29.2",
         "url": "http://atlas.ripe.net/dnsmon/"
     },
     "files": {
@@ -1061,12 +1061,12 @@
             "tagname": "",
             "params": [
                 {
-                    "name": "params",
+                    "name": "oldRowsSelection",
                     "description": "The old vector of selected rows",
                     "type": "Object"
                 },
                 {
-                    "name": "params",
+                    "name": "newRowsSelection",
                     "description": "The new vector of selected rows",
                     "type": "Object"
                 }
@@ -1157,7 +1157,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 464,
+            "line": 470,
             "description": "This method filters the rows on a blob of data in order to satisfy a vector of parameters",
             "itemtype": "method",
             "name": "_filterRows",
@@ -1180,7 +1180,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 497,
+            "line": 503,
             "description": "This method filters the results in a row in order to satisfy a vector of parameters",
             "itemtype": "method",
             "name": "_filterRows",
@@ -1203,7 +1203,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 529,
+            "line": 536,
             "description": "This method checks if the provided parameters are referring to the same target/measurement/contest.",
             "itemtype": "method",
             "name": "_isSameTarget",
@@ -1225,7 +1225,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 557,
+            "line": 564,
             "description": "This method merges two blob of data",
             "itemtype": "method",
             "name": "_mergeData",
@@ -1257,7 +1257,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 575,
+            "line": 582,
             "description": "This support method merges the rows of two blob of data",
             "itemtype": "method",
             "name": "_mergeData",
@@ -1289,7 +1289,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 621,
+            "line": 628,
             "description": "This method returns the nomenclature of a group for the given query type",
             "itemtype": "method",
             "name": "_getRowNomenclature",
@@ -1311,7 +1311,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 644,
+            "line": 651,
             "description": "This method returns the nomenclature of a list of groups for the given query type",
             "itemtype": "method",
             "name": "_getRowsListNomenclature",
@@ -1333,7 +1333,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 667,
+            "line": 674,
             "description": "This method retrieves a row from a blob of data",
             "itemtype": "method",
             "name": "_getRow",
@@ -1365,7 +1365,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 695,
+            "line": 702,
             "description": "Get the human readable version of the DNS response and use cache",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -1401,7 +1401,7 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 711,
+            "line": 718,
             "description": "Get the closest traceroutes and use cache",
             "itemtype": "method",
             "name": "getClosestTraceroutes",
@@ -2105,7 +2105,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 86,
+            "line": 89,
             "description": "It is strongly dedicated to a particular data-api.\nFrom top to bottom: given some data-api valid parameters, it provides a method to connect to the data-api and query for that parameters.\nFrom bottom to top: provides the raw JSON to the received callback.",
             "itemtype": "method",
             "name": "retrieveData",
@@ -2131,7 +2131,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 147,
+            "line": 150,
             "description": "Get the DNS response from the data-api",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -2167,7 +2167,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 189,
+            "line": 192,
             "description": "Get the closest traceroutes data from the data-api",
             "itemtype": "method",
             "name": "getClosestTraceroutes",
@@ -3163,7 +3163,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 70,
+            "line": 74,
             "description": "This method pushes in the history and updates the URL with the actual query and session parameters.",
             "itemtype": "method",
             "name": "_generateStateUrl",
@@ -3174,7 +3174,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 83,
+            "line": 87,
             "description": "This method creates an URL with all the session parameters.",
             "itemtype": "method",
             "name": "_generateSessionUrl",
@@ -3190,7 +3190,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 106,
+            "line": 110,
             "description": "This method updates the given URL with all the query parameters.",
             "itemtype": "method",
             "name": "_generateParametersUrl",
@@ -3206,7 +3206,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 130,
+            "line": 134,
             "description": "This method is triggered every time there is a back/forward event in the browser. It recovers and applies\nthe history.",
             "itemtype": "method",
             "name": "updateStatusFromUrl",
@@ -3215,7 +3215,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 160,
+            "line": 164,
             "description": "This method applies the current permalink to the scene.",
             "itemtype": "method",
             "name": "setStatusFromUrl",
@@ -3224,7 +3224,7 @@
         },
         {
             "file": "environment/HistoryManager.js",
-            "line": 187,
+            "line": 191,
             "description": "This method re-creates a navigation history given a vector of query parameters.\nSo it allows the user to share also a navigation history by sharing a permalink.",
             "itemtype": "method",
             "name": "_createHistory",
@@ -4501,7 +4501,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1008,
+            "line": 1005,
             "description": "This method sets the right profile mode related to the data-set dimension",
             "itemtype": "method",
             "name": "_setLowProfile",
@@ -4513,7 +4513,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1024,
+            "line": 1021,
             "description": "This method computes all the information of the y-axis items",
             "itemtype": "method",
             "name": "rowsCharacterization",
@@ -4527,7 +4527,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1071,
+            "line": 1068,
             "description": "This method shows a textual message to the user",
             "itemtype": "method",
             "name": "showMessage",
@@ -4537,7 +4537,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1087,
+            "line": 1084,
             "description": "This method applies new margins to the current time window",
             "itemtype": "method",
             "name": "setTimeMargins",
@@ -4711,7 +4711,7 @@
         },
         {
             "file": "dnsmon-widget-main.js",
-            "line": 35,
+            "line": 37,
             "description": "This is the code of the widget system",
             "class": "",
             "module": "view"
@@ -4720,15 +4720,15 @@
     "warnings": [
         {
             "message": "unknown tag: input",
-            "line": " environment/HistoryManager.js:83"
+            "line": " environment/HistoryManager.js:87"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/HistoryManager.js:106"
+            "line": " environment/HistoryManager.js:110"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/HistoryManager.js:106"
+            "line": " environment/HistoryManager.js:110"
         },
         {
             "message": "unknown tag: input",
@@ -5016,23 +5016,23 @@
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1008"
+            "line": " view/MainView.js:1005"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1024"
+            "line": " view/MainView.js:1021"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1071"
+            "line": " view/MainView.js:1068"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1087"
+            "line": " view/MainView.js:1084"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1087"
+            "line": " view/MainView.js:1084"
         },
         {
             "message": "unknown tag: input",
@@ -5252,7 +5252,7 @@
         },
         {
             "message": "Missing item type\nThis is the code of the widget system",
-            "line": " dnsmon-widget-main.js:35"
+            "line": " dnsmon-widget-main.js:37"
         }
     ]
 }

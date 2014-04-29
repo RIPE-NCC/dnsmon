@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -159,7 +159,9 @@
  * Some path configurations
  */
 
-DNSMON_WIDGET_URL = (typeof DNSMON_EXTERNAL_WIDGET_URL == &#x27;undefined&#x27;) ? &quot;https://atlas.ripe.net/dstatic/dnsmon/visualisation/v0.2/&quot; : DNSMON_EXTERNAL_WIDGET_URL
+DNSMON_ROOT_URL = &#x27;dnsmon/&#x27;;
+
+DNSMON_WIDGET_URL = ((typeof DNSMON_EXTERNAL_WIDGET_URL == &#x27;undefined&#x27;) ? &quot;https://atlas.ripe.net/dstatic/dnsmon/visualisation/&quot; : DNSMON_EXTERNAL_WIDGET_URL) + DNSMON_ROOT_URL;
 
 DNSMON_ENVIRONMENT_URL = DNSMON_WIDGET_URL + &quot;environment/&quot;;
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,9 +176,9 @@ requirejs.config({
 
         /* libs */
         &quot;lib.d3&quot;: DNSMON_LIB_URL + &quot;d3.v3.amd&quot;,
-        &quot;lib.jquery&quot;: DNSMON_LIB_URL + &quot;jquery.min&quot;,
+        &quot;lib.jquery&quot;: (typeof DNSMON_JQUERY_GLOBAL_DECLARED_URL != &#x27;undefined&#x27;) ? DNSMON_JQUERY_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + &quot;jquery.min&quot;,
 
-        &quot;lib.jquery-ui&quot;: DNSMON_LIB_URL + &quot;jquery-ui.min&quot;,
+        &quot;lib.jquery-ui&quot;: (typeof DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL != &#x27;undefined&#x27;) ? DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + &quot;jquery-ui.min&quot;,
         &quot;lib.jquery-ui.timepicker&quot;: DNSMON_LIB_URL + &quot;jquery-ui.timepicker&quot;,
 
         &quot;lib.jquery.cookie&quot;: DNSMON_LIB_URL + &quot;jquery.cookie&quot;,

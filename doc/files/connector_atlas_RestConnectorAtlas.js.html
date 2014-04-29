@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -163,7 +163,8 @@ define([
      */
 
     var Connector = function(env){
-        var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config;
+        var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
+            commonServer;
 
         config = env.config;
 
@@ -171,11 +172,13 @@ define([
         env.downoadedBytes = 0;
 
         //weir-dev
-        perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === &quot;undefined&quot;) ? &quot;https://weir-dev.atlas.ripe.net/dnsmon/api/probes&quot; : DNSMON_PROBES_DATA_API_URL;
-        serversDataUrl = (typeof DNSMON_SERVERS_DATA_API_URL === &quot;undefined&quot;) ? &quot;https://weir-dev.atlas.ripe.net/dnsmon/api/servers&quot; : DNSMON_SERVERS_DATA_API_URL;
+        commonServer = &quot;https://atlas.ripe.net/dnsmon/api&quot;;
 
-        nativeDnsResultDataUrl = (typeof DNSMON_ATLAS_DATA_API_URL === &quot;undefined&quot;) ? &quot;https://weir-dev.atlas.ripe.net/dnsmon/api/atlas-data&quot; : DNSMON_ATLAS_DATA_API_URL;
-        closesttraceroutesDataUrl = (typeof DNSMON_ATLAS_TRACEROUTE_API_URL === &quot;undefined&quot;) ? &quot;https://weir-dev.atlas.ripe.net/dnsmon/api/atlas-data&quot; : DNSMON_ATLAS_TRACEROUTE_API_URL;
+        perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === &quot;undefined&quot;) ? commonServer + &quot;/probes&quot; : DNSMON_PROBES_DATA_API_URL;
+        serversDataUrl = (typeof DNSMON_SERVERS_DATA_API_URL === &quot;undefined&quot;) ? commonServer + &quot;/servers&quot; : DNSMON_SERVERS_DATA_API_URL;
+
+        nativeDnsResultDataUrl = (typeof DNSMON_ATLAS_DATA_API_URL === &quot;undefined&quot;) ? commonServer + &quot;/atlas-data&quot; : DNSMON_ATLAS_DATA_API_URL;
+        closesttraceroutesDataUrl = (typeof DNSMON_ATLAS_TRACEROUTE_API_URL === &quot;undefined&quot;) ? commonServer + &quot;/atlas-data&quot; : DNSMON_ATLAS_TRACEROUTE_API_URL;
 
         this.getDataUrl = function(params){
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.25.2</em>
+            <em>API Docs for: 14.4.29.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -450,12 +450,12 @@ define(
             this._getTimeDiff = function(oldStartTime, oldEndTime, newStartTime, newEndTime){
                 var startTime, endTime, consistencyOffset;
 
-                consistencyOffset = env.aggregationLevel / 2;
+                consistencyOffset = env.aggregationLevel || env.samplingFrequency;
 
                 if (newStartTime &lt; oldStartTime){
 
                     startTime = newStartTime;
-                    endTime = oldStartTime;
+                    endTime = oldStartTime + consistencyOffset;
 
                 }else if (newEndTime &gt; oldEndTime){
 
@@ -528,8 +528,8 @@ define(
              *
              * @method _containsRows
              * @private
-             * @param {Object} params The old vector of selected rows
-             * @param {Object} params The new vector of selected rows
+             * @param {Object} oldRowsSelection The old vector of selected rows
+             * @param {Object} newRowsSelection The new vector of selected rows
              * @return {Boolean} True if the new row selection contains the old rows selected
              */
 
@@ -606,8 +606,14 @@ define(
                 this._filterRows(params, data);
 
                 // Updates the composed JSON with the actual start/end dates
-                data[dataNomenclatureMapping.startTime] = ( minimumResultDate + (env.aggregationLevel || env.samplingFrequency)  &gt;= params.startTime) ? params.startTime : minimumResultDate;
-                data[dataNomenclatureMapping.endTime] = ( maximumResultDate + (env.aggregationLevel || env.samplingFrequency)  &gt;= params.endTime) ? params.endTime : maximumResultDate;
+
+                if (env.aggregationLevel != 0) {
+                    data[dataNomenclatureMapping.startTime] = minimumResultDate; //( minimumResultDate &gt;= params.startTime) ? params.startTime : minimumResultDate;
+                    data[dataNomenclatureMapping.endTime] = maximumResultDate; // ( maximumResultDate + (env.aggregationLevel)  &lt;= params.endTime) ? params.endTime : maximumResultDate;
+                }else{
+                    data[dataNomenclatureMapping.startTime] = params.startTime;
+                    data[dataNomenclatureMapping.endTime] = params.endTime;
+                }
 
                 return data;
             };
@@ -656,7 +662,7 @@ define(
              */
 
             this._filterResults = function(params, row){
-                var result, newResults, results, rowNomenclature;
+                var result, newResults, results, rowNomenclature, maxResultTime;
 
                 newResults = [];
                 rowNomenclature = this._getRowNomenclature(params);
@@ -667,8 +673,9 @@ define(
 
                     // Get the new time boundaries
                     if (result.time &lt; params.endTime &amp;&amp; result.time &gt;= params.startTime){
+                        maxResultTime = result.time + env.aggregationLevel;
                         minimumResultDate = (result.time &lt; minimumResultDate || !minimumResultDate) ? result.time : minimumResultDate;
-                        maximumResultDate = ((result.time + env.aggregationLevel &gt; maximumResultDate) || !maximumResultDate) ? result.time + env.aggregationLevel : maximumResultDate;
+                        maximumResultDate = (maxResultTime &gt; maximumResultDate || !maximumResultDate) ? maxResultTime : maximumResultDate;
                         newResults.push(result);
                     }
 
