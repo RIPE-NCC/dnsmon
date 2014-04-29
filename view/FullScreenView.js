@@ -54,11 +54,11 @@ define([
         this.openTimeOverviewPanel = function(){
             timeOverviewContainer.$.css({"position": "relative"}).animate({"height": oldTimeOverviewDimensions.height}, 800);
 
-            env.container.chart.timeBoundaries.style("visibility", "visible");
-
             env.mainView.defaultDimensions.height = windowHeight;
             env.container.height(env.mainView.defaultDimensions.height);
-            env.mainView.redraw();
+            env.mainView.redraw(function(){
+                env.container.chart.timeBoundaries.style("visibility", "visible");
+            }, this);
 
             openTimeOverviewImage
                 .css("opacity", 0.8);

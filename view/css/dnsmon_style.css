@@ -81,19 +81,25 @@
     clear: both;
 }
 
-.resized-dialog-traceroute textarea{
+.resized-dialog-traceroute .textarea{
     width: 440px!important;
     height: 400px!important;
     margin-right: 5px;
+    margin-top: 5px;
+    overflow: scroll;
+    border: 1px solid #C0C0C0;
 }
 
-.popup-traceroute textarea{
+.popup-traceroute .textarea{
     width: 470px;
     height: 110px;
     font-family: "Courier New", Courier, monospace;
     font-size: 9pt;
+    margin-top: 5px;
     resize: none;
     float: left;
+    overflow: scroll;
+    border: 1px solid #C0C0C0;
 }
 
 .dnsmon-container .tick{
@@ -330,6 +336,10 @@ input.pls-percentage{
     margin: auto;
 }
 
+.dnsmon-popup .thresholds-slider .ui-slider-range{
+    background: linear-gradient(to right, #fab669, #ff4114)!important; /* Standard syntax */
+}
+
 .time-overview-container{
     position: relative;
     overflow: hidden;
@@ -352,7 +362,8 @@ input.pls-percentage{
 
 .time-overview .grid-background {
     fill: #C0C0C0;
-    /*stroke: #000000;*/
+    stroke: rgba(46, 46, 46, 0.40);
+    stroke-width: 1px;
 }
 
 .time-overview .grid line,
@@ -498,4 +509,15 @@ input.pls-percentage{
     background-position: -64px -224px !important;
     bottom: 0 !important;
     right: 0 !important;
+}
+
+
+/* Atlas traceroute render */
+
+.traceroute-hop{
+    margin-top: 3px;
+}
+
+.traceroute-hop:nth-child(odd) {
+    background: rgba(192, 192, 192, 0.53);
 }

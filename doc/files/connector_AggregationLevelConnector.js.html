@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -198,6 +198,7 @@ define([
 
                 connector.retrieveData(params, function(data){
 
+//                    alert(env.retrievedAggregationLevel);
                     callback.call(context, data);
 
                 }, this);
@@ -217,12 +218,17 @@ define([
 
 
             this._getAggregationLevel = function(params){
+                var bestLevel, currentLevel;
+
                 if (typeof I_WANT_TO_SHOOT_ON_MY_FOOT != &#x27;undefined&#x27;){
                     return 0;
                 }
-                var bestLevel, currentLevel;
+
                 bestLevel = this._getBestAggregationLevel(params);
 
+                if (env.isNativeAvailable &amp;&amp; bestLevel &lt;= env.samplingFrequency){ // Native resolution
+                    return 0;
+                }
                 for (var n=0,length=env.aggregationLevels.length; n&lt;length; n++){
                     currentLevel = env.aggregationLevels[n];
                     if (currentLevel &gt;= bestLevel){

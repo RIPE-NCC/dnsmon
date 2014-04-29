@@ -976,8 +976,17 @@ define([
 
                             dataItem = data[n];
 
-                            tracerouteArea = $('<textarea readonly="readonly"></textarea>');
-                            tracerouteArea.text('>>>' + utils.dateToString(dataItem.date) + '\n' + dataItem.response);
+                            tracerouteArea = $('<div class="textarea"></div>').tooltip(
+                                {
+                                    tooltipClass: 'custom-jquery-ui-tooltip',
+                                    hide: {
+                                        effect: "fade",
+                                        duration: config.tooltipFade
+                                    }
+                                });
+//                            tracerouteArea.text('>>>' + utils.dateToString(dataItem.date) + '\n' + dataItem.response);
+
+                            tracerouteArea.html(dataItem);
                             tracerouteDom.append(tracerouteArea);
                             textareaWidth = tracerouteArea.width();
                         }

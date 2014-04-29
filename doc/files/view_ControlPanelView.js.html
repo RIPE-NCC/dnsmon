@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1128,8 +1128,17 @@ define([
 
                             dataItem = data[n];
 
-                            tracerouteArea = $(&#x27;&lt;textarea readonly=&quot;readonly&quot;&gt;&lt;/textarea&gt;&#x27;);
-                            tracerouteArea.text(&#x27;&gt;&gt;&gt;&#x27; + utils.dateToString(dataItem.date) + &#x27;\n&#x27; + dataItem.response);
+                            tracerouteArea = $(&#x27;&lt;div class=&quot;textarea&quot;&gt;&lt;/div&gt;&#x27;).tooltip(
+                                {
+                                    tooltipClass: &#x27;custom-jquery-ui-tooltip&#x27;,
+                                    hide: {
+                                        effect: &quot;fade&quot;,
+                                        duration: config.tooltipFade
+                                    }
+                                });
+//                            tracerouteArea.text(&#x27;&gt;&gt;&gt;&#x27; + utils.dateToString(dataItem.date) + &#x27;\n&#x27; + dataItem.response);
+
+                            tracerouteArea.html(dataItem);
                             tracerouteDom.append(tracerouteArea);
                             textareaWidth = tracerouteArea.width();
                         }

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -155,9 +155,8 @@
  */
 
 define([
-    &quot;env.utils&quot;,
-    &quot;env.config&quot;
-], function(utils, config){
+    &quot;env.utils&quot;
+], function(utils){
 
     /**
      * TemplateManagerView is the component in charge of creating and manipulating the HTML dom elements.
@@ -171,6 +170,7 @@ define([
         var widgetUrl;
 
         widgetUrl = env.widgetUrl;
+        config = env.config;
 
         this.loadingImage = &#x27;&lt;img src=&quot;&#x27; + widgetUrl + &#x27;view/img/loading.gif&quot; class=&quot;loading-image&quot;/&gt; &#x27;;
 
@@ -298,7 +298,8 @@ define([
             &#x27;&lt;/table&gt;&#x27;;
 
         this.tracerouteRensponse =
-            &#x27;&lt;div&gt;&lt;div class=&quot;traceroute-title&quot;&gt;&#x27; + env.lang.closestTracerouteLabel + &#x27;&lt;/div&gt;&#x27;
+            &#x27;&lt;div&gt;&#x27; +
+            &#x27;&lt;div class=&quot;traceroute-title&quot;&gt;&#x27; + env.lang.closestTracerouteLabel + &#x27;&lt;/div&gt;&#x27; +
             &#x27;&lt;/div&gt;&#x27;;
 
         this.fullScreenThrobber = &#x27;&lt;img class=&quot;full-screen-throbber&quot; src=&quot;&#x27; + widgetUrl + &#x27;view/img/full_screen_loader.gif&quot;/&gt;&#x27;;
@@ -354,7 +355,7 @@ define([
                     tooltipClass: &#x27;custom-jquery-ui-tooltip&#x27;,
                     hide: {
                         effect: &quot;fade&quot;,
-                        duration: 700
+                        duration: config.tooltipFade
                     }
                 }
             );

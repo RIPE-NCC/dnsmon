@@ -48,10 +48,11 @@ define([], function(){
         manualZoomFactor: 4,
 
         //defaultTimeFrameMinutes: 3600,
-        antiFloodTimer: 2000,
-        redrawFadeIn: 100, //redrawFadeIn + redrawFadeOut should be less or equal than antiFloodTimer
-        redrawFadeOut: 400, //redrawFadeIn + redrawFadeOut should be less or equal than antiFloodTimer
-        shakeDuration: 400, //Should be less than antiFloodTimer
+        antiFloodTimer: 500,
+        tooltipFade: 700,
+        redrawFadeIn: 100, // redrawFadeIn + redrawFadeOut should be less or equal than antiFloodTimer
+        redrawFadeOut: 400, // redrawFadeIn + redrawFadeOut should be less or equal than antiFloodTimer
+        shakeDuration: 400, // Should be less than antiFloodTimer
         forceLowProfile: false,
         minimumTimeWindowSeconds: 3600 * 2,
         excludeErrorsByDefault: true,
@@ -69,17 +70,21 @@ define([], function(){
         selectRowColumnTimer: 400,
         hoverTransitionDuration: 0,
         reconnectionInterval: 10000,
+        connectionTimeout: 10000,
         selectionWithdrawalDuration: 1000,
         aggregationLegendUpdatedDuration: 3000,
 
         tracerouteSurrounding: 1, // How many traceroute on the left and right of the selected sample?
 
-        disableLocalCache: true,
-
+        localCacheActiveByDefault: true,
+        activeKeysByDefault: true,
+        activeMouseZoomByDefault: true,
+        activeGesturesByDefault: true,
         autoUpdateActiveByDefault: false,
         fullScreenActiveByDefault: false,
         timeOverviewOpenedByDefaultInFullScreen: false,
         groupingByDefault: true,
+
         updateEverySeconds: 120,
         sensibilityFactorDuringSelection: 2,
         mouseWheelSensibility: 0, // Increase this number to reduce the sensibility
@@ -178,9 +183,8 @@ define([], function(){
             breadCrumbsHeight: 10,
             externalBorderWidth: 1,
 
-//            defaultZIndex:,
             fullScreenZIndex: 99,
-            fullScreenBackground: "#2E2E2E",
+            fullScreenBackground: "#2E2E2E"
         },
 
         domClasses:{

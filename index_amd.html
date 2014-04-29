@@ -4,6 +4,7 @@
     <title>DNSMON 2</title>
     <script>DNSMON_EXTERNAL_WIDGET_URL = ""</script>
     <script src="dnsmon-widget-main.js"></script>
+
 </head>
 <body>
 
@@ -16,15 +17,13 @@
 //                maxHeight: 900,
 
                 lang: "en",
-                grouping: true,
+//                grouping: true,
                 autoUpdate: false,
 
-
                 fullScreen: false,
-                "callbacks": {
-                    change: function(){},
-                    load: function(){}
-                }
+                localCacheActive: true
+//                change: function(){},
+//                load: function(){}
             },
 
             {
@@ -34,7 +33,7 @@
                 startTime: 1396137600,
                 endTime: 1396137600 + 3600 * 2,
 
-                defaultTimeWindow: "5h",
+//                defaultTimeWindow: "5h",
 //                startTime: null,
 //                endTime: null,
                 ipVersion: null

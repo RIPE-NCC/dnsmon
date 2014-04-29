@@ -11,38 +11,42 @@ define([
      */
 
     var Connector = function(env){
-        var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config;
+        var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
+            commonServer;
 
         config = env.config;
 
         this.maxNumberOfCells = env.muxNumberOfCells || config.maxNumberOfCells;
+        env.downoadedBytes = 0;
 
         //weir-dev
-        perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === "undefined") ? "https://weir-dev.atlas.ripe.net/dnsmon/api/probes" : DNSMON_PROBES_DATA_API_URL;
-        serversDataUrl = (typeof DNSMON_SERVERS_DATA_API_URL === "undefined") ? "https://weir-dev.atlas.ripe.net/dnsmon/api/servers" : DNSMON_SERVERS_DATA_API_URL;
+        commonServer = "https://atlas.ripe.net/dnsmon/api";
 
-        nativeDnsResultDataUrl = (typeof DNSMON_ATLAS_DATA_API_URL === "undefined") ? "https://weir-dev.atlas.ripe.net/dnsmon/api/atlas-data" : DNSMON_ATLAS_DATA_API_URL;
-        closesttraceroutesDataUrl = (typeof DNSMON_ATLAS_TRACEROUTE_API_URL === "undefined") ? "https://weir-dev.atlas.ripe.net/dnsmon/api/atlas-data" : DNSMON_ATLAS_TRACEROUTE_API_URL;
+        perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === "undefined") ? commonServer + "/probes" : DNSMON_PROBES_DATA_API_URL;
+        serversDataUrl = (typeof DNSMON_SERVERS_DATA_API_URL === "undefined") ? commonServer + "/servers" : DNSMON_SERVERS_DATA_API_URL;
+
+        nativeDnsResultDataUrl = (typeof DNSMON_ATLAS_DATA_API_URL === "undefined") ? commonServer + "/atlas-data" : DNSMON_ATLAS_DATA_API_URL;
+        closesttraceroutesDataUrl = (typeof DNSMON_ATLAS_TRACEROUTE_API_URL === "undefined") ? commonServer + "/atlas-data" : DNSMON_ATLAS_TRACEROUTE_API_URL;
 
         this.getDataUrl = function(params){
 
-            utils.log(params);
+            utils.log('Queried for:', env.debugMode);
+            utils.log(params, env.debugMode);
             var url = "";
 
             if (params.type == "zone-servers"){
 
-                utils.log("multi-server-data");
+                utils.log("Data-api type: multi-server-data", env.debugMode);
 
                 url = serversDataUrl;
                 url += (params.zone) ? "?group=" + params.zone : "";
-                url += (params.selectedRows.length > 0) ? "&servers=" + utils.join(params.selectedRows, ",") : "";
+                url += (params.selectedRows != '') ? "&servers=" + params.selectedRows : "";
 
-                //url += (!env.aggregationLevel) ? "" : "&min_aggregation=" + env.aggregationLevel;
+                url += (!params.aggregationLevel) ? "" : "&min_aggregation=" + params.aggregationLevel;
 
                 url += (params.startTime) ? "&start_time=" + params.startTime : "";
                 url += (params.endTime) ? "&end_time=" + params.endTime : "";
 
-//                url += (!params.startTime && !params.endTime && env.timeWindowSeconds && env.retrievedAggregationLevel != null && !params.timeWindow) ? "&default_time_period=" + (env.timeWindowSeconds + env.retrievedAggregationLevel - 1): "";
                 url += (!params.startTime && !params.endTime && params.timeWindow) ? "&default_time_period=" + params.timeWindow : "";
 
                 url += (params.ipVersion) ? "&ip_version=" + params.ipVersion : "";
@@ -53,7 +57,7 @@ define([
 
             }else if(params.type == "server-probes"){
 
-                utils.log("single-server-data");
+                utils.log("Data-api type: single-server-data", env.debugMode);
 
                 url = perServerDataUrl
                     + "?server=" + params.server;
@@ -62,14 +66,13 @@ define([
 
                 url += "&filter_probes=" + params.filterProbes;
 
-                //url += (!env.aggregationLevel) ? "" : "&min_aggregation=" + env.aggregationLevel;
+                url += (!params.aggregationLevel) ? "" : "&min_aggregation=" + params.aggregationLevel;
 
-                url += (params.selectedRows.length > 0) ? "&probes=" + utils.join(params.selectedRows, ",") : "";
+                url += (params.selectedRows != "") ? "&probes=" + params.selectedRows : "";
 
                 url += (params.startTime) ? "&start_time=" + params.startTime : "";
                 url += (params.endTime) ? "&end_time=" + params.endTime : "";
 
-//                url += (!params.startTime && !params.endTime && env.timeWindowSeconds && env.retrievedAggregationLevel != null && !params.timeWindow) ? "&default_time_period=" + (env.timeWindowSeconds + env.retrievedAggregationLevel - 1): "";
                 url += (!params.startTime && !params.endTime && params.timeWindow) ? "&default_time_period=" + params.timeWindow : "";
 
                 url += (params.ipVersion) ? "&ip_version=" + params.ipVersion : "";
@@ -78,9 +81,6 @@ define([
                 url += (env.maxNumberOfCellsPerRow) ? "&max_samples_per_row=" + env.maxNumberOfCellsPerRow : "";
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";
             }
-
-            //url += (env.params.random) ? "&random=true" : "";
-//        url += "&debug_levels=0,3600,86400,2592000";
 
             return url;
         };
@@ -104,28 +104,35 @@ define([
 
             dataUrl = this.getDataUrl(externalParams);
 
-            utils.log(dataUrl);
+            utils.log('Ajax call: ' + dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 cache : false,
                 method : 'get',
-                timeout : 30000, // 30 secs of timeout FOR NOW
+                timeout : config.connectionTimeout,
 
                 success: function(data){
 
-                    utils.log("Data retrieved");
+                    utils.log("Data retrieved", env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     data.type = params.type;
                     env.lastDownload = new Date();
                     callback.call(context, data);
                     delete data; // Force garbage
+
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     var emptyDataSet;
 
-                    utils.log("Connection failed");
+                    utils.log("Connection failed", env.debugMode);
                     emptyDataSet = {
                         messages: [
                             {type: "connection-fail", text: errorThrown}
@@ -158,19 +165,25 @@ define([
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
             dataUrl = utils.setParam('timestamp', timestamp, dataUrl);
 
-            utils.log('Retrieve native DNS data: '+ dataUrl);
+            utils.log('Retrieve native DNS data: '+ dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 success: function(data){
-                    utils.log("Native DNS data retrieved");
+                    utils.log("Native DNS data retrieved", env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     callback.call(context, data);
                     delete data; // Force garbage
                 },
 
                 fail: function(){
-                    utils.log("It is not possible to retrieve native DNS data");
+                    utils.log("It is not possible to retrieve native DNS data", env.debugMode);
                 }
             });
         };
@@ -194,20 +207,27 @@ define([
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
             dataUrl = utils.setParam('timestamp', timestamp, dataUrl);
             dataUrl = utils.setParam('surrounding', config.tracerouteSurrounding, dataUrl);
+            dataUrl = utils.setParam('render', "false", dataUrl);
 
-            utils.log('Retrieve traceroute data: '+ dataUrl);
+            utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 success: function(data){
-                    utils.log("Traceroute data retrieved");
+                    utils.log("Traceroute data retrieved", env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     callback.call(context, data);
                     delete data; // Force garbage
                 },
 
                 fail: function(){
-                    utils.log("It is not possible to retrieve traceroute data");
+                    utils.log("It is not possible to retrieve traceroute data", env.debugMode);
                 }
             });
         };

@@ -215,13 +215,12 @@ define([
         };
 
 
-        /** Get the DNS response, in a human readable format, given a cell
+        /** Get the measurement id given a cell
          *
          * @method _getMeasurementId
          * @private
          * @param {Object} cell A cell object
-         * @param {Function} callback A function taking the retrieved data as input when it is ready
-         * @param {Object} context The context of the callback
+         * @return {String} The measurement id
          */
 
         this._getMeasurementId = function(cell){

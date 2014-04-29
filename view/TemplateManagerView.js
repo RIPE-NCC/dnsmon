@@ -3,9 +3,8 @@
  */
 
 define([
-    "env.utils",
-    "env.config"
-], function(utils, config){
+    "env.utils"
+], function(utils){
 
     /**
      * TemplateManagerView is the component in charge of creating and manipulating the HTML dom elements.
@@ -19,6 +18,7 @@ define([
         var widgetUrl;
 
         widgetUrl = env.widgetUrl;
+        config = env.config;
 
         this.loadingImage = '<img src="' + widgetUrl + 'view/img/loading.gif" class="loading-image"/> ';
 
@@ -146,7 +146,8 @@ define([
             '</table>';
 
         this.tracerouteRensponse =
-            '<div><div class="traceroute-title">' + env.lang.closestTracerouteLabel + '</div>'
+            '<div>' +
+            '<div class="traceroute-title">' + env.lang.closestTracerouteLabel + '</div>' +
             '</div>';
 
         this.fullScreenThrobber = '<img class="full-screen-throbber" src="' + widgetUrl + 'view/img/full_screen_loader.gif"/>';
@@ -202,7 +203,7 @@ define([
                     tooltipClass: 'custom-jquery-ui-tooltip',
                     hide: {
                         effect: "fade",
-                        duration: 700
+                        duration: config.tooltipFade
                     }
                 }
             );

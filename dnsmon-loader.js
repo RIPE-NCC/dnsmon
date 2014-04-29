@@ -13,7 +13,6 @@
 
 requirejs.config({
     paths:{
-
         /* environment */
         "env": DNSMON_ENVIRONMENT_URL + "environment",
         "env.utils": DNSMON_ENVIRONMENT_URL + "utils",
@@ -25,13 +24,14 @@ requirejs.config({
 
         /* libs */
         "lib.d3": DNSMON_LIB_URL + "d3.v3.amd",
-        "lib.jquery": DNSMON_LIB_URL + "jquery.min",
+        "lib.jquery": (typeof DNSMON_JQUERY_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery.min",
 
-        "lib.jquery-ui": DNSMON_LIB_URL + "jquery-ui.min",
+        "lib.jquery-ui": (typeof DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery-ui.min",
         "lib.jquery-ui.timepicker": DNSMON_LIB_URL + "jquery-ui.timepicker",
 
         "lib.jquery.cookie": DNSMON_LIB_URL + "jquery.cookie",
         "lib.date-format": DNSMON_LIB_URL + "dateFormat",
+        "lib.atlas-traceroute-printer": DNSMON_LIB_URL + "atlas.traceroute",
 
 
         /* model */
@@ -109,6 +109,7 @@ define([
     "env.history-manager",
     "lib.jquery",
     "lib.jquery-ui"
+
 ], function(
     utils,
     config,
@@ -138,7 +139,7 @@ define([
         queryParams = instance.queryParams;
         parentDom = instance.domElement;
 
-        //STUFF FOR THE DEMO
+        // STUFF FOR THE DEMO
         window.grouping = utils.getUrlParam("grouping") == "true";
         window.dynamicHeight = utils.getUrlParam("dheight") == "true";
 
@@ -155,6 +156,7 @@ define([
          * Init Dependency Injection Vector
          */
         env = {
+            "version": "14.4.15.2",
             "widgetUrl": DNSMON_WIDGET_URL,
             "parentDom": parentDom, //HASH THIS
             "document": utils.encapsulateDom($(document)),
@@ -164,9 +166,14 @@ define([
             "maxHeight": ((instanceParams.hasOwnProperty("maxHeight")) ? instanceParams.maxHeight : Math.max($(document).height(), config.chartMaxHeight)),
             "minHeight": ((instanceParams.hasOwnProperty("minHeight")) ? instanceParams.minHeight : config.chartMinHeight),
             "callbacks": {
-                change: ((instanceParams.change) ? [instanceParams.change] : []),
-                load: ((instanceParams.load) ? [instanceParams.load] : [])
+                change: ((instanceParams.hasOwnProperty("change")) ? [instanceParams.change] : []),
+                load: ((instanceParams.hasOwnProperty("load")) ? [instanceParams.load] : [])
             },
+            "debugMode": ((instanceParams.hasOwnProperty("debugMode")) ? instanceParams.debugMode : (utils.getUrlParam('debug_mode') == 'true')),
+            "activeKeys": ((instanceParams.hasOwnProperty("activeKeys")) ? instanceParams.activeKeys : config.activeKeysByDefault),
+            "activeMouseZoom": ((instanceParams.hasOwnProperty("activeMouseZoom")) ? instanceParams.activeMouseZoom : config.activeMouseZoomByDefault),
+            "activeGestures": ((instanceParams.hasOwnProperty("activeGestures")) ? instanceParams.activeGestures : config.activeGesturesByDefault),
+            "localCacheActive": ((instanceParams.hasOwnProperty("localCacheActive")) ? instanceParams.localCacheActive : config.localCacheActiveByDefault),
             "grouping": ((instanceParams.hasOwnProperty("grouping")) ? instanceParams.grouping : config.groupingByDefault),
             "timeEventsActive": config.timeEventsActiveByDefault,
             "isUpdatedPeriodicallyActive": ((instanceParams.hasOwnProperty("autoUpdate")) ? instanceParams.autoUpdate : config.autoUpdateActiveByDefault),

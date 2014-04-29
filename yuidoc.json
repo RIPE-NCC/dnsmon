@@ -1,7 +1,7 @@
 {
     "name": "DNSMON",
     "description": "The RIPE NCC DNS Monitoring Service (DNSMON) provides a comprehensive, objective and up-to-date overview of the quality of the service offered by high-level Domain Name System (DNS) servers",
-    "version": "14.4.15.2",
+    "version": "14.4.29.2",
     "url": "http://atlas.ripe.net/dnsmon/",
     "options": {
         "outdir": "doc/"

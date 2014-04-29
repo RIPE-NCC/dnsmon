@@ -106,8 +106,8 @@ define([
             return cloned;
         },
 
-        log: function(text){
-            if (this.getUrlParam("debug_mode") == "true"){
+        log: function(text, debug){
+            if (debug){
                 console.log(new Date(), text);
             }
         },
@@ -270,6 +270,28 @@ define([
             }
 
             return stringOut;
+        },
+
+        split: function(string, char, skipEmpty){
+            var arrayOut, item, tmp;
+
+            arrayOut = string.split(char);
+
+            if (skipEmpty){
+
+                tmp = [];
+
+                for (var n=0,length=arrayOut.length; n<length; n++){
+                    item = arrayOut[n];
+                    if (item != ''){
+                        tmp.push(item);
+                    }
+                }
+
+                arrayOut = tmp;
+            }
+
+            return arrayOut;
         },
 
         logOnce: function(log){
@@ -467,6 +489,47 @@ define([
             query = this.join(newPairs, '&');
 
             return baseUrl + '?' + query;
+        },
+
+        containsAll: function(containerArray, containedArray){
+            var item;
+
+            for (var n=0,length=containedArray.length; n<length; n++){
+                item = containedArray[n];
+                if (this.indexOf(item, containerArray) == -1){
+                    return false;
+                }
+            }
+
+            return true;
+
+        },
+
+        objectSize : function(object) {
+            var recurse, objectList, bytes;
+
+            objectList = [];
+            recurse = function( value ) {
+                bytes = 0;
+
+                if ( typeof value === 'boolean' ) {
+                    bytes = 4;
+                } else if ( typeof value === 'string' ) {
+                    bytes = value.length * 2;
+                } else if ( typeof value === 'number' ) {
+                    bytes = 8;
+                } else if (typeof value === 'object'
+                    && objectList.indexOf( value ) === -1) {
+                    objectList[objectList.length] = value;
+                    for( i in value ) {
+                        bytes += 8;
+                        bytes += recurse(value[i]);
+                    }
+                }
+                return bytes;
+            };
+
+            return recurse(object);
         }
 
     };

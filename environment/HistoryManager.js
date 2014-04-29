@@ -27,7 +27,7 @@ define([
 
 
         /**
-         * This method initis the module. It pushes in the history and updates the URL with the initialisation query
+         * This method initialises the module. It pushes in the history and updates the URL with the initialisation query
          * and session parameters.
          *
          * @method init
@@ -60,7 +60,11 @@ define([
 
                 currentState = this._generateStateUrl(params, session);
 
-                window.history.pushState({}, 'dnsmon_state', currentState);
+                if (!env.isUpdatedPeriodicallyActive) {
+                    window.history.pushState({}, 'dnsmon_state', currentState);
+                }else{
+                    window.history.replaceState({}, 'dnsmon_state', currentState);
+                }
             }else{
                 pushNewStatuses = true;
             }

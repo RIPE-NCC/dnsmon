@@ -121,6 +121,17 @@ define([
                 return false;
             });
 
+        };
+
+
+        /**
+         * Initialise all the events related to the keyboard
+         *
+         * @method _initKeyEvents
+         * @private
+         */
+
+        this._initKeyEvents = function(){
             eventsAttachedOn.$.keydown(function(evt){
                 var list, element, key;
 
@@ -147,7 +158,6 @@ define([
                 }
 
             });
-
         };
 
 
@@ -161,8 +171,19 @@ define([
         this._init = function(){
             eventsAttachedOn = env.document;
             env.timeEventsActive = true;
-            this._initMouseWheel();
-            this._initializeSelectionTool();
+
+            if (env.activeMouseZoom) {
+                this._initMouseWheel();
+            }
+
+            if(env.activeKeys){
+                this._initKeyEvents();
+            }
+
+            if (env.activeGestures){
+                this._initializeSelectionTool();
+            }
+
             this._initializeActiveLabels();
         };
 
@@ -512,9 +533,6 @@ define([
                 selectionTooltipStart.remove();
                 selectionTooltipStop.remove();
 
-
-//                if (env.lowProfile == true){ //Enlarge the selection rect to give the feeling of a zoom action
-
                 selectedRectsBoundingBox.min = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)};
                 selectedRectsBoundingBox.max = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
 
@@ -531,30 +549,30 @@ define([
 
                     env.timeEventsActive = true;
                 };
-//                }
 
                 if (!$this._computeSubDomainsAndApply(selectedRectsBoundingBox.min, selectedRectsBoundingBox.max, removeRect)){ //checks if the new subselection is not applicable
 
                     env.timeEventsActive = true;
-//                    if (env.lowProfile == true){
 
-                    selectionRect
-                        .transition()
-                        .duration(selectionWithdrawalDuration)
-                        .attr("x", (selectedRectsBoundingBox.max.x - selectedRectsBoundingBox.min.x)/2 + selectedRectsBoundingBox.min.x)
-                        .attr("y", (selectedRectsBoundingBox.max.y - selectedRectsBoundingBox.min.y)/2 + selectedRectsBoundingBox.min.y)
-                        .attr("width", 0)
-                        .attr("height", 0)
-                        .remove();
+                    if (selectionRect){
+                        selectionRect
+                            .transition()
+                            .duration(selectionWithdrawalDuration)
+                            .attr("x", (selectedRectsBoundingBox.max.x - selectedRectsBoundingBox.min.x)/2 + selectedRectsBoundingBox.min.x)
+                            .attr("y", (selectedRectsBoundingBox.max.y - selectedRectsBoundingBox.min.y)/2 + selectedRectsBoundingBox.min.y)
+                            .attr("width", 0)
+                            .attr("height", 0)
+                            .remove();
+                    }
 
-//                    }else{
+                    if (selectedCells){
+                        selectedCells //Gives a feedback to the user about the inapplicability of the subselection
+                            .style("fill", config.style.noSelectableAreaColor)
+                            .transition()
+                            .duration(selectionWithdrawalDuration)
+                            .style("fill", getNormalCellColor);
 
-                    selectedCells //Gives a feedback to the user about the inapplicability of the subselection
-                        .style("fill", config.style.noSelectableAreaColor)
-                        .transition()
-                        .duration(selectionWithdrawalDuration)
-                        .style("fill", getNormalCellColor);
-//                    }
+                    }
                 };
 
                 currentElement = null; //Reset the selection start point
@@ -622,7 +640,7 @@ define([
          */
 
         this._computeSubDomainsAndApply = function(startCoords, endCoords, callback){
-            var newXDomain, newYDomain, domains, row, tmpSelectedRows, tmpStartDate, tmpEndDate;
+            var newXDomain, newYDomain, domains, row, tmpSelectedRows, tmpStartDate, tmpEndDate, newSelection;
 
             domains = this._computeSubDomains(startCoords, endCoords);
             newXDomain = domains[0];
@@ -648,6 +666,7 @@ define([
 
                 if (env.mainView.timeController.isSubSelectable(tmpStartDate, tmpEndDate, tmpSelectedRows)){ // Check if the sub-selection is possible
 
+                    utils.log('Subselection possible', env.debugMode);
                     env.params.selectedRows = tmpSelectedRows;
                     env.params.filterProbes = true;
                     env.params.startDate = tmpStartDate;
@@ -656,9 +675,24 @@ define([
                     env.mainView.redraw(callback, this);
                     return true;
 
+                }else if (env.retrievedAggregationLevel != env.minAggregation && env.retrievedAggregationLevel != 0){ // We still have some aggregation levels in the middle
+
+                    utils.log('Subselection too small, enlarged', env.debugMode);
+                    env.params.selectedRows = tmpSelectedRows;
+                    env.params.filterProbes = true;
+                    newSelection = env.mainView.timeController.getZoomableWindow(tmpStartDate, tmpEndDate);
+                    newSelection = env.mainView.timeController.getBoundedWindow(newSelection.start, newSelection.end);
+                    env.params.startDate = newSelection.start;
+                    env.params.endDate = newSelection.end;
+                    env.mainView.showMessage(env.lang.minimumSelectionImposed);
+
+                    env.mainView.redraw(callback, this);
+                    return true;
+
                 }else if (env.mainView.timeController.isSelectionReduced(tmpSelectedRows)){ // Check if the selection is a sub-selection
 
-                    env.params.selectedRows = tmpSelectedRows; //Don't change time
+                    utils.log('Subselection too small, not enlargeable, some rows removed', env.debugMode);
+                    env.params.selectedRows = tmpSelectedRows; //Don't change time, only the selected probes
                     env.params.filterProbes = true;
                     env.mainView.redraw(callback, this);
                     env.mainView.showMessage(env.lang.minimumTimeSelectionReached);
@@ -666,6 +700,7 @@ define([
 
                 }else{
 
+                    utils.log('Subselection too small, not enlargeable, rows cannot be removed', env.debugMode);
                     env.mainView.showMessage(env.lang.tooZoomedMessage); //SubSelection failed
                     return false;
                 }

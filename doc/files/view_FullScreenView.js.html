@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -206,11 +206,11 @@ define([
         this.openTimeOverviewPanel = function(){
             timeOverviewContainer.$.css({&quot;position&quot;: &quot;relative&quot;}).animate({&quot;height&quot;: oldTimeOverviewDimensions.height}, 800);
 
-            env.container.chart.timeBoundaries.style(&quot;visibility&quot;, &quot;visible&quot;);
-
             env.mainView.defaultDimensions.height = windowHeight;
             env.container.height(env.mainView.defaultDimensions.height);
-            env.mainView.redraw();
+            env.mainView.redraw(function(){
+                env.container.chart.timeBoundaries.style(&quot;visibility&quot;, &quot;visible&quot;);
+            }, this);
 
             openTimeOverviewImage
                 .css(&quot;opacity&quot;, 0.8);

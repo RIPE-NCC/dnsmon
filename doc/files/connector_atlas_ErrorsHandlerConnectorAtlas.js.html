@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -179,7 +179,7 @@ define([
         config = env.config;
         firstConnection = true;
 
-        this.globalErrorState = false;
+        this.globalErrorState = 0; // 0 - No error
 
         errorsNomenclature = {
             messages: &quot;messages&quot;,
@@ -201,7 +201,8 @@ define([
 
         this.retrieveData = function(params, callback, context){
 
-            this.globalErrorState == false; // Reset the global error state
+            this.globalErrorState = 0; // Reset the global error state
+
             this._responsivenessCheck();
 
             connector.retrieveData(params,
@@ -211,32 +212,34 @@ define([
 
                     this._handleDataApiErrors(data); // This can change the global error state
 
-                    if (this.globalErrorState == false){ //If there are no blocking errors
+                    if (this.globalErrorState &lt; 3){ // retry still active
 
-                        if (this._checkDataFormat(data)){ //If the json format is correct
+                        if (this.globalErrorState &lt;= 1){ //If there are no blocking errors
 
-                            lastRequestWorkingParams = utils.lightClone(params); // Store last working request
-                            firstConnection = false;
+                            if (this._checkDataFormat(data)){ //If the json format is correct
 
-                            callback.call(context, data);
+                                lastRequestWorkingParams = utils.lightClone(params); // Store last working request
+                                firstConnection = false;
 
-                        }else{ //If the json format is malformed
+                                callback.call(context, data);
 
-                            this._handle(&quot;error&quot;, env.lang.malformedDataset);
-                            env.mainView.loadingImage(false);
+                            }else{ //If the json format is malformed
 
+                                this._handle(&quot;error&quot;, env.lang.malformedDataset);
+                                env.mainView.loadingImage(false);
+
+                            }
+
+                        }else { // There is at least one blocking error
+
+                            this.globalErrorState = 0; // Reset it for the next error
+
+                            if (env.isUpdatedPeriodicallyActive == false) { // Network error with auto-update disabled
+                                this._tryToReconnect(params, callback, context);
+                            } else {
+                                env.mainView.showMessage(env.lang.lastQueryFails);
+                            }
                         }
-
-                    }else{ // There is at least one blocking error
-
-                        this.globalErrorState = false; // Reset it for the next error
-
-                        if (env.isUpdatedPeriodicallyActive == false){
-                            this._tryToReconnect(params, callback, context);
-                        }else{
-                            env.mainView.showMessage(env.lang.lastQueryFails);
-                        }
-
                     }
 
                 }, this);
@@ -262,7 +265,7 @@ define([
 
                 env.mainView.showMessage(env.lang.waitingConnection);
 
-                utils.log(&#x27;Try to reconnect&#x27;);
+                utils.log(&#x27;Try to reconnect&#x27;, env.debugMode);
                 $this.retrieveData(params, callback, context);
 
             }, config.reconnectionInterval);
@@ -285,7 +288,7 @@ define([
 
             $this = this;
 
-            utils.log(&#x27;Try to restore the previous situation&#x27;);
+            utils.log(&#x27;Try to restore the previous situation&#x27;, env.debugMode);
 
             env.params = lastRequestWorkingParams;
             connector.retrieveData(lastRequestWorkingParams, callback, context);
@@ -307,7 +310,7 @@ define([
             if (errorsTmp){
                 errorNomenclature = errorsNomenclature.message;
 
-                for (var n=0,length=errorsTmp.length; n&lt;length; n++){
+                for (var n=0,length=errorsTmp.length; n&lt;length &amp;&amp; this.globalErrorState &lt;3; n++){
                     errorTmp = errorsTmp[n];
                     this._handle(errorTmp[errorNomenclature.type], errorTmp[errorNomenclature.text]);
                     env.mainView.loadingImage(false);
@@ -330,17 +333,17 @@ define([
 
                 case &quot;connection-fail&quot;:
                     env.mainView.showMessage(env.lang.connectionFailed);
-                    this._setGlobalErrorState(true);
-
+                    this._setGlobalErrorState(2); // 2 - Blocking error, retry
                     break;
 
                 case &quot;error&quot;:
                     env.mainView.showMessage(text);
-                    this._setGlobalErrorState(true);
+                    this._setGlobalErrorState(3); // 3 - Blocking error, no retry
                     break;
 
                 case &quot;info&quot;:
                     env.mainView.showMessage(text);
+                    this._setGlobalErrorState(1); // 1 - The show must go on
                     break;
             }
         };
@@ -352,11 +355,11 @@ define([
          *
          * @method _setGlobalErrorState
          * @private
-         * @param {Boolean} isError A boolean representing the current error state
+         * @param {Number} errorLevel An integer representing the current error state
          */
 
-        this._setGlobalErrorState = function(isError){
-            this.globalErrorState = isError || this.globalErrorState;
+        this._setGlobalErrorState = function(errorLevel){
+            this.globalErrorState = errorLevel;
         };
 
 
@@ -444,7 +447,7 @@ define([
          * @param {Object} context The context of the callback
          */
 
-        this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){
+        this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){ // Just indirection for now
 
             // No errors checks for now
             connector.getNativeDnsResult(msmId, prbId, timestamp, callback, context);
@@ -462,7 +465,7 @@ define([
          * @param {Object} context The context of the callback
          */
 
-        this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
+        this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){ // Just indirection for now
 
             // No errors checks for now
             connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);

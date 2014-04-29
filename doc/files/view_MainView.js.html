@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -208,6 +208,10 @@ define([
             this.templateManager.createDom(mainDom, instanceParam);
             this.defaultDimensions = {width: instanceParam.width, height: instanceParam.height};
 
+            if (utils.getUrlParam(&quot;dnsmon-info&quot;) == &quot;true&quot;){
+                alert(&quot;Version: &quot; + env.version);
+            }
+
             env.container = new SvgContainerView(
                 this.templateManager.dom.svgContainer,
                 {
@@ -327,7 +331,7 @@ define([
 
         this.firstDraw = function(data){
 
-            utils.log(&quot;visualization starts&quot;);
+            utils.log(&quot;Visualization starts&quot;, env.debugMode);
             this.rows = data.rows;
 
             /*
@@ -349,7 +353,7 @@ define([
 
             utils.callCallbacks(env.callbacks[&quot;load&quot;], paramsManager.fromInternalToExternal(env.params));
 
-            utils.log(&quot;visualization ends&quot;);
+            utils.log(&quot;Visualization ends&quot;, env.debugMode);
         };
 
 
@@ -990,9 +994,8 @@ define([
 
                         if (env.timeEventsActive){
                             var mouseCursor, mouseCursorFormatted;
-                            mouseCursor = d3.mouse(env.container.chart.dom.plain);
-                            mouseCursorFormatted = {x: mouseCursor[0] + env.container.chart.margin.left, y: mouseCursor[1] + env.container.chart.margin.top};
-
+                            mouseCursor = d3.mouse(env.container.dom.plain);
+                            mouseCursorFormatted = {x: mouseCursor[0], y: mouseCursor[1]};
                             $this.popUp.show(d, mouseCursorFormatted);
                         }
                     }
@@ -1048,7 +1051,7 @@ define([
 
             this.drawn = true;
 
-            utils.log(&quot;Number of cell displayed: &quot; + data.cells.length);
+            utils.log(&quot;Number of cell displayed: &quot; + data.cells.length, env.debugMode);
 
         };
 
@@ -1105,7 +1108,7 @@ define([
          */
 
         this.update = function(data){
-            utils.log(&quot;visualization starts&quot;);
+            utils.log(&quot;Visualization update starts&quot;, env.debugMode);
             var yRowsToDomainAndMagnets, numberOfRows;
 
             this.rows = data.rows;
@@ -1147,9 +1150,10 @@ define([
 
             this.timeOverview.update([env.measurementStartTime, env.measurementEndTime], [env.params.startDate, env.params.endDate]);
 
-            utils.callCallbacks(env.callbacks[&quot;change&quot;], paramsManager.fromInternalToExternal(env.params)); // Call all the &quot;load&quot; callbacks
+            //console.log(env.callbacks[&quot;change&quot;]);
+            utils.callCallbacks(env.callbacks[&quot;change&quot;], paramsManager.fromInternalToExternal(env.params)); // Call all the &quot;change&quot; callbacks
 
-            utils.log(&quot;visualization ends&quot;);
+            utils.log(&quot;Visualization update ends&quot;, env.debugMode);
         };
 
 

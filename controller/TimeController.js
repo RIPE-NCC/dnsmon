@@ -163,7 +163,7 @@ define([
                 startDate = subMinutes(env.params.startDate, minutes);
                 endDate = addMinutes(env.params.endDate, minutes);
 
-                newTimeWindow = this.getZoomableWindow(startDate, endDate);
+                newTimeWindow = this.getBoundedWindow(startDate, endDate);
 
                 if (this._isZoomableOut(newTimeWindow.start, newTimeWindow.end)) {
                     env.params.startDate = newTimeWindow.start;
@@ -186,7 +186,7 @@ define([
          */
 
         this.shiftLeft = function(){
-            var startDate, endDate, timeOffset;
+            var startDate, endDate, timeOffset, newBoundaries;
 
             if (env.timeEventsActive == true) {
                 timeOffset = ((env.params.endDate - env.params.startDate) / 60000) * config.slideProportion;
@@ -194,9 +194,11 @@ define([
                 startDate = subMinutes(env.params.startDate, timeOffset);
                 endDate = subMinutes(env.params.endDate, timeOffset);
 
-                if (this._isTranslableLeft(startDate)) {
-                    env.params.startDate = startDate;
-                    env.params.endDate = endDate;
+                newBoundaries = this.getBoundedWindow(startDate, endDate);
+
+                if (this._isTranslableLeft(startDate) || env.params.startDate.getTime() != newBoundaries.start.getTime()) {
+                    env.params.startDate = newBoundaries.start;
+                    env.params.endDate = newBoundaries.end;
 
                     if (env.isUpdatedPeriodicallyActive) { // Disable the auto refresh function if active
                         env.mainView.controlPanel.keepUpdatedActive(false);
@@ -215,7 +217,7 @@ define([
          */
 
         this.shiftRight = function(){
-            var startDate, endDate, timeOffset;
+            var startDate, endDate, timeOffset, newBoundaries;
 
             if (env.timeEventsActive == true) {
                 timeOffset = ((env.params.endDate - env.params.startDate) / 60000) * config.slideProportion;
@@ -223,9 +225,11 @@ define([
                 startDate = addMinutes(env.params.startDate, timeOffset);
                 endDate = addMinutes(env.params.endDate, timeOffset);
 
-                if (this._isTranslableRight(endDate)) {
-                    env.params.startDate = startDate;
-                    env.params.endDate = endDate;
+                newBoundaries = this.getBoundedWindow(startDate, endDate);
+
+                if (this._isTranslableRight(endDate) || env.params.endDate.getTime() != newBoundaries.end.getTime()) {
+                    env.params.startDate = newBoundaries.start;
+                    env.params.endDate = newBoundaries.end;
 
                     if (env.isUpdatedPeriodicallyActive) { // Disable the auto refresh function if active
                         env.mainView.controlPanel.keepUpdatedActive(false);
@@ -322,7 +326,7 @@ define([
 
             env.isZoomableIn = this._isZoomableIn(addMinutes(startDate, zoomMinutes), subMinutes(endDate, zoomMinutes));
 
-            newTimeWindow = this.getZoomableWindow(subMinutes(startDate, zoomMinutes), addMinutes(endDate, zoomMinutes));
+            newTimeWindow = this.getBoundedWindow(subMinutes(startDate, zoomMinutes), addMinutes(endDate, zoomMinutes));
             env.isZoomableOut = this._isZoomableOut(newTimeWindow.start, newTimeWindow.end);
 
             env.isTranslableLeft = this._isTranslableLeft(subMinutes(startDate, timeOffset));
@@ -352,13 +356,13 @@ define([
         /**
          * Given a time interval, this function checks if it is valid otherwise it returns the closer valid selection
          *
-         * @method getZoomableWindow
+         * @method getBoundedWindow
          * @param {Date} startDate The start date of the new selections
          * @param {Date} endDate The end date of the new selection
          * @return {Object} Returns start and end time (two Date Objects)
          */
 
-        this.getZoomableWindow = function(startDate, endDate){
+        this.getBoundedWindow = function(startDate, endDate){
             var timeWindowMinutes, newStartDate, newEndDate;
 
             timeWindowMinutes = (endDate - startDate) / 60000; // Time window in minutes
@@ -385,6 +389,30 @@ define([
 
 
         /**
+         * Given a time interval, this function checks if it is valid otherwise it returns the closer valid zoomable selection
+         *
+         * @method getZoomableWindow
+         * @param {Date} startDate The start date of the new selections
+         * @param {Date} endDate The end date of the new selection
+         * @return {Object} Returns start and end time (two Date Objects)
+         */
+
+        this.getZoomableWindow = function(startDate, endDate){
+            var minTimeWindow, newTimeWindow, newStartDate, newEndDate, timeWindowCenter, halfMinTimeWindow;
+
+            minTimeWindow = ((env.minAggregation * config.virtualZoomFactor) * env.maxNumberOfCellsPerRow) * 1000;
+            newTimeWindow = (endDate.getTime() - startDate.getTime());
+            timeWindowCenter = startDate.getTime() + (newTimeWindow / 2);
+            halfMinTimeWindow = (minTimeWindow / 2);
+
+            newStartDate = new Date(timeWindowCenter - halfMinTimeWindow);
+            newEndDate = new Date(timeWindowCenter + halfMinTimeWindow);
+
+            return {start: newStartDate, end: newEndDate};
+        };
+
+
+        /**
          * This function starts the auto-update feature.
          *
          * @method keepUpdated
@@ -399,7 +427,7 @@ define([
             if (keepUpdate){
                 this.getNewData(null); // First refresh
 
-                updateTimer = setInterval($this.getNewData, ((utils.getUrlParam('debug_mode') != 'true') ? (config.updateEverySeconds * 1000) : 6000 ));
+                updateTimer = setInterval($this.getNewData, ((env.debugMode) ? 6000 : (config.updateEverySeconds * 1000) ));
             }else{
                 clearInterval(updateTimer);
             }

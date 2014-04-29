@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -288,7 +288,7 @@ define([
             isTcp = params[isTcpName];
             ipVersion = params[ipVersionName];
 
-            if (server){ // ??
+            if (server){
                 outParams.group = this.convertRemoteToLocalId(server);
                 if (zone) outParams.root = this.convertRemoteToLocalId(zone);
             }else{
@@ -301,7 +301,7 @@ define([
             if (startDate) outParams.startDate = this.convertRemoteToLocalDate(startDate);
             if (endDate) outParams.endDate = this.convertRemoteToLocalDate(endDate);
 
-            if (selectedRows != null) outParams.selectedRows = ((selectedRows != &#x27;&#x27;) ? $.map(selectedRows.split(&#x27;,&#x27;), this.convertRemoteToLocalId) : []);
+            if (selectedRows != null) outParams.selectedRows = this.convertRemoteToLocalSelectedRows(selectedRows);
 
 
             if (ipVersion) outParams.ipVersion = ((ipVersion == &#x27;both&#x27;) ? null : ipVersion);
@@ -339,34 +339,21 @@ define([
 
             outParams = {};
 
-            if (params.type) outParams[typeName] = this.convertLocalToRemoteType(params.type);
+            outParams[typeName] = this.convertLocalToRemoteType(params.type);
 
-            if (params.root){
+            if (params.type == &#x27;probes&#x27;){
                 outParams[serverName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
                 outParams[zoneName] = this.convertLocalToRemoteId(params.root);
-            }else{
+            }else if (params.type == &#x27;servers&#x27;){
                 outParams[serverName] = null;
                 outParams[zoneName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
             }
-
-//            if (params.startDate) outParams[startDateName] = this.convertLocalToRemoteDate(params.startDate);
-//            if (params.endDate) outParams[endDateName] = this.convertLocalToRemoteDate(params.endDate);
-//            if (params.selectedRows) outParams[selectedRowsName] = $.map(params.selectedRows, this.convertLocalToRemoteId);
-//
-//            if (params.hasOwnProperty(&quot;filterProbes&quot;)) outParams[filterProbesName] = params.filterProbes;
-//
-//            if (params.timeWindow) outParams[timeWindowName] = this.convertLocalToRemoteTimeWindow(params.timeWindow);
-//
-//            outParams[ipVersionName] = params.ipVersion || &#x27;both&#x27;;
-//
-//            if (params.hasOwnProperty(&quot;isTcp&quot;)) outParams[isTcpName] = params.isTcp;
-
 
 
             outParams[startDateName] =  (params.startDate) ? this.convertLocalToRemoteDate(params.startDate) : null;
 
             outParams[endDateName] = (params.endDate)  ? this.convertLocalToRemoteDate(params.endDate) : null;
-            outParams[selectedRowsName] = (params.selectedRows) ? $.map(params.selectedRows, this.convertLocalToRemoteId) : [];
+            outParams[selectedRowsName] = this.convertLocalToRemoteSelectedRows(params.selectedRows);
 
             outParams[filterProbesName] = params.filterProbes;
 
@@ -447,6 +434,31 @@ define([
                 filterProbes: false,
                 defaultTimeWindow: null
             };
+        };
+
+
+        /**
+         * This method converts a set of selectedRows from the internal to the external format
+         *
+         * @method convertLocalToRemoteSelectedRows
+         * @input {String} selectedRows An array of rows IDs
+         * @return {String} A string of comma separated rows IDs
+         */
+
+        this.convertLocalToRemoteSelectedRows = function(selectedRows){
+            return (selectedRows.length &gt; 0) ? utils.join($.map(selectedRows, this.convertLocalToRemoteId), &#x27;,&#x27;) : &#x27;&#x27;;
+        };
+
+
+        /**
+         * This method converts a set of selectedRows from the external to the internal format
+         *
+         * @method convertRemoteToLocalSelectedRows
+         * @input {String} selectedRows A string of comma separated rows IDs
+         * @return {Array} An array of rows IDs
+         */
+        this.convertRemoteToLocalSelectedRows = function(selectedRows){
+            return (selectedRows != &#x27;&#x27;) ? $.map(selectedRows.split(&#x27;,&#x27;), this.convertRemoteToLocalId) : [];
         };
 
 

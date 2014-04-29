@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,7 +168,8 @@ define(
         &quot;env.params-manager&quot;,
         &quot;model.cell&quot;,
         &quot;model.row&quot;,
-        &quot;connector.atlas.cache&quot;
+        &quot;connector.atlas.cache&quot;,
+        &quot;lib.atlas-traceroute-printer&quot;
     ],
     function(utils, paramsManager, Cell, Row, Connector){
 
@@ -408,7 +409,7 @@ define(
                 envelop.crowdestRow = crowdestRow;
 
                 if (minUsedDate &lt; env.params.startDate){
-                    utils.log(&#x27;one element outside left&#x27;);
+                    utils.log(&#x27;Warning: an element retrieved is before the start date&#x27;, env.debugMode);
                 }
 
                 return envelop;
@@ -850,29 +851,39 @@ define(
              */
 
             this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
-                var nomenclatureDnsResponse;
+                var nomenclatureDnsResponse, tracerouteAtlas;
 
-                nomenclatureDnsResponse = {
-                    probeId: &quot;prb_id&quot;,
-                    date: &quot;timestamp&quot;,
-                    response: &quot;result&quot;
-                };
+//                nomenclatureDnsResponse = {
+//                    probeId: &quot;prb_id&quot;,
+//                    date: &quot;timestamp&quot;,
+//                    response: &quot;result&quot;
+//                };
 
                 connector.getClosestTraceroutes(msmId, prbId, timestamp, function(data){
                     var closestTraceroutes, newData, dataItem;
 
                     newData = [];
 
-                    for (var n= 0,length=data.length; n&lt;length; n++){
-                        dataItem = data[n];
+//                    for (var n= 0,length=data.length; n&lt;length; n++){
+//                        dataItem = data[n];+
+//
+//                        closestTraceroutes = { // Translate to internal object
+//                            probeId: dataItem[nomenclatureDnsResponse.probeId],
+//                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
+//                            response: dataItem[nomenclatureDnsResponse.response]
+//                        };
+//
+//                        newData.push(closestTraceroutes);
+//                    }
 
-                        closestTraceroutes = { // Translate to internal object
-                            probeId: dataItem[nomenclatureDnsResponse.probeId],
-                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
-                            response: dataItem[nomenclatureDnsResponse.response]
+
+                    for (var n=0,length=data.length; n&lt;length; n++){
+                        tracerouteAtlas = new AtlasTraceroute(data[n]);
+                        tracerouteAtlas.renderTimestring = function(timestamp){
+                            return &#x27;&gt;&gt;&gt; &#x27; + utils.dateToString(utils.timestampToLocalDate(timestamp));
                         };
 
-                        newData.push(closestTraceroutes);
+                        newData.push(tracerouteAtlas.render());
                     }
 
                     callback.call(context, newData);

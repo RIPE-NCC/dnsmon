@@ -136,7 +136,7 @@ define([
             isTcp = params[isTcpName];
             ipVersion = params[ipVersionName];
 
-            if (server){ // ??
+            if (server){
                 outParams.group = this.convertRemoteToLocalId(server);
                 if (zone) outParams.root = this.convertRemoteToLocalId(zone);
             }else{
@@ -149,7 +149,7 @@ define([
             if (startDate) outParams.startDate = this.convertRemoteToLocalDate(startDate);
             if (endDate) outParams.endDate = this.convertRemoteToLocalDate(endDate);
 
-            if (selectedRows != null) outParams.selectedRows = ((selectedRows != '') ? $.map(selectedRows.split(','), this.convertRemoteToLocalId) : []);
+            if (selectedRows != null) outParams.selectedRows = this.convertRemoteToLocalSelectedRows(selectedRows);
 
 
             if (ipVersion) outParams.ipVersion = ((ipVersion == 'both') ? null : ipVersion);
@@ -187,34 +187,21 @@ define([
 
             outParams = {};
 
-            if (params.type) outParams[typeName] = this.convertLocalToRemoteType(params.type);
+            outParams[typeName] = this.convertLocalToRemoteType(params.type);
 
-            if (params.root){
+            if (params.type == 'probes'){
                 outParams[serverName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
                 outParams[zoneName] = this.convertLocalToRemoteId(params.root);
-            }else{
+            }else if (params.type == 'servers'){
                 outParams[serverName] = null;
                 outParams[zoneName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
             }
-
-//            if (params.startDate) outParams[startDateName] = this.convertLocalToRemoteDate(params.startDate);
-//            if (params.endDate) outParams[endDateName] = this.convertLocalToRemoteDate(params.endDate);
-//            if (params.selectedRows) outParams[selectedRowsName] = $.map(params.selectedRows, this.convertLocalToRemoteId);
-//
-//            if (params.hasOwnProperty("filterProbes")) outParams[filterProbesName] = params.filterProbes;
-//
-//            if (params.timeWindow) outParams[timeWindowName] = this.convertLocalToRemoteTimeWindow(params.timeWindow);
-//
-//            outParams[ipVersionName] = params.ipVersion || 'both';
-//
-//            if (params.hasOwnProperty("isTcp")) outParams[isTcpName] = params.isTcp;
-
 
 
             outParams[startDateName] =  (params.startDate) ? this.convertLocalToRemoteDate(params.startDate) : null;
 
             outParams[endDateName] = (params.endDate)  ? this.convertLocalToRemoteDate(params.endDate) : null;
-            outParams[selectedRowsName] = (params.selectedRows) ? $.map(params.selectedRows, this.convertLocalToRemoteId) : [];
+            outParams[selectedRowsName] = this.convertLocalToRemoteSelectedRows(params.selectedRows);
 
             outParams[filterProbesName] = params.filterProbes;
 
@@ -295,6 +282,31 @@ define([
                 filterProbes: false,
                 defaultTimeWindow: null
             };
+        };
+
+
+        /**
+         * This method converts a set of selectedRows from the internal to the external format
+         *
+         * @method convertLocalToRemoteSelectedRows
+         * @input {String} selectedRows An array of rows IDs
+         * @return {String} A string of comma separated rows IDs
+         */
+
+        this.convertLocalToRemoteSelectedRows = function(selectedRows){
+            return (selectedRows.length > 0) ? utils.join($.map(selectedRows, this.convertLocalToRemoteId), ',') : '';
+        };
+
+
+        /**
+         * This method converts a set of selectedRows from the external to the internal format
+         *
+         * @method convertRemoteToLocalSelectedRows
+         * @input {String} selectedRows A string of comma separated rows IDs
+         * @return {Array} An array of rows IDs
+         */
+        this.convertRemoteToLocalSelectedRows = function(selectedRows){
+            return (selectedRows != '') ? $.map(selectedRows.split(','), this.convertRemoteToLocalId) : [];
         };
 
 

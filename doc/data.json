@@ -2,7 +2,7 @@
     "project": {
         "name": "DNSMON",
         "description": "The RIPE NCC DNS Monitoring Service (DNSMON) provides a comprehensive, objective and up-to-date overview of the quality of the service offered by high-level Domain Name System (DNS) servers",
-        "version": "14.4.15.2",
+        "version": "14.4.25.2",
         "url": "http://atlas.ripe.net/dnsmon/"
     },
     "files": {
@@ -80,13 +80,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "controller/removed/ControllerManager.js": {
-            "name": "controller/removed/ControllerManager.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "controller/GesturesManager.js": {
             "name": "controller/GesturesManager.js",
             "modules": {
@@ -109,13 +102,6 @@
         },
         "environment/languages/lang-en.js": {
             "name": "environment/languages/lang-en.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "environment/removed/environment.js": {
-            "name": "environment/removed/environment.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -190,20 +176,6 @@
             "classes": {
                 "SessionManager": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "view/removed/DataAccessibilityView.js": {
-            "name": "view/removed/DataAccessibilityView.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "view/removed/PTimeView.js": {
-            "name": "view/removed/PTimeView.js",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -496,7 +468,7 @@
             "module": "connector.Atlas",
             "namespace": "",
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 23,
+            "line": 24,
             "description": "IsolationLevelConnectorAtlas has a fundamental role providing isolation between the internal input format\nand the external input format. It allows to block the propagation of changes affecting the JSON format\nprovided by the data-api. In addition it is a transposition level between a format convenient for the\ndata-api (e.g. light data data format) and a format convenient for the tool (e.g. less computation format).",
             "is_constructor": 1
         },
@@ -811,7 +783,7 @@
             "module": "view",
             "namespace": "",
             "file": "view/TemplateManagerView.js",
-            "line": 10,
+            "line": 9,
             "description": "TemplateManagerView is the component in charge of creating and manipulating the HTML dom elements.",
             "is_constructor": 1
         },
@@ -840,15 +812,614 @@
         },
         {
             "file": "connector/atlas/CacheConnectorAtlas.js",
-            "line": 75,
+            "line": 79,
             "description": "It is strongly related to a particular JSON format.\nFrom top to bottom: tries to reduce the amount of data requested based on the available data in cache.\nFrom bottom to top: enrich the retrieved subset of data with the data already in cache.",
             "itemtype": "method",
             "name": "retrieveData",
             "params": [
                 {
                     "name": "params",
-                    "description": "A params vector",
+                    "description": "A parameters vector",
                     "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the retrieved data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 123,
+            "description": "This method retrieves from the data-api a portion of the query.\nIt describes the available data in cache and the data-api provides the remaining parts",
+            "itemtype": "method",
+            "name": "_composeQueryOnUpdate",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the retrieved data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 162,
+            "description": "This method checks if the data-api should filter the data or not.",
+            "itemtype": "method",
+            "name": "_isCacheFilteredServerSide",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the data-api should filter the data",
+                "type": "Boolean"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 181,
+            "description": "This method answers to the request by filtering the data in cache.\nIt usable only when the whole query is in cache.",
+            "itemtype": "method",
+            "name": "_composeQueryOnCache",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the composed data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 210,
+            "description": "This method answers to the request by composing the answer from the cache and the server.\nIt computes the data not available in cache and asks to the server for it.",
+            "itemtype": "method",
+            "name": "_retrieveQuerySubset",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the composed data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 260,
+            "description": "This method computes the difference between two parameters vector",
+            "itemtype": "method",
+            "name": "_getParamsSubset",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "oldParams",
+                    "description": "The old parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "newParams",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The resulting parameters vector",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 286,
+            "description": "This method computes the difference between two time windows",
+            "itemtype": "method",
+            "name": "_getTimeDiff",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "oldStartTime",
+                    "description": "The old start date",
+                    "type": "Date"
+                },
+                {
+                    "name": "oldEndTime",
+                    "description": "The old end date",
+                    "type": "Date"
+                },
+                {
+                    "name": "newStartTime",
+                    "description": "The new start date",
+                    "type": "Date"
+                },
+                {
+                    "name": "newEndTime",
+                    "description": "The new end date",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "The computed time window (composed of startTime and endTime)",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 319,
+            "description": "This method checks if the actual cache is partially valid or not.",
+            "itemtype": "method",
+            "name": "_isCachePartiallyValid",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the actual cache is partially valid",
+                "type": "Boolean"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 354,
+            "description": "This method updates the cache",
+            "itemtype": "method",
+            "name": "_updateCache",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "The blob of data",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 374,
+            "description": "This method checks if a new row selection contains the old rows selected.",
+            "itemtype": "method",
+            "name": "_containsRows",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "The old vector of selected rows",
+                    "type": "Object"
+                },
+                {
+                    "name": "params",
+                    "description": "The new vector of selected rows",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the new row selection contains the old rows selected",
+                "type": "Boolean"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 391,
+            "description": "This method rely on the layers below to answer the query",
+            "itemtype": "method",
+            "name": "_retrieveWithoutCache",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 414,
+            "description": "This method checks if the actual cache is completely valid or not.",
+            "itemtype": "method",
+            "name": "_isCacheEnough",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the actual cache is completely valid",
+                "type": "Boolean"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 440,
+            "description": "This method filters the data in order to satisfy the actual parameters",
+            "itemtype": "method",
+            "name": "_filterData",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "The blob of data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The filtered data",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 464,
+            "description": "This method filters the rows on a blob of data in order to satisfy a vector of parameters",
+            "itemtype": "method",
+            "name": "_filterRows",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "The blob of data",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 497,
+            "description": "This method filters the results in a row in order to satisfy a vector of parameters",
+            "itemtype": "method",
+            "name": "_filterRows",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "row",
+                    "description": "A row (a group of results)",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 529,
+            "description": "This method checks if the provided parameters are referring to the same target/measurement/contest.",
+            "itemtype": "method",
+            "name": "_isSameTarget",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "newParams",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if is the same target/measurement/contest",
+                "type": "Boolean"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 557,
+            "description": "This method merges two blob of data",
+            "itemtype": "method",
+            "name": "_mergeData",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "oldData",
+                    "description": "The old blob of data",
+                    "type": "Object"
+                },
+                {
+                    "name": "newData",
+                    "description": "The new blob of data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The merged blob of data",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 575,
+            "description": "This support method merges the rows of two blob of data",
+            "itemtype": "method",
+            "name": "_mergeData",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "The new parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "oldData",
+                    "description": "The old blob of data",
+                    "type": "Object"
+                },
+                {
+                    "name": "newData",
+                    "description": "The new blob of data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The merged blob of data",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 621,
+            "description": "This method returns the nomenclature of a group for the given query type",
+            "itemtype": "method",
+            "name": "_getRowNomenclature",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The nomenclature",
+                "type": "String"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 644,
+            "description": "This method returns the nomenclature of a list of groups for the given query type",
+            "itemtype": "method",
+            "name": "_getRowsListNomenclature",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The nomenclature",
+                "type": "String"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 667,
+            "description": "This method retrieves a row from a blob of data",
+            "itemtype": "method",
+            "name": "_getRow",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "A parameters vector",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "A blob of data",
+                    "type": "Object"
+                },
+                {
+                    "name": "id",
+                    "description": "The if of a row",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "A row or null",
+                "type": "Object"
+            },
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 695,
+            "description": "Get the human readable version of the DNS response and use cache",
+            "itemtype": "method",
+            "name": "getNativeDnsResult",
+            "params": [
+                {
+                    "name": "msmId",
+                    "description": "The id of the measurement",
+                    "type": "Number"
+                },
+                {
+                    "name": "prbId",
+                    "description": "The id of the probe",
+                    "type": "Number"
+                },
+                {
+                    "name": "timestamp",
+                    "description": "A UNIX timestamp",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "A function taking the retrieved data as input when it is ready",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "The context of the callback",
+                    "type": "Object"
+                }
+            ],
+            "class": "CacheConnectorAtlas",
+            "module": "connector.Atlas"
+        },
+        {
+            "file": "connector/atlas/CacheConnectorAtlas.js",
+            "line": 711,
+            "description": "Get the closest traceroutes and use cache",
+            "itemtype": "method",
+            "name": "getClosestTraceroutes",
+            "params": [
+                {
+                    "name": "msmId",
+                    "description": "The id of the measurement",
+                    "type": "Number"
+                },
+                {
+                    "name": "prbId",
+                    "description": "The id of the probe",
+                    "type": "Number"
+                },
+                {
+                    "name": "timestamp",
+                    "description": "A UNIX timestamp",
+                    "type": "Number"
                 },
                 {
                     "name": "callback",
@@ -899,7 +1470,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 95,
+            "line": 98,
             "description": "This method tries to reconnect to the server in case of failures and provides a feedback to the user.",
             "itemtype": "method",
             "name": "_tryToReconnect",
@@ -927,7 +1498,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 121,
+            "line": 124,
             "description": "This method tries to restore the previous working query in case of failures and provides a feedback to the user.",
             "itemtype": "method",
             "name": "_restorePreviousWorkingQuery",
@@ -955,7 +1526,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 143,
+            "line": 146,
             "description": "This method dispatches to _handle all the data-api errors",
             "itemtype": "method",
             "name": "_handleDataApiErrors",
@@ -973,7 +1544,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 167,
+            "line": 170,
             "description": "It provides a different method to handle each error raised from the data-api.",
             "itemtype": "method",
             "name": "_handle",
@@ -995,7 +1566,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 197,
+            "line": 200,
             "description": "This method sets the global error state.\nA global error is a blocking error that can not be handled by other components of the tool",
             "itemtype": "method",
             "name": "_setGlobalErrorState",
@@ -1003,9 +1574,9 @@
             "tagname": "",
             "params": [
                 {
-                    "name": "isError",
-                    "description": "A boolean representing the current error state",
-                    "type": "Boolean"
+                    "name": "errorLevel",
+                    "description": "An integer representing the current error state",
+                    "type": "Number"
                 }
             ],
             "class": "ErrorsHandlerConnectorAtlas",
@@ -1013,7 +1584,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 211,
+            "line": 214,
             "description": "It checks if the retrieved JSON contains all the mandatory fields for all the possible views.",
             "itemtype": "method",
             "name": "_checkDataFormat",
@@ -1028,7 +1599,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 232,
+            "line": 235,
             "description": "It checks if the retrieved JSON contains all the mandatory fields.",
             "itemtype": "method",
             "name": "_checkAllFields",
@@ -1043,7 +1614,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 249,
+            "line": 252,
             "description": "It checks if the retrieved JSON contains a certain mandatory field.",
             "itemtype": "method",
             "name": "_checkField",
@@ -1058,7 +1629,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 268,
+            "line": 271,
             "description": "It checks the responsiveness of the data-api to provide a feedback to the user.",
             "itemtype": "method",
             "name": "_responsivenessCheck",
@@ -1069,7 +1640,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 284,
+            "line": 287,
             "description": "Get the human readable version of the DNS response and check errors",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -1105,7 +1676,7 @@
         },
         {
             "file": "connector/atlas/ErrorsHandlerConnectorAtlas.js",
-            "line": 302,
+            "line": 305,
             "description": "Get the closest traceroutes and checks errors",
             "itemtype": "method",
             "name": "getClosestTraceroutes",
@@ -1148,7 +1719,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 108,
+            "line": 109,
             "description": "It is strongly related to a particular JSON format.\nFrom top to bottom: uses paramsManager to translate the internal format of the parameters in the format valid outside.\nFrom bottom to top: translates the external input data in the internal format.",
             "itemtype": "method",
             "name": "retrieveData",
@@ -1174,7 +1745,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 133,
+            "line": 134,
             "description": "This method translates parameters from the internal to the external format",
             "itemtype": "method",
             "name": "_parseParams",
@@ -1194,7 +1765,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 145,
+            "line": 146,
             "description": "This method translates a server from the external to the internal format",
             "itemtype": "method",
             "name": "_parseSingleServer",
@@ -1214,7 +1785,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 168,
+            "line": 169,
             "description": "This method translates a zone from the external to the internal format",
             "itemtype": "method",
             "name": "_parseSingleServer",
@@ -1234,7 +1805,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 191,
+            "line": 192,
             "description": "This method initialises the parsing of the input JSON",
             "itemtype": "method",
             "name": "_parseData",
@@ -1256,7 +1827,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 266,
+            "line": 267,
             "description": "Parses all the servers available in the JSON in order to create an internal compatible version of them",
             "itemtype": "method",
             "name": "_parseServers",
@@ -1274,7 +1845,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 323,
+            "line": 324,
             "description": "This method translates the URLs of additional data-api reported in the JSON in the internal format",
             "itemtype": "method",
             "name": "_generateJsonUrls",
@@ -1296,7 +1867,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 366,
+            "line": 367,
             "description": "This method abbreviates the labels for IPv6 addresses",
             "itemtype": "method",
             "name": "_abbreviateIPv6Label",
@@ -1314,7 +1885,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 407,
+            "line": 408,
             "description": "This method abbreviates the labels",
             "itemtype": "method",
             "name": "_abbreviateLabel",
@@ -1332,7 +1903,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 434,
+            "line": 435,
             "description": "Parses all the probes available in the JSON in order to create an internal compatible version of them",
             "itemtype": "method",
             "name": "_parseProbes",
@@ -1350,7 +1921,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 478,
+            "line": 479,
             "description": "Parses all results retrieved in the JSON for the current row",
             "itemtype": "method",
             "name": "_parseResults",
@@ -1373,7 +1944,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 552,
+            "line": 553,
             "description": "Enriches the cell object of the model layer with the rcodes error retrieved in the JSON for the conresponding result",
             "itemtype": "method",
             "name": "_parseRcodes",
@@ -1396,7 +1967,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 588,
+            "line": 589,
             "description": "Computes the percentage of correct responses",
             "itemtype": "method",
             "name": "_computeNumberCorrectResponses",
@@ -1418,7 +1989,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 605,
+            "line": 606,
             "description": "Computes the unanswered queries of a cell/result",
             "itemtype": "method",
             "name": "_computePacketLoss",
@@ -1440,7 +2011,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 623,
+            "line": 624,
             "description": "Computes the RTT of a cell/result",
             "itemtype": "method",
             "name": "_computeRespondingTime",
@@ -1462,7 +2033,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 641,
+            "line": 642,
             "description": "Get the DNS response data and translates it in an internal stable format",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -1498,7 +2069,7 @@
         },
         {
             "file": "connector/atlas/IsolationLevelConnectorAtlas.js",
-            "line": 689,
+            "line": 690,
             "description": "Get the closest traceroutes data and translates it in an internal stable format",
             "itemtype": "method",
             "name": "getClosestTraceroutes",
@@ -1534,7 +2105,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 89,
+            "line": 86,
             "description": "It is strongly dedicated to a particular data-api.\nFrom top to bottom: given some data-api valid parameters, it provides a method to connect to the data-api and query for that parameters.\nFrom bottom to top: provides the raw JSON to the received callback.",
             "itemtype": "method",
             "name": "retrieveData",
@@ -1560,7 +2131,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 143,
+            "line": 147,
             "description": "Get the DNS response from the data-api",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -1596,7 +2167,7 @@
         },
         {
             "file": "connector/atlas/RestConnectorAtlas.js",
-            "line": 179,
+            "line": 189,
             "description": "Get the closest traceroutes data from the data-api",
             "itemtype": "method",
             "name": "getClosestTraceroutes",
@@ -1665,7 +2236,7 @@
         },
         {
             "file": "connector/AggregationLevelConnector.js",
-            "line": 85,
+            "line": 91,
             "description": "Get the DNS response",
             "itemtype": "method",
             "name": "getNativeDnsResult",
@@ -1701,7 +2272,7 @@
         },
         {
             "file": "connector/AggregationLevelConnector.js",
-            "line": 101,
+            "line": 107,
             "itemtype": "method",
             "name": "getClosestTraceroutes",
             "params": [
@@ -1769,7 +2340,7 @@
         },
         {
             "file": "connector/AntiFloodConnector.js",
-            "line": 59,
+            "line": 61,
             "itemtype": "method",
             "name": "getNativeDnsResult",
             "params": [
@@ -1804,7 +2375,7 @@
         },
         {
             "file": "connector/AntiFloodConnector.js",
-            "line": 74,
+            "line": 76,
             "itemtype": "method",
             "name": "getClosestTraceroutes",
             "params": [
@@ -2037,24 +2608,18 @@
                     "name": "cell",
                     "description": "A cell object",
                     "type": "Object"
-                },
-                {
-                    "name": "callback",
-                    "description": "A function taking the retrieved data as input when it is ready",
-                    "type": "Function"
-                },
-                {
-                    "name": "context",
-                    "description": "The context of the callback",
-                    "type": "Object"
                 }
             ],
+            "return": {
+                "description": "The measurement id",
+                "type": "String"
+            },
             "class": "ConnectorFacade",
             "module": "connector"
         },
         {
             "file": "connector/ConnectorFacade.js",
-            "line": 243,
+            "line": 242,
             "itemtype": "method",
             "name": "_getMeasurementIdByType",
             "access": "private",
@@ -2082,13 +2647,6 @@
             "file": "connector/FilterConnector.js",
             "line": 1,
             "description": "Created with JetBrains WebStorm.\nUser: mcandela\nDate: 10/16/13\nTime: 4:38 PM\nTo change this template use File | Settings | File Templates.",
-            "class": "GesturesManager",
-            "module": "connector"
-        },
-        {
-            "file": "controller/removed/ControllerManager.js",
-            "line": 1,
-            "description": "Created with JetBrains WebStorm.\nUser: mcandela\nDate: 10/18/13\nTime: 9:37 AM\nTo change this template use File | Settings | File Templates.",
             "class": "GesturesManager",
             "module": "connector"
         },
@@ -2138,7 +2696,18 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 154,
+            "line": 127,
+            "description": "Initialise all the events related to the keyboard",
+            "itemtype": "method",
+            "name": "_initKeyEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "GesturesManager",
+            "module": "controller"
+        },
+        {
+            "file": "controller/GesturesManager.js",
+            "line": 164,
             "description": "Initialise all the events",
             "itemtype": "method",
             "name": "_init",
@@ -2149,7 +2718,7 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 170,
+            "line": 191,
             "description": "Initialise labels on the y-axis",
             "itemtype": "method",
             "name": "_initializeActiveLabels",
@@ -2160,7 +2729,7 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 208,
+            "line": 229,
             "description": "Initialise the selection tool",
             "itemtype": "method",
             "name": "_initializeSelectionTool",
@@ -2171,7 +2740,7 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 570,
+            "line": 588,
             "description": "This function is called when an user clicks on a cell",
             "itemtype": "method",
             "name": "_clickEvent",
@@ -2182,7 +2751,7 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 590,
+            "line": 608,
             "description": "This function computes the new sub-domain after a selection",
             "itemtype": "method",
             "name": "_computeSubDomains",
@@ -2209,7 +2778,7 @@
         },
         {
             "file": "controller/GesturesManager.js",
-            "line": 613,
+            "line": 631,
             "description": "This function computes and applies the new sub-domain after a selection",
             "itemtype": "method",
             "name": "_computeSubDomainsAndApply",
@@ -2387,7 +2956,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 211,
+            "line": 213,
             "description": "Shift right the time window",
             "itemtype": "method",
             "name": "shiftRight",
@@ -2396,7 +2965,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 240,
+            "line": 244,
             "description": "Check if the new selection is a sub-selection of the previous one",
             "itemtype": "method",
             "name": "isSelectionReduced",
@@ -2416,7 +2985,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 257,
+            "line": 261,
             "description": "Check if the new selection can be applied",
             "itemtype": "method",
             "name": "isSubSelectable",
@@ -2446,7 +3015,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 281,
+            "line": 285,
             "description": "Check if the new selection can be reduced",
             "itemtype": "method",
             "name": "isReducible",
@@ -2471,7 +3040,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 304,
+            "line": 308,
             "description": "Update the status of the controller parameters of the whole widget.",
             "itemtype": "method",
             "name": "updateStatus",
@@ -2480,7 +3049,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 333,
+            "line": 337,
             "description": "Update the chart with the latest available data",
             "itemtype": "method",
             "name": "getNewData",
@@ -2496,8 +3065,33 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 352,
+            "line": 356,
             "description": "Given a time interval, this function checks if it is valid otherwise it returns the closer valid selection",
+            "itemtype": "method",
+            "name": "getBoundedWindow",
+            "params": [
+                {
+                    "name": "startDate",
+                    "description": "The start date of the new selections",
+                    "type": "Date"
+                },
+                {
+                    "name": "endDate",
+                    "description": "The end date of the new selection",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "Returns start and end time (two Date Objects)",
+                "type": "Object"
+            },
+            "class": "TimeController",
+            "module": "controller"
+        },
+        {
+            "file": "controller/TimeController.js",
+            "line": 391,
+            "description": "Given a time interval, this function checks if it is valid otherwise it returns the closer valid zoomable selection",
             "itemtype": "method",
             "name": "getZoomableWindow",
             "params": [
@@ -2521,7 +3115,7 @@
         },
         {
             "file": "controller/TimeController.js",
-            "line": 387,
+            "line": 415,
             "description": "This function starts the auto-update feature.",
             "itemtype": "method",
             "name": "keepUpdated",
@@ -2543,13 +3137,6 @@
             "module": "controller"
         },
         {
-            "file": "environment/removed/environment.js",
-            "line": 1,
-            "description": "Created by mcandela on 23/01/14.",
-            "class": "HistoryManager",
-            "module": "controller"
-        },
-        {
             "file": "environment/HistoryManager.js",
             "line": 1,
             "description": "Created by mcandela on 11/12/13.",
@@ -2559,7 +3146,7 @@
         {
             "file": "environment/HistoryManager.js",
             "line": 29,
-            "description": "This method initis the module. It pushes in the history and updates the URL with the initialisation query\nand session parameters.",
+            "description": "This method initialises the module. It pushes in the history and updates the URL with the initialisation query\nand session parameters.",
             "itemtype": "method",
             "name": "init",
             "class": "HistoryManager",
@@ -2697,7 +3284,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 231,
+            "line": 218,
             "description": "This method is an input checker for the external parameters.",
             "itemtype": "method",
             "name": "_helper",
@@ -2713,7 +3300,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 278,
+            "line": 265,
             "description": "This method initializes an empty/default vector of parameters",
             "itemtype": "method",
             "name": "createInternalParamVector",
@@ -2726,7 +3313,35 @@
         },
         {
             "file": "environment/ParamsManager.js",
+            "line": 288,
+            "description": "This method converts a set of selectedRows from the internal to the external format",
+            "itemtype": "method",
+            "name": "convertLocalToRemoteSelectedRows",
+            "input": "{String} selectedRows An array of rows IDs",
+            "return": {
+                "description": "A string of comma separated rows IDs",
+                "type": "String"
+            },
+            "class": "ParamsManager",
+            "module": "environment"
+        },
+        {
+            "file": "environment/ParamsManager.js",
             "line": 301,
+            "description": "This method converts a set of selectedRows from the external to the internal format",
+            "itemtype": "method",
+            "name": "convertRemoteToLocalSelectedRows",
+            "input": "{String} selectedRows A string of comma separated rows IDs",
+            "return": {
+                "description": "An array of rows IDs",
+                "type": "Array"
+            },
+            "class": "ParamsManager",
+            "module": "environment"
+        },
+        {
+            "file": "environment/ParamsManager.js",
+            "line": 313,
             "description": "This method converts IDs from the external to the internal format",
             "itemtype": "method",
             "name": "convertRemoteToLocalId",
@@ -2740,7 +3355,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 316,
+            "line": 328,
             "description": "This method converts IDs from the internal to the external format",
             "itemtype": "method",
             "name": "convertLocalToRemoteId",
@@ -2754,7 +3369,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 331,
+            "line": 343,
             "description": "This method converts Dates from the internal to the external format",
             "itemtype": "method",
             "name": "convertLocalToRemoteDate",
@@ -2768,7 +3383,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 344,
+            "line": 356,
             "description": "This method converts Dates from the external to the internal format",
             "itemtype": "method",
             "name": "convertRemoteToLocalDate",
@@ -2782,7 +3397,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 357,
+            "line": 369,
             "description": "This method converts Types from the external to the internal format",
             "itemtype": "method",
             "name": "convertRemoteToLocalType",
@@ -2796,7 +3411,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 382,
+            "line": 394,
             "description": "This method converts types from the internal to the external format",
             "itemtype": "method",
             "name": "convertLocalToRemoteType",
@@ -2810,7 +3425,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 407,
+            "line": 419,
             "description": "This method converts time windows from the external to the internal format",
             "itemtype": "method",
             "name": "convertRemoteToLocalTimeWindow",
@@ -2824,7 +3439,7 @@
         },
         {
             "file": "environment/ParamsManager.js",
-            "line": 446,
+            "line": 458,
             "description": "This method converts time windows from the internal to the external format",
             "itemtype": "method",
             "name": "convertLocalToRemoteTimeWindow",
@@ -3298,37 +3913,6 @@
             "module": "session"
         },
         {
-            "file": "view/removed/DataAccessibilityView.js",
-            "line": 1,
-            "description": "Created by mcandela on 03/02/14.",
-            "class": "SvgChartView",
-            "module": "session"
-        },
-        {
-            "file": "view/removed/DataAccessibilityView.js",
-            "line": 11,
-            "description": "This method renders a dialog box with all the information related to a cell",
-            "itemtype": "method",
-            "name": "showExtraInfoDialog",
-            "input": "{Object} cell A cell object",
-            "class": "SvgChartView",
-            "module": "session"
-        },
-        {
-            "file": "view/removed/PTimeView.js",
-            "line": 1,
-            "description": "Created by mcandela on 21/01/14.",
-            "class": "SvgChartView",
-            "module": "session"
-        },
-        {
-            "file": "view/removed/PTimeView.js",
-            "line": 4,
-            "description": "Created with JetBrains WebStorm.\nUser: mcandela\nDate: 10/2/13\nTime: 10:42 AM\nTo change this template use File | Settings | File Templates.",
-            "class": "SvgChartView",
-            "module": "session"
-        },
-        {
             "file": "view/svg/SvgChartView.js",
             "line": 1,
             "description": "Created with JetBrains WebStorm.\nUser: mcandela\nDate: 10/16/13\nTime: 4:25 PM\nTo change this template use File | Settings | File Templates.",
@@ -3685,7 +4269,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 153,
+            "line": 157,
             "description": "This method computes the best height, related to the number of rows, for the chart",
             "itemtype": "method",
             "name": "_computeWidgetBestHeight",
@@ -3700,7 +4284,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 169,
+            "line": 173,
             "description": "This method draws the chart",
             "itemtype": "method",
             "name": "firstDraw",
@@ -3710,7 +4294,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 204,
+            "line": 208,
             "description": "This method computes and applies the actual color scale",
             "itemtype": "method",
             "name": "updateColorScales",
@@ -3719,7 +4303,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 246,
+            "line": 250,
             "description": "This method introduces some offsets in the ranges in order to preserve the consistency with the legend",
             "itemtype": "method",
             "name": "_addOffsetToColorScale",
@@ -3731,7 +4315,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 259,
+            "line": 263,
             "description": "This method applies a new range to the color scales",
             "itemtype": "method",
             "name": "_applyRange",
@@ -3743,7 +4327,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 276,
+            "line": 280,
             "description": "This method changes the color of the cells without executing a complete redraw",
             "itemtype": "method",
             "name": "updateOnlyColors",
@@ -3753,7 +4337,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 308,
+            "line": 312,
             "description": "This method initialises the svg axis of the chart",
             "itemtype": "method",
             "name": "_initAxis",
@@ -3765,7 +4349,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 365,
+            "line": 369,
             "description": "This method allows to register listeners",
             "itemtype": "method",
             "name": "on",
@@ -3775,7 +4359,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 378,
+            "line": 382,
             "description": "This method redraws completely the chart",
             "itemtype": "method",
             "name": "redraw",
@@ -3785,7 +4369,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 407,
+            "line": 411,
             "description": "This method selects a column of the chart",
             "itemtype": "method",
             "name": "selectColumn",
@@ -3795,7 +4379,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 450,
+            "line": 454,
             "description": "This method selects a row of the chart starting from a label",
             "itemtype": "method",
             "name": "_selectLabel",
@@ -3807,7 +4391,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 486,
+            "line": 490,
             "description": "This method selects a row of the chart",
             "itemtype": "method",
             "name": "selectRow",
@@ -3817,7 +4401,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 571,
+            "line": 575,
             "description": "This method returns the values of the selected cell related to the current type of visualisation",
             "itemtype": "method",
             "name": "getCellValue",
@@ -3831,7 +4415,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 603,
+            "line": 607,
             "description": "This method shows or hides the throbber image",
             "itemtype": "method",
             "name": "loadingImage",
@@ -3841,7 +4425,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 632,
+            "line": 636,
             "description": "This method moves the throbber image in order to follow the cursor",
             "itemtype": "method",
             "name": "_moveLoadingImage",
@@ -3853,7 +4437,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 653,
+            "line": 657,
             "description": "This method moves the throbber image in order to follow the cursor",
             "itemtype": "method",
             "name": "updateXDomain",
@@ -3863,7 +4447,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 721,
+            "line": 725,
             "description": "This support method lists all the steps for a complete redraw",
             "itemtype": "method",
             "name": "_render",
@@ -3875,7 +4459,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 739,
+            "line": 743,
             "description": "This support method draws all the cell",
             "itemtype": "method",
             "name": "_renderCells",
@@ -3887,7 +4471,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 904,
+            "line": 907,
             "description": "This method computes the color of a given cell",
             "itemtype": "method",
             "name": "getCellColor",
@@ -3897,7 +4481,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 926,
+            "line": 929,
             "description": "This method computes the color of a given cell when it is selected",
             "itemtype": "method",
             "name": "getSelectedCellColor",
@@ -3907,7 +4491,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 948,
+            "line": 951,
             "description": "This method updates the chart applying the new data-set",
             "itemtype": "method",
             "name": "update",
@@ -3917,7 +4501,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1004,
+            "line": 1008,
             "description": "This method sets the right profile mode related to the data-set dimension",
             "itemtype": "method",
             "name": "_setLowProfile",
@@ -3929,7 +4513,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1020,
+            "line": 1024,
             "description": "This method computes all the information of the y-axis items",
             "itemtype": "method",
             "name": "rowsCharacterization",
@@ -3943,7 +4527,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1067,
+            "line": 1071,
             "description": "This method shows a textual message to the user",
             "itemtype": "method",
             "name": "showMessage",
@@ -3953,7 +4537,7 @@
         },
         {
             "file": "view/MainView.js",
-            "line": 1083,
+            "line": 1087,
             "description": "This method applies new margins to the current time window",
             "itemtype": "method",
             "name": "setTimeMargins",
@@ -3996,7 +4580,7 @@
         },
         {
             "file": "view/TemplateManagerView.js",
-            "line": 167,
+            "line": 168,
             "description": "This method creates all the basic DOM elements needed to the widget",
             "itemtype": "method",
             "name": "createDom",
@@ -4099,7 +4683,7 @@
         },
         {
             "file": "dnsmon-loader.js",
-            "line": 206,
+            "line": 213,
             "description": "A set of methods exposed outside",
             "class": "",
             "module": "view"
@@ -4164,11 +4748,15 @@
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:231"
+            "line": " environment/ParamsManager.js:218"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:231"
+            "line": " environment/ParamsManager.js:218"
+        },
+        {
+            "message": "unknown tag: input",
+            "line": " environment/ParamsManager.js:288"
         },
         {
             "message": "unknown tag: input",
@@ -4176,31 +4764,35 @@
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:316"
+            "line": " environment/ParamsManager.js:313"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:331"
+            "line": " environment/ParamsManager.js:328"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:344"
+            "line": " environment/ParamsManager.js:343"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:357"
+            "line": " environment/ParamsManager.js:356"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:382"
+            "line": " environment/ParamsManager.js:369"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:407"
+            "line": " environment/ParamsManager.js:394"
         },
         {
             "message": "unknown tag: input",
-            "line": " environment/ParamsManager.js:446"
+            "line": " environment/ParamsManager.js:419"
+        },
+        {
+            "message": "unknown tag: input",
+            "line": " environment/ParamsManager.js:458"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -4237,10 +4829,6 @@
         {
             "message": "unknown tag: input",
             "line": " session/SessionManager.js:187"
-        },
-        {
-            "message": "unknown tag: input",
-            "line": " view/removed/DataAccessibilityView.js:11"
         },
         {
             "message": "unknown tag: input",
@@ -4328,127 +4916,123 @@
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:169"
+            "line": " view/MainView.js:173"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:246"
+            "line": " view/MainView.js:250"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:259"
+            "line": " view/MainView.js:263"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:276"
+            "line": " view/MainView.js:280"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:308"
+            "line": " view/MainView.js:312"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:365"
+            "line": " view/MainView.js:369"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:365"
+            "line": " view/MainView.js:369"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:378"
+            "line": " view/MainView.js:382"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:378"
+            "line": " view/MainView.js:382"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:407"
+            "line": " view/MainView.js:411"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:407"
+            "line": " view/MainView.js:411"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:407"
+            "line": " view/MainView.js:411"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:450"
+            "line": " view/MainView.js:454"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:450"
+            "line": " view/MainView.js:454"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:486"
+            "line": " view/MainView.js:490"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:486"
+            "line": " view/MainView.js:490"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:571"
+            "line": " view/MainView.js:575"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:603"
+            "line": " view/MainView.js:607"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:632"
+            "line": " view/MainView.js:636"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:653"
+            "line": " view/MainView.js:657"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:721"
+            "line": " view/MainView.js:725"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:739"
+            "line": " view/MainView.js:743"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:904"
+            "line": " view/MainView.js:907"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:926"
+            "line": " view/MainView.js:929"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:948"
+            "line": " view/MainView.js:951"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1004"
+            "line": " view/MainView.js:1008"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1020"
+            "line": " view/MainView.js:1024"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1067"
+            "line": " view/MainView.js:1071"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1083"
+            "line": " view/MainView.js:1087"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/MainView.js:1083"
-        },
-        {
-            "message": "unknown tag: input",
-            "line": " view/PopUpView.js:41"
+            "line": " view/MainView.js:1087"
         },
         {
             "message": "unknown tag: input",
@@ -4456,11 +5040,15 @@
         },
         {
             "message": "unknown tag: input",
-            "line": " view/TemplateManagerView.js:167"
+            "line": " view/PopUpView.js:41"
         },
         {
             "message": "unknown tag: input",
-            "line": " view/TemplateManagerView.js:167"
+            "line": " view/TemplateManagerView.js:168"
+        },
+        {
+            "message": "unknown tag: input",
+            "line": " view/TemplateManagerView.js:168"
         },
         {
             "message": "unknown tag: input",
@@ -4527,10 +5115,6 @@
             "line": " connector/FilterConnector.js:1"
         },
         {
-            "message": "Missing item type\nCreated with JetBrains WebStorm.\nUser: mcandela\nDate: 10/18/13\nTime: 9:37 AM\nTo change this template use File | Settings | File Templates.",
-            "line": " controller/removed/ControllerManager.js:1"
-        },
-        {
             "message": "Missing item type\nCreated with JetBrains WebStorm.\nUser: mcandela\nDate: 9/20/13\nTime: 10:59 AM\nTo change this template use File | Settings | File Templates.",
             "line": " controller/GesturesManager.js:1"
         },
@@ -4541,10 +5125,6 @@
         {
             "message": "Missing item type\nCreated by mcandela on 23/01/14.",
             "line": " environment/languages/lang-en.js:1"
-        },
-        {
-            "message": "Missing item type\nCreated by mcandela on 23/01/14.",
-            "line": " environment/removed/environment.js:1"
         },
         {
             "message": "Missing item type\nCreated by mcandela on 11/12/13.",
@@ -4611,18 +5191,6 @@
             "line": " session/SessionManager.js:1"
         },
         {
-            "message": "Missing item type\nCreated by mcandela on 03/02/14.",
-            "line": " view/removed/DataAccessibilityView.js:1"
-        },
-        {
-            "message": "Missing item type\nCreated by mcandela on 21/01/14.",
-            "line": " view/removed/PTimeView.js:1"
-        },
-        {
-            "message": "Missing item type\nCreated with JetBrains WebStorm.\nUser: mcandela\nDate: 10/2/13\nTime: 10:42 AM\nTo change this template use File | Settings | File Templates.",
-            "line": " view/removed/PTimeView.js:4"
-        },
-        {
             "message": "Missing item type\nCreated with JetBrains WebStorm.\nUser: mcandela\nDate: 10/16/13\nTime: 4:25 PM\nTo change this template use File | Settings | File Templates.",
             "line": " view/svg/SvgChartView.js:1"
         },
@@ -4668,7 +5236,7 @@
         },
         {
             "message": "Missing item type\nA set of methods exposed outside",
-            "line": " dnsmon-loader.js:206"
+            "line": " dnsmon-loader.js:213"
         },
         {
             "message": "Missing item type\nSome require.js configurations",

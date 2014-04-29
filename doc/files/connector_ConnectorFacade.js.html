@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -367,13 +367,12 @@ define([
         };
 
 
-        /** Get the DNS response, in a human readable format, given a cell
+        /** Get the measurement id given a cell
          *
          * @method _getMeasurementId
          * @private
          * @param {Object} cell A cell object
-         * @param {Function} callback A function taking the retrieved data as input when it is ready
-         * @param {Object} context The context of the callback
+         * @return {String} The measurement id
          */
 
         this._getMeasurementId = function(cell){

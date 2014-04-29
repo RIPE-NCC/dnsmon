@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@ define([
         config = env.config;
 
         this.maxNumberOfCells = env.muxNumberOfCells || config.maxNumberOfCells;
+        env.downoadedBytes = 0;
 
         //weir-dev
         perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === &quot;undefined&quot;) ? &quot;https://weir-dev.atlas.ripe.net/dnsmon/api/probes&quot; : DNSMON_PROBES_DATA_API_URL;
@@ -178,23 +179,23 @@ define([
 
         this.getDataUrl = function(params){
 
-            utils.log(params);
+            utils.log(&#x27;Queried for:&#x27;, env.debugMode);
+            utils.log(params, env.debugMode);
             var url = &quot;&quot;;
 
             if (params.type == &quot;zone-servers&quot;){
 
-                utils.log(&quot;multi-server-data&quot;);
+                utils.log(&quot;Data-api type: multi-server-data&quot;, env.debugMode);
 
                 url = serversDataUrl;
                 url += (params.zone) ? &quot;?group=&quot; + params.zone : &quot;&quot;;
-                url += (params.selectedRows.length &gt; 0) ? &quot;&amp;servers=&quot; + utils.join(params.selectedRows, &quot;,&quot;) : &quot;&quot;;
+                url += (params.selectedRows != &#x27;&#x27;) ? &quot;&amp;servers=&quot; + params.selectedRows : &quot;&quot;;
 
-                //url += (!env.aggregationLevel) ? &quot;&quot; : &quot;&amp;min_aggregation=&quot; + env.aggregationLevel;
+                url += (!params.aggregationLevel) ? &quot;&quot; : &quot;&amp;min_aggregation=&quot; + params.aggregationLevel;
 
                 url += (params.startTime) ? &quot;&amp;start_time=&quot; + params.startTime : &quot;&quot;;
                 url += (params.endTime) ? &quot;&amp;end_time=&quot; + params.endTime : &quot;&quot;;
 
-//                url += (!params.startTime &amp;&amp; !params.endTime &amp;&amp; env.timeWindowSeconds &amp;&amp; env.retrievedAggregationLevel != null &amp;&amp; !params.timeWindow) ? &quot;&amp;default_time_period=&quot; + (env.timeWindowSeconds + env.retrievedAggregationLevel - 1): &quot;&quot;;
                 url += (!params.startTime &amp;&amp; !params.endTime &amp;&amp; params.timeWindow) ? &quot;&amp;default_time_period=&quot; + params.timeWindow : &quot;&quot;;
 
                 url += (params.ipVersion) ? &quot;&amp;ip_version=&quot; + params.ipVersion : &quot;&quot;;
@@ -205,7 +206,7 @@ define([
 
             }else if(params.type == &quot;server-probes&quot;){
 
-                utils.log(&quot;single-server-data&quot;);
+                utils.log(&quot;Data-api type: single-server-data&quot;, env.debugMode);
 
                 url = perServerDataUrl
                     + &quot;?server=&quot; + params.server;
@@ -214,14 +215,13 @@ define([
 
                 url += &quot;&amp;filter_probes=&quot; + params.filterProbes;
 
-                //url += (!env.aggregationLevel) ? &quot;&quot; : &quot;&amp;min_aggregation=&quot; + env.aggregationLevel;
+                url += (!params.aggregationLevel) ? &quot;&quot; : &quot;&amp;min_aggregation=&quot; + params.aggregationLevel;
 
-                url += (params.selectedRows.length &gt; 0) ? &quot;&amp;probes=&quot; + utils.join(params.selectedRows, &quot;,&quot;) : &quot;&quot;;
+                url += (params.selectedRows != &quot;&quot;) ? &quot;&amp;probes=&quot; + params.selectedRows : &quot;&quot;;
 
                 url += (params.startTime) ? &quot;&amp;start_time=&quot; + params.startTime : &quot;&quot;;
                 url += (params.endTime) ? &quot;&amp;end_time=&quot; + params.endTime : &quot;&quot;;
 
-//                url += (!params.startTime &amp;&amp; !params.endTime &amp;&amp; env.timeWindowSeconds &amp;&amp; env.retrievedAggregationLevel != null &amp;&amp; !params.timeWindow) ? &quot;&amp;default_time_period=&quot; + (env.timeWindowSeconds + env.retrievedAggregationLevel - 1): &quot;&quot;;
                 url += (!params.startTime &amp;&amp; !params.endTime &amp;&amp; params.timeWindow) ? &quot;&amp;default_time_period=&quot; + params.timeWindow : &quot;&quot;;
 
                 url += (params.ipVersion) ? &quot;&amp;ip_version=&quot; + params.ipVersion : &quot;&quot;;
@@ -230,9 +230,6 @@ define([
                 url += (env.maxNumberOfCellsPerRow) ? &quot;&amp;max_samples_per_row=&quot; + env.maxNumberOfCellsPerRow : &quot;&quot;;
                 url += (this.maxNumberOfCells) ? &quot;&amp;max_samples=&quot; + this.maxNumberOfCells : &quot;&quot;;
             }
-
-            //url += (env.params.random) ? &quot;&amp;random=true&quot; : &quot;&quot;;
-//        url += &quot;&amp;debug_levels=0,3600,86400,2592000&quot;;
 
             return url;
         };
@@ -256,28 +253,35 @@ define([
 
             dataUrl = this.getDataUrl(externalParams);
 
-            utils.log(dataUrl);
+            utils.log(&#x27;Ajax call: &#x27; + dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: &quot;jsonp&quot;,
                 url: dataUrl,
                 cache : false,
                 method : &#x27;get&#x27;,
-                timeout : 30000, // 30 secs of timeout FOR NOW
+                timeout : config.connectionTimeout,
 
                 success: function(data){
 
-                    utils.log(&quot;Data retrieved&quot;);
+                    utils.log(&quot;Data retrieved&quot;, env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     data.type = params.type;
                     env.lastDownload = new Date();
                     callback.call(context, data);
                     delete data; // Force garbage
+
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     var emptyDataSet;
 
-                    utils.log(&quot;Connection failed&quot;);
+                    utils.log(&quot;Connection failed&quot;, env.debugMode);
                     emptyDataSet = {
                         messages: [
                             {type: &quot;connection-fail&quot;, text: errorThrown}
@@ -310,19 +314,25 @@ define([
             dataUrl = utils.setParam(&#x27;prb_id&#x27;, prbId, dataUrl);
             dataUrl = utils.setParam(&#x27;timestamp&#x27;, timestamp, dataUrl);
 
-            utils.log(&#x27;Retrieve native DNS data: &#x27;+ dataUrl);
+            utils.log(&#x27;Retrieve native DNS data: &#x27;+ dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: &quot;jsonp&quot;,
                 url: dataUrl,
                 success: function(data){
-                    utils.log(&quot;Native DNS data retrieved&quot;);
+                    utils.log(&quot;Native DNS data retrieved&quot;, env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     callback.call(context, data);
                     delete data; // Force garbage
                 },
 
                 fail: function(){
-                    utils.log(&quot;It is not possible to retrieve native DNS data&quot;);
+                    utils.log(&quot;It is not possible to retrieve native DNS data&quot;, env.debugMode);
                 }
             });
         };
@@ -346,20 +356,27 @@ define([
             dataUrl = utils.setParam(&#x27;prb_id&#x27;, prbId, dataUrl);
             dataUrl = utils.setParam(&#x27;timestamp&#x27;, timestamp, dataUrl);
             dataUrl = utils.setParam(&#x27;surrounding&#x27;, config.tracerouteSurrounding, dataUrl);
+            dataUrl = utils.setParam(&#x27;render&#x27;, &quot;false&quot;, dataUrl);
 
-            utils.log(&#x27;Retrieve traceroute data: &#x27;+ dataUrl);
+            utils.log(&#x27;Retrieve traceroute data: &#x27;+ dataUrl, env.debugMode);
 
             $.ajax({
                 dataType: &quot;jsonp&quot;,
                 url: dataUrl,
                 success: function(data){
-                    utils.log(&quot;Traceroute data retrieved&quot;);
+                    utils.log(&quot;Traceroute data retrieved&quot;, env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
                     callback.call(context, data);
                     delete data; // Force garbage
                 },
 
                 fail: function(){
-                    utils.log(&quot;It is not possible to retrieve traceroute data&quot;);
+                    utils.log(&quot;It is not possible to retrieve traceroute data&quot;, env.debugMode);
                 }
             });
         };

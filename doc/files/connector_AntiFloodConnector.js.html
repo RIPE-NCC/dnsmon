@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 14.4.15.2</em>
+            <em>API Docs for: 14.4.25.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,6 +201,8 @@ define(
                             connector.retrieveData(params, callback, context);
                         },
                         config.antiFloodTimer);
+
+                    env.antiFloodTimer = null;
                 }else{
                     firstCall =  false;
                     connector.retrieveData(params, callback, context);

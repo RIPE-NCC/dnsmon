@@ -7,7 +7,9 @@
  * Some path configurations
  */
 
-DNSMON_WIDGET_URL = (typeof DNSMON_EXTERNAL_WIDGET_URL == 'undefined') ? "https://atlas.ripe.net/dstatic/dnsmon/visualisation/v0.2/" : DNSMON_EXTERNAL_WIDGET_URL
+DNSMON_ROOT_URL = 'dnsmon/';
+
+DNSMON_WIDGET_URL = ((typeof DNSMON_EXTERNAL_WIDGET_URL == 'undefined') ? "https://atlas.ripe.net/dstatic/dnsmon/visualisation/" : DNSMON_EXTERNAL_WIDGET_URL) + DNSMON_ROOT_URL;
 
 DNSMON_ENVIRONMENT_URL = DNSMON_WIDGET_URL + "environment/";
 
@@ -49,7 +51,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
 
     DNSMON_INSTANCES.push({domElement: domElement, instanceParams: instanceParams, queryParams: queryParams, callbacks: {}});
 
-    require([DNSMON_WIDGET_URL + 'dnsmon-loader.js'], function(DNSmon){
+    require([DNSMON_WIDGET_URL + 'dnsmon-loader.js'], function (DNSmon) {
         var instance;
 
         instance = getDNSmonInstance();

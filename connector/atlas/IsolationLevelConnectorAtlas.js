@@ -16,7 +16,8 @@ define(
         "env.params-manager",
         "model.cell",
         "model.row",
-        "connector.atlas.cache"
+        "connector.atlas.cache",
+        "lib.atlas-traceroute-printer"
     ],
     function(utils, paramsManager, Cell, Row, Connector){
 
@@ -256,7 +257,7 @@ define(
                 envelop.crowdestRow = crowdestRow;
 
                 if (minUsedDate < env.params.startDate){
-                    utils.log('one element outside left');
+                    utils.log('Warning: an element retrieved is before the start date', env.debugMode);
                 }
 
                 return envelop;
@@ -698,29 +699,39 @@ define(
              */
 
             this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
-                var nomenclatureDnsResponse;
+                var nomenclatureDnsResponse, tracerouteAtlas;
 
-                nomenclatureDnsResponse = {
-                    probeId: "prb_id",
-                    date: "timestamp",
-                    response: "result"
-                };
+//                nomenclatureDnsResponse = {
+//                    probeId: "prb_id",
+//                    date: "timestamp",
+//                    response: "result"
+//                };
 
                 connector.getClosestTraceroutes(msmId, prbId, timestamp, function(data){
                     var closestTraceroutes, newData, dataItem;
 
                     newData = [];
 
-                    for (var n= 0,length=data.length; n<length; n++){
-                        dataItem = data[n];
+//                    for (var n= 0,length=data.length; n<length; n++){
+//                        dataItem = data[n];+
+//
+//                        closestTraceroutes = { // Translate to internal object
+//                            probeId: dataItem[nomenclatureDnsResponse.probeId],
+//                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
+//                            response: dataItem[nomenclatureDnsResponse.response]
+//                        };
+//
+//                        newData.push(closestTraceroutes);
+//                    }
 
-                        closestTraceroutes = { // Translate to internal object
-                            probeId: dataItem[nomenclatureDnsResponse.probeId],
-                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
-                            response: dataItem[nomenclatureDnsResponse.response]
+
+                    for (var n=0,length=data.length; n<length; n++){
+                        tracerouteAtlas = new AtlasTraceroute(data[n]);
+                        tracerouteAtlas.renderTimestring = function(timestamp){
+                            return '>>> ' + utils.dateToString(utils.timestampToLocalDate(timestamp));
                         };
 
-                        newData.push(closestTraceroutes);
+                        newData.push(tracerouteAtlas.render());
                     }
 
                     callback.call(context, newData);

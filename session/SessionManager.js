@@ -135,7 +135,7 @@ define([
                 $.cookie(cookieSuffix + key, value, {expires: expireDate});
                 saved = true;
             }catch(error){
-                utils.log(error);
+                utils.log(error, env.debugMode);
                 saved = false;
             }
 
@@ -158,7 +158,7 @@ define([
             try{
                 value = $.cookie(cookieSuffix + key);
             }catch(error){
-                utils.log(error);
+                utils.log(error, env.debugMode);
                 value = null;
             }
 

@@ -49,6 +49,8 @@ define(
                             connector.retrieveData(params, callback, context);
                         },
                         config.antiFloodTimer);
+
+                    env.antiFloodTimer = null;
                 }else{
                     firstCall =  false;
                     connector.retrieveData(params, callback, context);

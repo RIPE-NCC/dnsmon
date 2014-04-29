@@ -46,6 +46,7 @@ define([
 
                 connector.retrieveData(params, function(data){
 
+//                    alert(env.retrievedAggregationLevel);
                     callback.call(context, data);
 
                 }, this);
@@ -65,12 +66,17 @@ define([
 
 
             this._getAggregationLevel = function(params){
+                var bestLevel, currentLevel;
+
                 if (typeof I_WANT_TO_SHOOT_ON_MY_FOOT != 'undefined'){
                     return 0;
                 }
-                var bestLevel, currentLevel;
+
                 bestLevel = this._getBestAggregationLevel(params);
 
+                if (env.isNativeAvailable && bestLevel <= env.samplingFrequency){ // Native resolution
+                    return 0;
+                }
                 for (var n=0,length=env.aggregationLevels.length; n<length; n++){
                     currentLevel = env.aggregationLevels[n];
                     if (currentLevel >= bestLevel){

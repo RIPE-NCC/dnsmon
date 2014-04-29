@@ -56,6 +56,10 @@ define([
             this.templateManager.createDom(mainDom, instanceParam);
             this.defaultDimensions = {width: instanceParam.width, height: instanceParam.height};
 
+            if (utils.getUrlParam("dnsmon-info") == "true"){
+                alert("Version: " + env.version);
+            }
+
             env.container = new SvgContainerView(
                 this.templateManager.dom.svgContainer,
                 {
@@ -175,7 +179,7 @@ define([
 
         this.firstDraw = function(data){
 
-            utils.log("visualization starts");
+            utils.log("Visualization starts", env.debugMode);
             this.rows = data.rows;
 
             /*
@@ -197,7 +201,7 @@ define([
 
             utils.callCallbacks(env.callbacks["load"], paramsManager.fromInternalToExternal(env.params));
 
-            utils.log("visualization ends");
+            utils.log("Visualization ends", env.debugMode);
         };
 
 
@@ -838,9 +842,8 @@ define([
 
                         if (env.timeEventsActive){
                             var mouseCursor, mouseCursorFormatted;
-                            mouseCursor = d3.mouse(env.container.chart.dom.plain);
-                            mouseCursorFormatted = {x: mouseCursor[0] + env.container.chart.margin.left, y: mouseCursor[1] + env.container.chart.margin.top};
-
+                            mouseCursor = d3.mouse(env.container.dom.plain);
+                            mouseCursorFormatted = {x: mouseCursor[0], y: mouseCursor[1]};
                             $this.popUp.show(d, mouseCursorFormatted);
                         }
                     }
@@ -896,7 +899,7 @@ define([
 
             this.drawn = true;
 
-            utils.log("Number of cell displayed: " + data.cells.length);
+            utils.log("Number of cell displayed: " + data.cells.length, env.debugMode);
 
         };
 
@@ -953,7 +956,7 @@ define([
          */
 
         this.update = function(data){
-            utils.log("visualization starts");
+            utils.log("Visualization update starts", env.debugMode);
             var yRowsToDomainAndMagnets, numberOfRows;
 
             this.rows = data.rows;
@@ -962,9 +965,7 @@ define([
 
             this.timeController.updateStatus();
             this.controlPanel.update();
-            if (!env.isUpdatedPeriodicallyActive){
-                env.history.update();
-            }
+            env.history.update();
 
             env.container.height(this._computeWidgetBestHeight());
 
@@ -995,9 +996,9 @@ define([
 
             this.timeOverview.update([env.measurementStartTime, env.measurementEndTime], [env.params.startDate, env.params.endDate]);
 
-            utils.callCallbacks(env.callbacks["change"], paramsManager.fromInternalToExternal(env.params)); // Call all the "load" callbacks
+            utils.callCallbacks(env.callbacks["change"], paramsManager.fromInternalToExternal(env.params)); // Call all the "change" callbacks
 
-            utils.log("visualization ends");
+            utils.log("Visualization update ends", env.debugMode);
         };
 
 

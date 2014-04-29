@@ -61,10 +61,11 @@ define([
                 this._popupDelayTimer = setTimeout(function(){
                         var balloonWidth, balloonHeight, svgBallonLeft, svgBallonRight, cursorOffset, arrowPoint,
                             chartCenter, translationVector, arrowTop, absTranslationVector, balloonArray, lineFunction,
-                            cursorOffsetUnit, roundingFactor, balloonCellPosition, cellText, fontCharWidth,
+                            cursorOffsetUnit, roundingFactor, balloonCellPosition, cellText, fontCharWidth, fontCharHeight,
                             defaultYTranslation;
 
-                        fontCharWidth = 20; // Pixels
+                        fontCharWidth = 7; // Pixels
+                        fontCharHeight = 20; // Pixels
                         defaultYTranslation = chart.margin.top + 20; // Pixels
 
 
@@ -73,8 +74,8 @@ define([
 
                             cellText = cell.toArrayString();
 
-                            balloonWidth = utils.getLongestString(cellText) * 7;
-                            balloonHeight = cellText.length * fontCharWidth;
+                            balloonWidth = utils.getLongestString(cellText) * fontCharWidth;
+                            balloonHeight = cellText.length * fontCharHeight;
 
                             chartCenter.y = Math.max(balloonHeight + defaultYTranslation, chartCenter.y); // This line avoids the pop-up to overflow the chart top margin
 
@@ -136,7 +137,7 @@ define([
                             }else{ //Fourth quadrant
                                 arrowTop = false;
                                 cursorOffset = {x: -cursorOffsetUnit, y: -cursorOffsetUnit}; //To avoid overlaps with the mouse cursor
-                                translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);;
+                                translationVector.x = mouseCoords.x - (absTranslationVector.x + balloonWidth);
                                 translationVector.y = mouseCoords.y - (absTranslationVector.y + balloonHeight);
 
                             }
