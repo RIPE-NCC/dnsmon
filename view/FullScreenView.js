@@ -116,6 +116,8 @@ define([
             windowWidth = $(window).width() - margin;
             windowHeight = $(window).height() - margin;
 
+            env.mainView.templateManager.dom.bottomInfoSection.$.hide();
+
             env.mainView.defaultDimensions.height = windowHeight;
             env.container.width(windowWidth);
 
@@ -166,6 +168,8 @@ define([
 
             env.mainView.defaultDimensions = oldDomDimensions;
             env.container.width(oldDimensions.width);
+
+            env.mainView.templateManager.dom.bottomInfoSection.$.show();
 
             env.externalDom.$.css({
                 position: "relative",

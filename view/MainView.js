@@ -56,10 +56,6 @@ define([
             this.templateManager.createDom(mainDom, instanceParam);
             this.defaultDimensions = {width: instanceParam.width, height: instanceParam.height};
 
-            if (utils.getUrlParam("dnsmon_info") == "true"){
-                alert("Version: " + env.version);
-            }
-
             env.container = new SvgContainerView(
                 this.templateManager.dom.svgContainer,
                 {

@@ -495,6 +495,13 @@ input.pls-percentage{
     fill: #dbe0f6;
 }
 
+.dnsmon-container .bottom-info-section{
+    font-size: 10px;
+    color: #747474;
+    text-align: right;
+    text-shadow: 1px 1px 2px #C0C0C0;
+}
+
 
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }

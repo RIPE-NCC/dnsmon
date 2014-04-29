@@ -174,7 +174,7 @@ define([
          */
 
         this.createDom = function(parentDom, instanceParams){
-            var containerDom, svgContainerDom, externalDom, timeMargins, timeOvervireContainerDom;
+            var containerDom, svgContainerDom, externalDom, timeMargins, timeOvervireContainerDom, bottomInfoSection;
 
             this.dom = {};
 
@@ -185,6 +185,7 @@ define([
             containerDom = $('<div></div>').addClass(config.domClasses.mainDom).css("margin", config.style.containerMargin);
             svgContainerDom = $('<div></div>').addClass(config.domClasses.svgContainerDom);
             timeOvervireContainerDom = $('<div></div>').addClass(config.domClasses.timeOvervireContainerDom);
+            bottomInfoSection = $('<div>' + env.lang.bottomInfoSection + '</div>').addClass(config.domClasses.bottomInfoNoticeClass);
             timeMargins = $(this.timeMargins).css("top", config.style.controlPanelHeight);
 
             /*
@@ -229,12 +230,22 @@ define([
             env.mainDom.$.append(timeOvervireContainerDom);
             this.dom.timeOverviewContainer = utils.encapsulateDom(timeOvervireContainerDom);
 
+            env.mainDom.$.append(bottomInfoSection);
+            this.dom.bottomInfoSection = utils.encapsulateDom(bottomInfoSection);
+
             this.dom.loadingImage = utils.encapsulateDom($(this.loadingImage));
             env.mainDom.$.append(this.dom.loadingImage.$);
 
 
             this.dom.message = utils.encapsulateDom($(this.overlayMessage));
             env.mainDom.$.append(this.dom.message.$);
+
+
+            if (utils.getUrlParam("dnsmon_info") == "true" && window.atob){
+                // - Christopher Amin (data-api), Massimo Candela (web tool), Andreas Strikos (deployment) - RIPE NCC
+                bottomInfoSection.html("Version: " + env.version + window.atob("IC0gQ2hyaXN0b3BoZXIgQW1pbiAoZGF0YS1hcGkpLCBNYXNzaW1vIENhbmRlbGEgKHdlYiB0b29sKSwgQW5kcmVhcyBTdHJpa29zIChkZXBsb3ltZW50KSAtIFJJUEUgTkND"));
+            }
+
         };
 
     };

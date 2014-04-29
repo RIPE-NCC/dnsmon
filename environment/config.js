@@ -194,7 +194,8 @@ define([], function(){
             chartDom: "dnsmon-chart",
             chartSelectorOrizontal: "selector-orizontal",
             chartSelectorVertical: "selector-vertical",
-            timeOvervireContainerDom: "time-overview-external-container"
+            timeOvervireContainerDom: "time-overview-external-container",
+            bottomInfoNoticeClass: "bottom-info-section"
         },
 
         lowProfileLimitations: {
