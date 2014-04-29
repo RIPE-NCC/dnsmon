@@ -72,6 +72,10 @@
     fill: #4a71ad;
 }
 
+.dnsmon-container .axis.y text.removable{
+    fill: red;
+}
+
 .dnsmon-container title{
     display: none;
 }

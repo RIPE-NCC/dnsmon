@@ -185,6 +185,96 @@ define([
             }
 
             this._initializeActiveLabels();
+            this._initializeRemoveRowsFunction();
+        };
+
+
+        /**
+         * Initialise the function to remove rows
+         *
+         * @method _initializeRemoveRowsFunction
+         * @private
+         */
+
+        this._initializeRemoveRowsFunction = function(){
+
+            eventsAttachedOn.$.on("keydown", function(evt){
+                var key;
+
+                key = (evt.which) ? evt.which : evt.keyCode;
+                if (evt.shiftKey || key == 16) { // Shift
+                    env.rowRemotionOngoing = true;
+                    env.mainView.showMessage(env.lang.clickToRemoveRow);
+                    d3.selectAll(".y text").attr("class", "removable");
+                }
+            });
+
+            eventsAttachedOn.$.on("keyup", function(evt){
+                if (env.rowRemotionOngoing){ // Shift
+                    env.rowRemotionOngoing = false;
+                    d3.selectAll(".y text").attr("class", null);
+                }
+            });
+        };
+
+
+        /**
+         * This method removes a row from the scene.
+         *
+         * @method _removeRowFromSelection
+         * @private
+         * @input {Object} rowSelection The selected row in a jQuery format
+         */
+
+        this._removeRowFromSelection = function(rowSelection){
+            var rowMagnet;
+
+            rowMagnet = rowSelection.attr("magnet");
+
+            if (env.params.selectedRows.length == 0){
+                env.params.selectedRows = $.map(env.connector.getRows(), function(item){ return item.id; }); // Get all rows
+            }
+
+            env.params.selectedRows = utils.removeSubArray(env.params.selectedRows, rowMagnet);
+            env.mainView.redraw();
+        };
+
+
+        /**
+         * This method executes the default click behaviour of a label on the y-axis.
+         *
+         * @method _executeRowAction
+         * @private
+         * @input {Object} rowSelection The selected row in a jQuery format
+         */
+
+        this._executeRowAction = function(rowSelection){
+            var queryType, triggerAction, rowMagnet;
+
+            triggerAction = false;
+            queryType = env.params.type;
+            rowMagnet = rowSelection.attr("magnet");
+
+            switch (queryType) {
+
+                case "probes":
+                    window.open(env.connector.getProbesPageUrl(rowMagnet, env.params), "_blank");
+                    break;
+
+                case "servers":
+                    env.params.type = "probes";
+                    env.params.root = env.params.group;
+                    env.params.group = rowMagnet;
+                    env.params.selectedRows = [];
+                    triggerAction = true;
+                    break;
+            }
+
+            if (triggerAction == true) {
+                env.mainView.breadcrumbs.addLevel(rowSelection.text());
+                env.mainView.redraw();
+            }
+
         };
 
 
@@ -197,33 +287,23 @@ define([
 
         this._initializeActiveLabels = function(){
             env.mainView.yAxis.onClick(function(evt){
-                var selectedRow, queryType, triggerAction;
+                var selectedRow;
 
-                triggerAction = false;
-                queryType = env.params.type;
-                selectedRow = $(this).attr("magnet");
+                selectedRow = $(this);
 
-                switch(queryType){
+                if (!env.rowRemotionOngoing) {
 
-                    case "probes":
-                        window.open(env.connector.getProbesPageUrl(selectedRow, env.params), "_blank");
-                        break;
+                    $this._executeRowAction(selectedRow);
 
-                    case "servers":
-                        env.params.type = "probes";
-                        env.params.root = env.params.group;
-                        env.params.group = selectedRow;
-                        env.params.selectedRows = [];
-                        triggerAction = true;
-                        break;
-                }
+                }else{
 
-                if (triggerAction == true){
-                    env.mainView.breadcrumbs.addLevel($(this).text());
-                    env.mainView.redraw();
+                    $this._removeRowFromSelection(selectedRow);
+
                 }
             });
         };
+
+
 
 
         /**
@@ -469,8 +549,8 @@ define([
                     .append("rect")
                     .attr("class", "selection-rect");
 
-                selectionTooltipStart = $('<div class="dnsmon-tooltip selection-tooltip-start custom-jquery-ui-tooltip">ciao</div>');
-                selectionTooltipStop = $('<div class="dnsmon-tooltip selection-tooltip-stop custom-jquery-ui-tooltip">ciao</div>');
+                selectionTooltipStart = $('<div class="dnsmon-tooltip selection-tooltip-start custom-jquery-ui-tooltip"></div>');
+                selectionTooltipStop = $('<div class="dnsmon-tooltip selection-tooltip-stop custom-jquery-ui-tooltip"></div>');
 
                 container.dom.$.append(selectionTooltipStart);
                 container.dom.$.append(selectionTooltipStop);

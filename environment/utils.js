@@ -8,48 +8,48 @@ define([
 
     return {
 
-        addMinutes: function(date, minutes){
+        addMinutes: function (date, minutes) {
             return new Date(date.getTime() + (minutes * 60 * 1000));
         },
 
-        subMinutes: function(date, minutes){
+        subMinutes: function (date, minutes) {
             return new Date(date.getTime() - (minutes * 60 * 1000));
         },
 
-        translate: function(pointsArray, vector){
+        translate: function (pointsArray, vector) {
             var item, translatedArray;
 
             translatedArray = [];
 
-            for (var n=0,length=pointsArray.length; n<length; n++){
+            for (var n = 0, length = pointsArray.length; n < length; n++) {
                 item = pointsArray[n];
                 translatedArray.push({x: item.x + vector.x, y: item.y + vector.y});
             }
             return translatedArray;
         },
 
-        computeColorScale: function(legend){
+        computeColorScale: function (legend) {
             var mapOut, legendItem;
 
             mapOut = {valueRange: [], colorRange: []};
 
-            for (var n= 0,length=legend.length; n<length; n++){
+            for (var n = 0, length = legend.length; n < length; n++) {
                 legendItem = legend[n];
 
-                mapOut.valueRange =  mapOut.valueRange.concat(legendItem.valueRange);
-                mapOut.colorRange =  mapOut.colorRange.concat(legendItem.colorRange);
+                mapOut.valueRange = mapOut.valueRange.concat(legendItem.valueRange);
+                mapOut.colorRange = mapOut.colorRange.concat(legendItem.colorRange);
             }
             return mapOut;
         },
 
-        getLongestString: function(arrayOfStrings){
+        getLongestString: function (arrayOfStrings) {
             var maximum, item;
 
             maximum = -Infinity;
-            for (var n=0,length=arrayOfStrings.length; n<length; n++){
+            for (var n = 0, length = arrayOfStrings.length; n < length; n++) {
                 item = arrayOfStrings[n].length;
 
-                if (maximum < item){
+                if (maximum < item) {
                     maximum = item;
                 }
             }
@@ -57,7 +57,7 @@ define([
             return maximum;
         },
 
-        writeSvgText: function(container, textArray, position, padding){
+        writeSvgText: function (container, textArray, position, padding) {
             var textItem, actualPosition, interline, text;
 
             actualPosition = 0;
@@ -67,7 +67,7 @@ define([
                 .selectAll("text")
                 .remove();
 
-            for (var n= 0,length=textArray.length; n<length; n++){
+            for (var n = 0, length = textArray.length; n < length; n++) {
                 textItem = textArray[n];
 
                 actualPosition = interline * n;
@@ -83,22 +83,22 @@ define([
             return text;
         },
 
-        lightClone: function(toBeCloned){
+        lightClone: function (toBeCloned) {
             var cloned, isArray;
 
             isArray = toBeCloned instanceof Array;
 
-            if (isArray){
+            if (isArray) {
                 cloned = [];
 
-                for (var n= 0,length=toBeCloned.length; n<length; n++){
+                for (var n = 0, length = toBeCloned.length; n < length; n++) {
                     cloned.push(toBeCloned[n]);
                 }
 
-            }else{
+            } else {
                 cloned = {};
 
-                for (var item in toBeCloned){
+                for (var item in toBeCloned) {
                     cloned[item] = toBeCloned[item];
                 }
             }
@@ -106,33 +106,33 @@ define([
             return cloned;
         },
 
-        log: function(text, debug){
-            if (debug){
+        log: function (text, debug) {
+            if (debug) {
                 console.log(new Date(), text);
             }
         },
 
-        getUrlParam: function(key){
+        getUrlParam: function (key) {
             var regex, result, match, url;
             url = document.location.search;
             regex = new RegExp('(?:\\?|&)' + key + '=(.*?)(?=&|$)', 'gi');
             result = [];
 
-            while ((match = regex.exec(url)) != null){
+            while ((match = regex.exec(url)) != null) {
                 result.push(match[1]);
             }
             return result;
         },
 
-        indexOf: function(element, array){
+        indexOf: function (element, array) {
             var index = -1;
 
-            if (array.indexOf){
+            if (array.indexOf) {
                 index = array.indexOf(element);
-            }else{
+            } else {
 
-                for (var n=0, length=array.length; n<length;n++){
-                    if (array[n] == element){
+                for (var n = 0, length = array.length; n < length; n++) {
+                    if (array[n] == element) {
                         index = n;
                         break;
                     }
@@ -141,11 +141,11 @@ define([
             return index;
         },
 
-        encapsulateDom: function(jQuerySelection){
+        encapsulateDom: function (jQuerySelection) {
             return {$: jQuerySelection, plain: jQuerySelection[0]};
         },
 
-        loadCss: function(cssFile){
+        loadCss: function (cssFile) {
             var newLink = document.createElement('link');
             newLink.rel = 'stylesheet';
             newLink.type = 'text/css';
@@ -154,7 +154,7 @@ define([
             document.head.appendChild(newLink);
         },
 
-        getRectangularVertexPoints: function(x, y, width, height){
+        getRectangularVertexPoints: function (x, y, width, height) {
             var leftTop, leftBottom, rightTop, rightBottom;
 
             leftTop = {x: x, y: y};
@@ -166,7 +166,7 @@ define([
             return [leftTop, rightTop, rightBottom, leftBottom]; //returned clockwise
         },
 
-        isThereAnIntersection: function(selectionVertices, cellVertices){
+        isThereAnIntersection: function (selectionVertices, cellVertices) {
             var a, b, c, d, e, f, g, h, thereIsAnIntersection, cellCenter, isSelectionStartingInARect, isSelectionEndingInARect,
                 intersectionPoint;
 
@@ -182,25 +182,25 @@ define([
 
             intersectionPoint = this.getLinesIntersection(a, b, e, h);
 
-            function isPointInside(a, b, c, d, p){
+            function isPointInside(a, b, c, d, p) {
                 return p.x >= a.x && p.x <= b.x && p.y >= a.y && p.y <= d.y;
             }
 
             // Don't declare the single items in dedicated vars in order to calculate them only if needed
             thereIsAnIntersection =
-                isPointInside(e,f,g,h, a) || //Is It starting in a rect?
-                isPointInside(a,b,c,d, this.getRectangleCenter(e, f, g, h)) ||
-                isPointInside(a,b,c,d, e) ||
-                isPointInside(a,b,c,d, h) ||
-                isPointInside(a,b,c,d, g) ||
-                isPointInside(a,b,c,d, f) ||
-                isPointInside(e,f,g,h, c) || //Is it ending in a rect?
+                isPointInside(e, f, g, h, a) || //Is It starting in a rect?
+                isPointInside(a, b, c, d, this.getRectangleCenter(e, f, g, h)) ||
+                isPointInside(a, b, c, d, e) ||
+                isPointInside(a, b, c, d, h) ||
+                isPointInside(a, b, c, d, g) ||
+                isPointInside(a, b, c, d, f) ||
+                isPointInside(e, f, g, h, c) || //Is it ending in a rect?
                 (intersectionPoint != null);
 
             return thereIsAnIntersection;
         },
 
-        getLinesIntersection: function(a, b, c, d){
+        getLinesIntersection: function (a, b, c, d) {
 
             /// "unroll" the objects
             var p0x = a.x,
@@ -247,7 +247,7 @@ define([
             return null;
         },
 
-        getRectangleCenter: function(a, b, c, d){
+        getRectangleCenter: function (a, b, c, d) {
             var x, y;
             x = ((b.x - a.x) / 2) + a.x;
             y = ((d.y - a.y) / 2) + a.y;
@@ -255,15 +255,15 @@ define([
             return {x: x, y: y};
         },
 
-        join: function(array, char){
+        join: function (array, char) {
             var stringOut = "";
-            if (array.join){
+            if (array.join) {
                 stringOut = array.join(char);
-            }else{
+            } else {
 
-                for (var n=0,length=array.length; n<length; n++){
+                for (var n = 0, length = array.length; n < length; n++) {
                     stringOut += array[n];
-                    if (n != length-1){
+                    if (n != length - 1) {
                         stringOut += '' + char;
                     }
                 }
@@ -272,18 +272,18 @@ define([
             return stringOut;
         },
 
-        split: function(string, char, skipEmpty){
+        split: function (string, char, skipEmpty) {
             var arrayOut, item, tmp;
 
             arrayOut = string.split(char);
 
-            if (skipEmpty){
+            if (skipEmpty) {
 
                 tmp = [];
 
-                for (var n=0,length=arrayOut.length; n<length; n++){
+                for (var n = 0, length = arrayOut.length; n < length; n++) {
                     item = arrayOut[n];
-                    if (item != ''){
+                    if (item != '') {
                         tmp.push(item);
                     }
                 }
@@ -294,40 +294,40 @@ define([
             return arrayOut;
         },
 
-        logOnce: function(log){
-            if (!window.once){
+        logOnce: function (log) {
+            if (!window.once) {
                 window.once = true;
                 this.log(log);
             }
         },
 
-        reduceCalls: function(reductionId, reductionFactor){
+        reduceCalls: function (reductionId, reductionFactor) {
             var callNow;
             callNow = false;
-            if (!window.reductionCallsCounters){
+            if (!window.reductionCallsCounters) {
                 window.reductionCallsCounters = {};
             }
 
-            if (window.reductionCallsCounters[reductionId] == null){
+            if (window.reductionCallsCounters[reductionId] == null) {
                 window.reductionCallsCounters[reductionId] = reductionFactor;
             }
 
-            if (window.reductionCallsCounters[reductionId] == 0){
+            if (window.reductionCallsCounters[reductionId] == 0) {
                 callNow = true;
                 window.reductionCallsCounters[reductionId] = reductionFactor
-            }else{
+            } else {
                 window.reductionCallsCounters[reductionId]--;
             }
 
             return callNow;
         },
 
-        timestampToUTCDate: function(timestamp){
+        timestampToUTCDate: function (timestamp) {
             var date = new Date(timestamp * 1000);
-            return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+            return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
         },
 
-        getInstanceSuffix: function(domName){
+        getInstanceSuffix: function (domName) {
             var suffix;
 
             suffix = domName.replace('.', '');
@@ -336,24 +336,24 @@ define([
             return suffix;
         },
 
-        getUrlParameters: function(domName) { // Get a map composed of ALL the parameters
+        getUrlParameters: function (domName) { // Get a map composed of ALL the parameters
             var map, suffix, parts, subElements, atLeastOne;
 
             map = {};
             atLeastOne = false;
             suffix = this.getInstanceSuffix(domName) + '.';
 
-            parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+            parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 
                 key = key.toString().replace(suffix, ''); // Creates the map removing the suffix
 
-                if (key.indexOf('.') != -1){
+                if (key.indexOf('.') != -1) {
                     subElements = key.split('.');
-                    if (!map[subElements[0]]){
+                    if (!map[subElements[0]]) {
                         map[subElements[0]] = {};
                     }
                     map[subElements[0]][subElements[1]] = value;
-                }else{
+                } else {
                     map[key] = value;
                 }
 
@@ -363,27 +363,27 @@ define([
             return (atLeastOne) ? map : null;
         },
 
-        mergeMaps: function(map1, map2){
+        mergeMaps: function (map1, map2) {
             var mapOut;
 
             mapOut = {};
 
-            for (var key in map1){
+            for (var key in map1) {
                 mapOut[key] = map1[key];
             }
 
-            for (var key in map2){
+            for (var key in map2) {
                 mapOut[key] = map2[key];
             }
 
             return mapOut;
         },
 
-        isNumber: function(n) {
+        isNumber: function (n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         },
 
-        dateToString: function(date){ //This is an indirection, may be useful in the future to manipulate dates
+        dateToString: function (date) { //This is an indirection, may be useful in the future to manipulate dates
             return "" + date.getUTCFullYear() +
                 "-" + ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                 "-" + ('0' + date.getUTCDate()).slice(-2) +
@@ -393,7 +393,7 @@ define([
                 " UTC";
         },
 
-        dateToStringShort: function(date){ //This is an indirection, may be useful in the future to manipulate dates
+        dateToStringShort: function (date) { //This is an indirection, may be useful in the future to manipulate dates
             return "" + date.getUTCFullYear() +
                 "-" + ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                 "-" + ('0' + date.getUTCDate()).slice(-2) +
@@ -401,87 +401,87 @@ define([
                 ":" + ('0' + date.getUTCMinutes()).slice(-2);
         },
 
-        timestampToLocalDate: function(timestamp){
+        timestampToLocalDate: function (timestamp) {
             var date;
             date = new Date(timestamp * 1000);
             return date;
         },
 
-        localDateToUTCDate: function(date){
+        localDateToUTCDate: function (date) {
             var utcDate;
 
-            utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+            utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
 
             return utcDate;
         },
 
-        UTCDateToLocalDate: function(date){
-            return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),  date.getHours(), date.getMinutes(), date.getSeconds()));
+        UTCDateToLocalDate: function (date) {
+            return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
         },
 
-        dateToUTCTimestamp: function(date){
-            return Math.ceil(date.getTime()/1000);
+        dateToUTCTimestamp: function (date) {
+            return Math.ceil(date.getTime() / 1000);
 //            return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),  date.getHours(), date.getMinutes(), date.getSeconds())).getTime()/1000;
         },
 
-        callCallbacks: function(list, parameters){
+        callCallbacks: function (list, parameters) {
             var item;
 
-            for (var n=0,length=list.length; n<length; n++){
+            for (var n = 0, length = list.length; n < length; n++) {
                 item = list[n];
                 item.call(this, parameters);
             }
         },
 
-        getCurrentUrl: function(){
+        getCurrentUrl: function () {
             return window.location.href;
         },
 
-        setParam: function(key, value, url){
+        setParam: function (key, value, url) {
             var baseUrl, paramsUrl, pair, query, pairs, keyTmp, valueTmp, newPairs, inserted, questionMarkPosition,
                 itemUrl;
 
             newPairs = [];
             inserted = false;
 
-            if (url){
+            if (url) {
                 questionMarkPosition = url.indexOf('?');
-                if (questionMarkPosition == -1){
+                if (questionMarkPosition == -1) {
                     baseUrl = url;
                     paramsUrl = '';
-                }else{
+                } else {
                     baseUrl = url.substring(0, questionMarkPosition);
                     paramsUrl = url.substring(questionMarkPosition + 1, url.length);
                 }
-            }else{
+            } else {
                 baseUrl = '';
                 paramsUrl = '';
             }
 
             pairs = paramsUrl.split('&');
 
-            for(var n=0,length=pairs.length; n<length;n++){
+            for (var n = 0, length = pairs.length; n < length; n++) {
                 itemUrl = pairs[n];
 
-                if (itemUrl != ""){
+                if (itemUrl != "") {
                     pair = (itemUrl).split('=');
 
                     keyTmp = pair[0];
                     valueTmp = pair[1];
 
-                    if (keyTmp == key){
+                    if (keyTmp == key) {
                         if (value != null && value != '') {
                             newPairs.push(keyTmp + "=" + value);
                         }
                         inserted = true;
-                    }else{
+                    } else {
                         newPairs.push(keyTmp + "=" + valueTmp);
                     }
                 }
             }
 
-            if (!inserted){
-                if (value != null && value != ""){
+            if (!inserted) {
+                if (value != null && value != "") {
                     newPairs.push(key + "=" + value);
                 }
             }
@@ -491,12 +491,12 @@ define([
             return baseUrl + '?' + query;
         },
 
-        containsAll: function(containerArray, containedArray){
+        containsAll: function (containerArray, containedArray) {
             var item;
 
-            for (var n=0,length=containedArray.length; n<length; n++){
+            for (var n = 0, length = containedArray.length; n < length; n++) {
                 item = containedArray[n];
-                if (this.indexOf(item, containerArray) == -1){
+                if (this.indexOf(item, containerArray) == -1) {
                     return false;
                 }
             }
@@ -505,23 +505,23 @@ define([
 
         },
 
-        objectSize : function(object) {
+        objectSize: function (object) {
             var recurse, objectList, bytes;
 
             objectList = [];
-            recurse = function( value ) {
+            recurse = function (value) {
                 bytes = 0;
 
-                if ( typeof value === 'boolean' ) {
+                if (typeof value === 'boolean') {
                     bytes = 4;
-                } else if ( typeof value === 'string' ) {
+                } else if (typeof value === 'string') {
                     bytes = value.length * 2;
-                } else if ( typeof value === 'number' ) {
+                } else if (typeof value === 'number') {
                     bytes = 8;
                 } else if (typeof value === 'object'
-                    && objectList.indexOf( value ) === -1) {
+                    && objectList.indexOf(value) === -1) {
                     objectList[objectList.length] = value;
-                    for( i in value ) {
+                    for (i in value) {
                         bytes += 8;
                         bytes += recurse(value[i]);
                     }
@@ -530,8 +530,20 @@ define([
             };
 
             return recurse(object);
+        },
+
+        removeSubArray: function (mainArray, subArray) {
+            var item, tmp;
+
+            tmp = [];
+            for (var n=0,length=mainArray.length; n<length; n++) {
+                item = mainArray[n];
+                if (subArray.indexOf(item) == -1){
+                    tmp.push(item);
+                }
+            }
+
+            return tmp;
         }
-
-    };
-
+    }
 });

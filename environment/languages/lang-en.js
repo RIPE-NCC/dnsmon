@@ -56,6 +56,7 @@ define([], function(){
 
         minimumSelectionImposed: "Sorry, the selection was too small",
         tooZoomedMessage: "Sorry, we don't have more details. Try to click on a row's label",
+        clickToRemoveRow: "Click on a row's label to exclude it from the scene",
 
         thresholdsDescritions: {
             pls: "Change the unanswered queries colours range: these thresholds are used to colours the cells based on the percentage of packets lost.",
