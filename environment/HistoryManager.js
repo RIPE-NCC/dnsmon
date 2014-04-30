@@ -16,12 +16,14 @@ define([
      */
 
     var HistoryManager = function(env){
-        var config, pushNewStatuses, keyPrefix, $this, initialisationHistory, initialisationSession, isInitialStatus;
+        var config, pushNewStatuses, keyPrefix, $this, initialisationHistory, initialisationSession, isInitialStatus,
+            isFirstAutoUpdateAction;
 
         $this = this;
         config = env.config;
         pushNewStatuses = true;
         isInitialStatus = true;
+        isFirstAutoUpdateAction = true;
 
         keyPrefix = utils.getInstanceSuffix(env.parentDom);
 
@@ -60,10 +62,15 @@ define([
 
                 currentState = this._generateStateUrl(params, session);
 
-                if (!env.isUpdatedPeriodicallyActive) {
+                if (!env.isUpdatedPeriodicallyActive || isFirstAutoUpdateAction) { // Is not an update action or is the first update action
+
                     window.history.pushState({}, 'dnsmon_state', currentState);
+                    isFirstAutoUpdateAction = !env.isUpdatedPeriodicallyActive;
+
                 }else{
+
                     window.history.replaceState({}, 'dnsmon_state', currentState);
+
                 }
             }else{
                 pushNewStatuses = true;
