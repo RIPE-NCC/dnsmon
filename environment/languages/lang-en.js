@@ -55,10 +55,10 @@ define([], function(){
         fullScreenTitle: "Full screen",
 
 
-        minimumSelectionImposed: "Sorry, the selection was too small",
-        tooZoomedMessage: "Sorry, we don't have more details. Try to click on a row's label",
-        clickToRemoveRow: "Click on a row's label to exclude it from the scene",
-        bottomInfoSection: "Mouse wheel or selection to zoom, press the left/right arrow key to shift the time window, press the shift key to remove rows from the scene",
+        minimumSelectionImposed: "Sorry, the selection was too small    ",
+        tooZoomedMessage: "Sorry, we don't have more details. Try to click on a row's name",
+        clickToRemoveRow: "Click on a row's name to exclude it from the displayed results",
+        bottomInfoSection: "Use your mouse wheel or click and drag a selection to zoom, press the left/right arrow keys to shift the time window, press the shift key to remove rows from the displayed results",
 
 
         thresholdsDescritions: {
