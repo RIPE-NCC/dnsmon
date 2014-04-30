@@ -83,7 +83,7 @@ define([
             }
 
 
-            if (env.stats) url += "&stats=" +  env.stats;
+            //if (env.stats) url += "&stats=" +  env.stats;
             return url;
         };
 
