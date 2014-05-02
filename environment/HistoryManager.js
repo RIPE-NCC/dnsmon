@@ -181,6 +181,7 @@ define([
 
             if (paramsAndSession != null && paramsAndSession.type != null){
                 session = paramsAndSession.session;
+                env.params.selectedRows = [];
                 params = paramsManager.mergeParams(env.params, paramsManager.fromExternalToInternal(paramsAndSession));
 
                 env.params = params;
