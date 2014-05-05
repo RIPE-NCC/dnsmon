@@ -20,7 +20,7 @@ define([
         env.downoadedBytes = 0;
 
         //weir-dev
-        commonServer = "https://weir-dev.atlas.ripe.net/dnsmon/api";
+        commonServer = "https://atlas.ripe.net/dnsmon/api";
 
         perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === "undefined") ? commonServer + "/probes" : DNSMON_PROBES_DATA_API_URL;
         serversDataUrl = (typeof DNSMON_SERVERS_DATA_API_URL === "undefined") ? commonServer + "/servers" : DNSMON_SERVERS_DATA_API_URL;
