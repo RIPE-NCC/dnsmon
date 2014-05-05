@@ -235,7 +235,8 @@ define([
                 env.params.selectedRows = $.map(env.connector.getRows(), function(item){ return item.id; }); // Get all rows
             }
 
-            env.params.selectedRows = utils.removeSubArray(env.params.selectedRows, rowMagnet);
+            env.params.filterProbes = true;
+            env.params.selectedRows = utils.removeSubArray(env.params.selectedRows, [rowMagnet]);
             env.mainView.redraw();
         };
 
@@ -265,6 +266,7 @@ define([
                     env.params.type = "probes";
                     env.params.root = env.params.group;
                     env.params.group = rowMagnet;
+                    env.params.filterProbes = false;
                     env.params.selectedRows = [];
                     triggerAction = true;
                     break;
@@ -613,8 +615,10 @@ define([
                 selectionTooltipStart.remove();
                 selectionTooltipStop.remove();
 
-                selectedRectsBoundingBox.min = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)};
-                selectedRectsBoundingBox.max = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
+                if (env.lowProfile == true) { // Set the approximative
+                    selectedRectsBoundingBox.min = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)};
+                    selectedRectsBoundingBox.max = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
+                }
 
                 removeRect = function(){ //This function will be pushed as a callback of the redraw function in order to remove the selection rect if the selection is not applicable
                     selectionRect

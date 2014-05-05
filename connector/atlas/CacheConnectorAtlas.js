@@ -89,7 +89,6 @@ define(
              */
 
             this.retrieveData = function(params, callback, context){
-
                 if (env.localCacheActive && this.cache.data){ // Is the cache active and available
 
                     if (this._isCacheFilteredServerSide(params)) { // The server side is computing the diff (e.g. because the client doesn't know the time window that will be returned)
@@ -99,6 +98,7 @@ define(
                     }else if (this._isCacheEnough(params)){ // The whole query is in cache
 
                         utils.log("Query in cache", env.debugMode);
+                        utils.log(params);
                         this._composeQueryOnCache(params, callback, context);
 
                     }else if (this._isCachePartiallyValid(params)){ // A portion of the query is in the cache
@@ -387,7 +387,7 @@ define(
 
             this._containsRows = function(oldRowsSelection, newRowsSelection){
 
-                return oldRowsSelection.length == 0 || (newRowsSelection.length != 0 && utils.containsAll(oldRowsSelection, newRowsSelection));
+                return oldRowsSelection.length == 0 || (newRowsSelection.length != 0 && newRowsSelection.length <= oldRowsSelection.length && utils.containsAll(oldRowsSelection, newRowsSelection));
 
             };
 
