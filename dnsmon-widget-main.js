@@ -7,7 +7,7 @@
  * Some path configurations
  */
 
-DNSMON_WIDGET_URL = ((typeof DNSMON_EXTERNAL_WIDGET_URL == 'undefined') ? "" : DNSMON_EXTERNAL_WIDGET_URL) ;
+DNSMON_WIDGET_URL = ((typeof DNSMON_EXTERNAL_WIDGET_URL == 'undefined') ? "https://atlas.ripe.net/dstatic/dnsmon/visualisation/dnsmon/" : DNSMON_EXTERNAL_WIDGET_URL) ;
 
 DNSMON_ENVIRONMENT_URL = DNSMON_WIDGET_URL + "environment/";
 
