@@ -169,6 +169,8 @@ define([
                 change: ((instanceParams.hasOwnProperty("change")) ? [instanceParams.change] : []),
                 load: ((instanceParams.hasOwnProperty("load")) ? [instanceParams.load] : [])
             },
+
+            "showFilter":  ((instanceParams.hasOwnProperty("showFilter")) ? instanceParams.showFilter : config.showFilterDefaultValue),
             "debugMode": ((instanceParams.hasOwnProperty("debugMode")) ? instanceParams.debugMode : (utils.getUrlParam('debug_mode') == 'true')),
             "activeKeys": ((instanceParams.hasOwnProperty("activeKeys")) ? instanceParams.activeKeys : config.activeKeysByDefault),
             "activeMouseZoom": ((instanceParams.hasOwnProperty("activeMouseZoom")) ? instanceParams.activeMouseZoom : config.activeMouseZoomByDefault),

@@ -484,7 +484,7 @@ define([
                             "Default": function(){
                                 var newColorScale, showFilter;
 
-                                showFilter = env.session.getValue('show-filter');
+                                showFilter = env.showFilter;
 
                                 newColorScale = utils.computeColorScale(config.normalColorScales[showFilter]);
                                 env.mainView.updateOnlyColors(newColorScale.valueRange);
@@ -499,7 +499,7 @@ define([
                         }
                     });
 
-                    $this.thresholdsPopup.description.html(lang.thresholdsDescritions[env.session.getValue('show-filter')]);
+                    $this.thresholdsPopup.description.html(lang.thresholdsDescritions[env.showFilter]);
 
                     $this.thresholdsPopup.slider.show();
                     $this.thresholdsPopup.messageApply.hide();
@@ -633,7 +633,7 @@ define([
 
             this.viewSelect
                 .on("change", function(){
-                    env.session.saveValue("show-filter", $(this).val());
+                    env.showFilter = $(this).val();
                     env.mainView.redraw();
                 });
         };
@@ -650,7 +650,7 @@ define([
         this._getThresholdsRanges = function(){
             var showFilter;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
             switch(showFilter){
                 case "pls":
                     return [0, 100];
@@ -724,7 +724,7 @@ define([
         this.updateLegend = function(firstValue, secondValue){
             var firstUnit, secondUnit, showFilter, realFirstValue, realSecondValue, realFirstUnit, realSecondUnit;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
 
             realFirstValue = firstValue;
             realSecondValue = secondValue;
@@ -821,7 +821,7 @@ define([
         this.addPossibleView = function(label, value){
             var checked, showFilter;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
 
             checked = (value == showFilter) ? 'selected="selected"' : '' ;
             this.viewSelect.append('<option value="' + value + '" ' + checked + '>' + label + '</option>');
