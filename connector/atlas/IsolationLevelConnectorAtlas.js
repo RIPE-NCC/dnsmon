@@ -541,8 +541,8 @@ define(
                     row.cells.push(objCell); // Set the current cell to the current row
 
                     if (cellResponseTime != null){
-                        row.minimumResponseTime = (row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime;
-                    }
+                        row.minimumResponseTime = ((row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime);
+                     }
 
                     crowdestRow = (row.cells.length > crowdestRow.cells.length) ? row : crowdestRow;
 
@@ -635,7 +635,7 @@ define(
                 resultNomenclature = dataNomenclatureMapping.result;
                 rtt = cellData[resultNomenclature.respondingTime];
 
-                return rtt;
+                return rtt.toFixed(2);
             };
 
 

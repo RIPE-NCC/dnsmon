@@ -478,7 +478,7 @@ define([
                     $this.dialogPopUp.dialog({
                         title: lang.changeColorsRangeTitle,
                         width: 460,
-                        height: 200,
+                        height: 220,
                         buttons: {
 
                             "Default": function(){

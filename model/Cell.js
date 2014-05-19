@@ -87,7 +87,7 @@ define(["env.utils"], function(utils){
      */
 
     Cell.prototype.getRelativeResponseTime = function(){
-        return (this.respondingTime == null) ? null : (this.respondingTime - this.row.minimumResponseTime);
+        return (this.respondingTime == null) ? null : (((this.respondingTime - this.row.minimumResponseTime) / this.row.minimumResponseTime) * 100);
     };
 
 
@@ -154,7 +154,7 @@ define(["env.utils"], function(utils){
             stringArray.push("At " + utils.dateToString(this.time));
         }
 
-        stringArray.push('RTT' + ((this.sent == 1) ? '' : ' (median)') + ': ' +((this.respondingTime) ? Math.floor(this.respondingTime) + 'ms' : 'NA'));
+        stringArray.push('RTT' + ((this.sent == 1) ? '' : ' (median)') + ': ' +((this.respondingTime) ? this.respondingTime + ' ms' : 'NA'));
         stringArray.push("Queries sent: " + this.sent);
         stringArray.push("Unanswered queries: " + this.loss + "%");
 
