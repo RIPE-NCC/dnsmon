@@ -28,11 +28,10 @@ define([
         localParamsChecked = false;
 
         defaultSession = { // Pre-filled session with default values
-            "show-filter": config.showFilterDefaultValue,
             "exclude-errors": config.excludeErrorsByDefault
         };
 
-        volatileValues = ["show-filter"]; // Keys in this list are not stored persistently
+        volatileValues = []; // Keys in this list are not stored persistently
         cookiePreSuffix = "dnsmon_"; // A suffix to create a better scope for the cookies
 
         //Compute the final suffix

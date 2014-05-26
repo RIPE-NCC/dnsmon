@@ -212,7 +212,7 @@ define([
         this.updateColorScales = function(){
             var rangeInSession, showFilter, internalColorScale;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
 
             if (!this.normalColorScales){
                 this.normalColorScales = config.normalColorScales;
@@ -287,7 +287,7 @@ define([
 
             $this = this;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
 
             this._applyRange(newValuesRange);
 
@@ -581,7 +581,7 @@ define([
         this.getCellValue = function(cellData){
             var value, showFilter, excludeErrors;
 
-            showFilter = env.session.getValue('show-filter');
+            showFilter = env.showFilter;
             excludeErrors = (env.session.getValue('exclude-errors') == 'true'); // ...SessionManager manages only strings
 
             switch(showFilter){
