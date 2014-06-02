@@ -596,11 +596,18 @@ define(
              */
 
             this._computeNumberCorrectResponses = function(cellData, numberOfErrors){
-                var packetLoss;
+                var packetLoss, packetLossPercentage, packetSent, packetReceived;
 
-                packetLoss = cellData[dataNomenclatureMapping.result.packetSent] - (cellData[dataNomenclatureMapping.result.packetReceived] - numberOfErrors);
-                packetLoss = (100 / cellData[dataNomenclatureMapping.result.packetSent]) * packetLoss;
-                return packetLoss.toFixed(2);
+                packetSent = cellData[dataNomenclatureMapping.result.packetSent];
+                packetReceived = cellData[dataNomenclatureMapping.result.packetReceived];
+
+                if (packetSent != null && packetReceived != null) {
+                    packetLoss = packetSent - (packetReceived - numberOfErrors);
+                    packetLossPercentage = (100 / packetSent) * packetLoss;
+                    packetLossPercentage = packetLossPercentage.toFixed(2);
+                }
+
+                return packetLossPercentage;
             };
 
             /**
@@ -613,11 +620,18 @@ define(
              */
 
             this._computePacketLoss = function(cellData){
-                var packetLoss;
-                packetLoss = cellData[dataNomenclatureMapping.result.packetSent] - cellData[dataNomenclatureMapping.result.packetReceived];
+                var packetLoss, packetLossPercentage, packetSent, packetReceived;
 
-                packetLoss = (100 / cellData[dataNomenclatureMapping.result.packetSent]) * packetLoss;
-                return packetLoss.toFixed(2);
+                packetSent = cellData[dataNomenclatureMapping.result.packetSent];
+                packetReceived = cellData[dataNomenclatureMapping.result.packetReceived];
+
+                if (packetSent != null && packetReceived != null) {
+                    packetLoss = packetSent - packetReceived;
+                    packetLossPercentage = (100 / packetSent) * packetLoss;
+                    packetLossPercentage = packetLossPercentage.toFixed(2);
+                }
+
+                return packetLossPercentage;
             };
 
 
@@ -635,7 +649,7 @@ define(
                 resultNomenclature = dataNomenclatureMapping.result;
                 rtt = cellData[resultNomenclature.respondingTime];
 
-                return (rtt) ? parseFloat(rtt).toFixed(2) : null;
+                return (rtt != null) ? parseFloat(rtt).toFixed(2) : null;
             };
 
 
