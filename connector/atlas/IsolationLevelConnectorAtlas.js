@@ -635,7 +635,7 @@ define(
                 resultNomenclature = dataNomenclatureMapping.result;
                 rtt = cellData[resultNomenclature.respondingTime];
 
-                return rtt.toFixed(2);
+                return (rtt) ? parseFloat(rtt).toFixed(2) : null;
             };
 
 
