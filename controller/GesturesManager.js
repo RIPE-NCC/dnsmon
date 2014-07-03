@@ -450,7 +450,7 @@ define([
 
                 updateSelectionTimes--;
 
-                if (currentElement != null && updateSelectionTimes == 0){
+                if (currentElement != null && updateSelectionTimes == 0) {
 
                     allCells = env.mainView.d3Cells;
 
@@ -471,14 +471,13 @@ define([
 
                     selectionVertices = utils.getRectangularVertexPoints(finalStartCoords.x, finalStartCoords.y, finalEndCoords.x - finalStartCoords.x, finalEndCoords.y - finalStartCoords.y); // Get Selection vertices
 
-
                     // This function finds the subset of cells outside the bounding box
                     allCells
-                        .filter(function(d){
+                        .filter(function (d) {
                             var out;
                             out = d.selected;
 
-                            if (out == true){
+                            if (out == true) {
                                 d.selected = false;
                             }
 
@@ -489,8 +488,8 @@ define([
 
                     // This function finds the subset of cells inside the bounding box
                     selectedCells = allCells
-                        .filter(function(d){
-                            var out, rectVertices, currentRect;
+                        .filter(function (d) {
+                            var isCellSelected, rectVertices, currentRect;
 
                             currentRect = d3.select(this); // Points the current cell
 
@@ -498,9 +497,9 @@ define([
 
                             rectVertices = d.rectVertices;
 
-                            out = utils.isThereAnIntersection(selectionVertices, rectVertices);// && d.selected == false; // Find if there is an intersection
+                            isCellSelected = utils.isThereAnIntersection(selectionVertices, rectVertices);// && d.selected == false; // Find if there is an intersection
 
-                            if (out == true){
+                            if (isCellSelected == true) {
                                 /*
                                  * Calculate the real bounding box based on cells boundaries
                                  */
@@ -510,9 +509,11 @@ define([
                                 d.selected = true;
                             }
 
-                            return out;
+                            return isCellSelected;
                         })
                         .style("fill", getSelectedCellColor); //Change the color of the selected cells
+
+
                 }
             };
 
@@ -620,7 +621,7 @@ define([
                 selectionTooltipStart.remove();
                 selectionTooltipStop.remove();
 
-                if (env.lowProfile == true) { // Set the approximative
+                if (env.lowProfile == true || selectedRectsBoundingBox.min.x == Infinity) { // Set the approximate box
                     selectedRectsBoundingBox.min = {x: Math.min(startCoords.x, endCoords.x), y: Math.min(startCoords.y, endCoords.y)};
                     selectedRectsBoundingBox.max = {x: Math.max(startCoords.x, endCoords.x), y: Math.max(startCoords.y, endCoords.y)};
                 }

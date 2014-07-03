@@ -28,7 +28,6 @@ define([
          * From top to bottom: it provides a way to query the data-api with the current valid parameters.
          *
          * @method retrieveData
-         * @param {Object} params A parameters vector
          * @param {Function} callback A function taking the retrieved data as input when it is ready
          * @param {Object} context The context of the callback
          */
