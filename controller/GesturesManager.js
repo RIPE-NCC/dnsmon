@@ -250,11 +250,12 @@ define([
          */
 
         this._executeRowAction = function(rowSelection){
-            var queryType, triggerAction, rowMagnet;
+            var queryType, triggerAction, rowMagnet, rowObject;
 
             triggerAction = false;
             queryType = env.params.type;
             rowMagnet = rowSelection.attr("magnet");
+            rowObject = env.connector.getRowById(rowMagnet);
 
             switch (queryType) {
 
@@ -263,12 +264,16 @@ define([
                     break;
 
                 case "servers":
-                    env.params.type = "probes";
-                    env.params.root = env.params.group;
-                    env.params.group = rowMagnet;
-                    env.params.filterProbes = false;
-                    env.params.selectedRows = [];
-                    triggerAction = true;
+                    if (rowObject.cells.length > 0) {
+                        env.params.type = "probes";
+                        env.params.root = env.params.group;
+                        env.params.group = rowMagnet;
+                        env.params.filterProbes = false;
+                        env.params.selectedRows = [];
+                        triggerAction = true;
+                    } else {
+                        env.mainView.showMessage(env.lang.noDataForRow);
+                    }
                     break;
             }
 

@@ -245,6 +245,7 @@ define([
                     return false;
                 }
             }
+
             return true;
         };
 
@@ -264,6 +265,7 @@ define([
             presence = (item != null);
             emptiness = ($.isArray(item)) ? (item.length > 0) : (item !== "");
 
+            utils.log(field + ': ' + (presence && emptiness) , env.debugMode);
             return presence && emptiness;
         };
 

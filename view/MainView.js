@@ -800,7 +800,7 @@ define([
                     return Math.min(d.respondingTime, height);
                 }
                 return $this.yAxis.scale.rangeBand() - ($this.yAxis.scale.rangeBand() * config.yCellsMargin);
-            }
+            };
 
             this.cellWidth = cellWidth;
 
