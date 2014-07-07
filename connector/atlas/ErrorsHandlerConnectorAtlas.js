@@ -126,16 +126,11 @@ define([
          *
          * @method _restorePreviousWorkingQuery
          * @private
-         * @param {Object} params A params vector
          * @param {Function} callback A function taking the retrieved data as input when it is ready
          * @param {Object} context The context of the callback
          */
 
         this._restorePreviousWorkingQuery = function(callback, context){
-            var $this;
-
-            $this = this;
-
             utils.log('Try to restore the previous situation', env.debugMode);
 
             env.params = lastRequestWorkingParams;
@@ -173,7 +168,7 @@ define([
          * @method _handle
          * @private
          * @param {String} type A string representing the type of the error
-         * @return {String} type A string describing the error
+         * @param {String} text A string describing the error
          */
 
         this._handle = function(type, text){
@@ -218,7 +213,6 @@ define([
          * @private
          * @return {Boolean} Returns true on success
          */
-
         this._checkDataFormat = function(data){
             var requiredFields;
 
@@ -245,6 +239,7 @@ define([
                     return false;
                 }
             }
+
             return true;
         };
 
@@ -257,14 +252,18 @@ define([
          * @return {Boolean} Returns true on success
          */
         this._checkField = function(data, field){
-            var item, presence, emptiness;
+            var item, presence, emptiness, result;
 
             item = data[field];
 
             presence = (item != null);
             emptiness = ($.isArray(item)) ? (item.length > 0) : (item !== "");
+            result = presence && emptiness;
 
-            return presence && emptiness;
+            if (!result){
+                utils.log(field + ': ' + (presence && emptiness) , env.debugMode);
+            }
+            return result;
         };
 
 

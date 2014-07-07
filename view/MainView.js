@@ -747,8 +747,8 @@ define([
          */
 
         this._renderCells = function(data){
-            var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, shakeTransform, containerWidth,
-                computedCellWitdh, transformSet, orderingFunction, pxToSec, cellTranslateLeft;
+            var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, transformSet, orderingFunction, pxToSec,
+                cellTranslateLeft;
 
             $this = this;
 
@@ -769,8 +769,7 @@ define([
             };
 
             cellClass = function(d){
-                var out = 'cell time_' + d.time.getTime() + ' origin' + d.row.id;
-                return out;
+                return 'cell time_' + d.time.getTime() + ' origin' + d.row.id;
             };
 
             pxToSec = (env.container.chart.width() / env.timeWindowSeconds);
@@ -793,6 +792,7 @@ define([
                 return cellWidth;
             };
 
+
             cellHeight = function(d){
 
                 if (window.dynamicHeight == true && d.getPacketLoss() > 66 && d.getPacketLoss() < 99){
@@ -800,7 +800,8 @@ define([
                     return Math.min(d.respondingTime, height);
                 }
                 return $this.yAxis.scale.rangeBand() - ($this.yAxis.scale.rangeBand() * config.yCellsMargin);
-            }
+            };
+
 
             this.cellWidth = cellWidth;
 

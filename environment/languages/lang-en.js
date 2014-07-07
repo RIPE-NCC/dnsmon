@@ -60,6 +60,7 @@ define([], function(){
         clickToRemoveRow: "Click on a row's name to exclude it from the displayed results",
         bottomInfoSection: "Use your mouse wheel or click and drag a selection to zoom, press the left/right arrow keys to shift the time window, press the shift key to remove rows from the displayed results",
 
+        noDataForRow: "We don't have data for this server in the selected time period",
 
         thresholdsDescritions: {
             pls: "Change the unanswered queries colours range: these thresholds are used to colours the cells based on the percentage of packets lost.",
