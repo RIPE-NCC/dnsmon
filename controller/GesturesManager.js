@@ -663,7 +663,7 @@ define([
                             .style("fill", getNormalCellColor);
 
                     }
-                };
+                }
 
                 currentElement = null; //Reset the selection start point
                 trackerDomElement
