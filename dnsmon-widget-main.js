@@ -29,7 +29,7 @@ DNSMON_INSTANCES = [];
 DNSMON_RUNNING_INSTANCES = {};
 DNSMON_INSTANCE_CALLBACKS = {};
 
-document.write('<script src="' + DNSMON_LIB_URL + 'require.min.js"></script>');
+document.write('<script src="../dnsmon/lib/require.min.js"></script>');
 
 
 /**
@@ -46,15 +46,30 @@ function setDNSmonParam(domElement, params){
 }
 
 function initDNSmon(domElement, instanceParams, queryParams){
+    var runDNSmon;
 
     DNSMON_INSTANCES.push({domElement: domElement, instanceParams: instanceParams, queryParams: queryParams, callbacks: {}});
 
-    require([DNSMON_WIDGET_URL + 'dnsmon-loader.js'], function (DNSmon) {
+    runDNSmon = function (DNSmon) {
         var instance;
 
         instance = getDNSmonInstance();
         DNSMON_RUNNING_INSTANCES[domElement] = DNSmon(instance);
-    });
+    };
+
+
+    if (!instanceParams.dev) {
+
+        require(['../dnsmon-dist/dnsmon-dist'], function () {
+            require(['dnsmon-dist/dnsmon-loader'], runDNSmon);
+        });
+
+    } else {
+
+        require([DNSMON_WIDGET_URL + 'dnsmon-loader.js'], runDNSmon);
+
+    }
+
 
     return {
         setParams: function(params){
