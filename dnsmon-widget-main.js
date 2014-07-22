@@ -60,7 +60,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
 
     if (!instanceParams.dev) {
 
-        require(['dnsmon-dist.js'], function () {
+        require([DNSMON_WIDGET_URL + 'dnsmon-dist.js'], function () {
             require(['dnsmon/dnsmon-loader'], runDNSmon);
         });
 
