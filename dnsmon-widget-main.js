@@ -29,7 +29,7 @@ DNSMON_INSTANCES = [];
 DNSMON_RUNNING_INSTANCES = {};
 DNSMON_INSTANCE_CALLBACKS = {};
 
-document.write('<script src="lib/require.min.js"></script>');
+document.write('<script src="' + DNSMON_LIB_URL + 'require.min.js"></script>');
 
 
 /**
