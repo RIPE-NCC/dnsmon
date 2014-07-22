@@ -1,7 +1,9 @@
 define([
     "lib.date-format"
 ], function(){
+    var locale;
 
+    locale = {};
     /**
      * A collection of utilities
      */
@@ -145,13 +147,42 @@ define([
             return {$: jQuerySelection, plain: jQuerySelection[0]};
         },
 
+        loadStylesheets: function (cssFiles, callback) {
+            var cssRequested, stylesLoaded, cssListenerInterval, cssListenerTimeout, cssListener;
+
+            stylesLoaded = document.styleSheets.length; // Initial css loaded
+            cssRequested = cssFiles.length; // css to load
+
+            for (var n=0; n<cssRequested; n++){ // load css
+                this.loadCss(cssFiles[n]);
+            }
+
+            cssListenerInterval = 50; //50 ms
+            cssListenerTimeout = 10000; // 10 secs
+            cssListener = setInterval(function(){
+
+                if(document.styleSheets.length >= stylesLoaded + cssRequested){ // check if all the css are loaded
+                    clearInterval(cssListener);
+                    callback();
+                }else{
+                    if (cssListenerTimeout <= 0){
+                        clearInterval(cssListener);
+                        console.log("It is not possible to load stylesheets.");
+                    }
+                    cssListenerTimeout -= cssListenerInterval;
+                }
+            }, cssListenerInterval);
+        },
+
         loadCss: function (cssFile) {
-            var newLink = document.createElement('link');
+            var newLink;
+
+            newLink = document.createElement('link');
             newLink.rel = 'stylesheet';
             newLink.type = 'text/css';
             newLink.href = cssFile;
             newLink.async = true;
-            document.head.appendChild(newLink);
+            (document.head || document.getElementsByTagName("head")[0]).appendChild(newLink);
         },
 
         getRectangularVertexPoints: function (x, y, width, height) {
@@ -502,7 +533,6 @@ define([
             }
 
             return true;
-
         },
 
         objectSize: function (object) {
@@ -544,6 +574,93 @@ define([
             }
 
             return tmp;
+        },
+
+        validateIP: function(str){
+            var ipv6TestRegEx, ipv4TestRegEx;
+
+            ipv6TestRegEx = /^((?=.*::)(?!.*::.+::)(::)?([\dA-F]{1,4}:(:|\b)|){5}|([\dA-F]{1,4}:){6})((([\dA-F]{1,4}((?!\3)::|:\b|$))|(?!\2\3)){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/;
+            ipv4TestRegEx = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+
+            return ipv4TestRegEx.test(str) || ipv6TestRegEx.test(str);
+
+//            return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+        },
+
+        isLocalStorageAvailable: function(){
+            try {
+                return 'localStorage' in window && window['localStorage'] !== null;
+            } catch (e) {
+                return false;
+            }
+        },
+
+        getLocalData: function(key){
+            var storedValue, storedExpiration;
+
+            storedValue = localStorage[key];
+            storedExpiration = localStorage['expirationDates-' + key];
+
+            if (storedValue && (!storedExpiration || storedExpiration > (new Date()).getTime())){
+                return storedValue;
+            }
+
+            return null;
+        },
+
+        setLocalData: function(key, data, expiration){
+            try {
+
+                localStorage[key] = data;
+                localStorage['expirationDates-' + key] = expiration.getTime();
+
+            } catch(error) {
+
+                console.log('It was not possible to store the data: ' + error.toString());
+
+                return false;
+            }
+
+            return true;
+        },
+
+
+        globalizeIfUndefined: function(what, where){
+            for (var n=0,length=where.length; n<length; n++){
+                if (typeof window[where[n]] == 'undefined'){
+                    window[where[n]] = what;
+                }
+            }
+        },
+
+
+        getBrowserVersion: function(){
+
+            if (!locale.browser) {
+                locale.browser = (function () {
+                    var userAgent, appName, matched, tem;
+                    userAgent = navigator.userAgent;
+                    appName = navigator.appName;
+                    matched = userAgent.match(/(opera|chrome|safari|firefox|msie|trident|Windows Phone|BlackBerry|Opera Mini|IEMobile|iPhone|iPad|iPod|webOS|Android)\/?\s*([\d\.]+)/i) || [];
+                    matched = matched[2] ? [matched[1], matched[2]] : [appName, navigator.appVersion, '-?'];
+                    if (matched && (tem = userAgent.match(/version\/([\.\d]+)/i)) != null) matched[2] = tem[1];
+                    return {name: matched[0], version: matched[1].split('.')};
+                })();
+            }
+
+            return locale.browser;
+        },
+
+
+        logErrors: function(callback){
+            if (callback){
+                window.onerror = function errorUnwrapper(errorMsg, url, lineNumber) {
+                    return callback("error", errorMsg + ' at ' + url + ' on line ' + lineNumber);
+                }
+            } else {
+                window.onerror = null;
+            }
         }
+
     }
 });

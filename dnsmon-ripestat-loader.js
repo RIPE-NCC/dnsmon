@@ -54,6 +54,7 @@ requirejs.config({
         "connector.aggregation-level": DNSMON_CONNECTOR_URL + "AggregationLevelConnector",
         "connector.anti-flood": DNSMON_CONNECTOR_URL + "AntiFloodConnector",
         "connector.filter": DNSMON_CONNECTOR_URL + "FilterConnector",
+        "connector.filter": DNSMON_CONNECTOR_URL + "FilterConnector",
 
 
         /* connector.atlas */

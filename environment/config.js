@@ -63,6 +63,7 @@ define([], function(){
         useLocalPersistenceForSettings: true,
         localPersistenceValidityTimeMinutes: 24 * 60 * 120, // ~ 4 months
         timeEventsActiveByDefault: true,
+        timeWindowAlignedByDefault: false,
         popupDelay: 200,
         messagesFadeOutSeconds: 6000,
         zoomAnimationDuration: 400,
@@ -84,6 +85,12 @@ define([], function(){
         fullScreenActiveByDefault: false,
         timeOverviewOpenedByDefaultInFullScreen: false,
         groupingByDefault: true,
+
+        persistLog: false,
+        persistErrors: false,
+        storageLogRestApiUrl: 'http://wbr3.webrobotics.net/log.php',
+        storageErrorRestApiUrl: 'http://wbr3.webrobotics.net/log.php',
+        logAppTag: 'dnsmon',
 
         updateEverySeconds: 120,
         sensibilityFactorDuringSelection: 2,

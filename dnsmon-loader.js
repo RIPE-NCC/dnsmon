@@ -68,6 +68,7 @@ requirejs.config({
         "connector.aggregation-level": DNSMON_CONNECTOR_URL + "AggregationLevelConnector",
         "connector.anti-flood": DNSMON_CONNECTOR_URL + "AntiFloodConnector",
         "connector.filter": DNSMON_CONNECTOR_URL + "FilterConnector",
+        "connector.log-connector": DNSMON_CONNECTOR_URL + "log/LogRestConnector",
 
 
         /* connector.atlas */
@@ -156,7 +157,7 @@ define([
          * Init Dependency Injection Vector
          */
         env = {
-            "version": "14.4.29.2",
+            "version": "14.7.21.2",
             "widgetUrl": DNSMON_WIDGET_URL,
             "parentDom": parentDom, //HASH THIS
             "document": utils.encapsulateDom($(document)),
@@ -200,8 +201,11 @@ define([
         cssListener = setInterval(function(){
 
             if(document.styleSheets.length >= stylesLoaded + 2){
+
                 clearInterval(cssListener);
+                utils.logErrors(env.connector.persistError); //Persist errors
                 env.mainView.init(parentDom, instanceParams);
+
             }else{
                 if (cssListenerTimeout <= 0){
                     clearInterval(cssListener);

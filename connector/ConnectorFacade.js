@@ -5,8 +5,9 @@
 define([
     "env.utils",
     "connector.anti-flood",
-    "env.params-manager"
-], function(utils, Connector, paramsManager){
+    "env.params-manager",
+    "connector.log-connector"
+], function(utils, Connector, paramsManager, LogRestConnector){
 
     /**
      * ConnectorFacade is the singleton Facade of the whole connector level.
@@ -19,9 +20,10 @@ define([
      */
 
     var ConnectorFacade = function(env){
-        var connector, indexedRows;
+        var connector, indexedRows, logConnector;
 
         connector = new Connector(env);
+        logConnector = new LogRestConnector(env);
 
 
         /**
@@ -261,6 +263,42 @@ define([
             }
 
             return null;
+        };
+
+
+        /** Sends logs to the servers
+         *
+         * @method persistLog
+         * @param {String} type The type of the log
+         * @param {String} log The body of the log
+         */
+
+        this.persistLog = function(type, log){
+            var browserVersion;
+
+            if (env.config.persistLog) {
+                browserVersion = utils.getBrowserVersion();
+                logConnector.log(type, log + ' (browser: ' + browserVersion.name + ' ' + browserVersion.version.toString() + ')');
+            }
+
+        };
+
+
+        /** Sends errors to the servers
+         *
+         * @method persistError
+         * @param {String} type The type of the error
+         * @param {String} log The body of the error
+         */
+
+        this.persistError = function(type, log){
+            var browserVersion;
+
+            if (env.config.persistErrors) {
+                browserVersion = utils.getBrowserVersion();
+                logConnector.error(type, log + ' (browser: ' + browserVersion.name + ' ' + browserVersion.version.toString() + ', codeVersion: ' + env.version + ')');
+            }
+
         };
 
     };
