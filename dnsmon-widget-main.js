@@ -60,8 +60,8 @@ function initDNSmon(domElement, instanceParams, queryParams){
 
     if (!instanceParams.dev) {
 
-        require(['../dnsmon-dist/dnsmon-dist'], function () {
-            require(['dnsmon-dist/dnsmon-loader'], runDNSmon);
+        require(['dnsmon-dist.js'], function () {
+            require(['dnsmon/dnsmon-loader'], runDNSmon);
         });
 
     } else {
