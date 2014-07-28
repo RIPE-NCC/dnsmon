@@ -31,7 +31,6 @@ var FilterConnector = function(environment){
         var filteredData = {};
 
         return data;
-        return filteredData;
     };
 
 

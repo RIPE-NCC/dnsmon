@@ -12,7 +12,7 @@ define([
 
     var Connector = function(env){
         var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
-            commonServer;
+            commonServer, closestNsidDataUrl;
 
         config = env.config;
 
@@ -27,6 +27,7 @@ define([
 
         nativeDnsResultDataUrl = (typeof DNSMON_ATLAS_DATA_API_URL === "undefined") ? commonServer + "/atlas-data" : DNSMON_ATLAS_DATA_API_URL;
         closesttraceroutesDataUrl = (typeof DNSMON_ATLAS_TRACEROUTE_API_URL === "undefined") ? commonServer + "/atlas-data" : DNSMON_ATLAS_TRACEROUTE_API_URL;
+        closestNsidDataUrl = (typeof DNSMON_ATLAS_NSID_API_URL === "undefined") ? commonServer + "/atlas-data" : DNSMON_ATLAS_NSID_API_URL;
 
         this.getDataUrl = function(params){
 
@@ -229,6 +230,50 @@ define([
 
                 fail: function(){
                     utils.log("It is not possible to retrieve traceroute data", env.debugMode);
+                }
+            });
+        };
+
+
+        /**
+         * Get the closest hostname.bind data from the data-api
+         *
+         * @method getClosestHostnameBind
+         * @param {Number} msmId The id of the measurement
+         * @param {Number} prbId The id of the probe
+         * @param {Number} timestamp A UNIX timestamp
+         * @param {Function} callback A function taking the retrieved data as input when it is ready
+         * @param {Object} context The context of the callback
+         */
+
+        this.getClosestHostnameBind = function(msmId, prbId, timestamp, callback, context){
+            var dataUrl;
+
+            dataUrl = utils.setParam('msm_id', msmId, closestNsidDataUrl);
+            dataUrl = utils.setParam('prb_id', prbId, dataUrl);
+            dataUrl = utils.setParam('timestamp', timestamp, dataUrl);
+            dataUrl = utils.setParam('surrounding', config.nsidSurrounding, dataUrl);
+            dataUrl = utils.setParam('render', "false", dataUrl);
+
+            utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
+
+            $.ajax({
+                dataType: "jsonp",
+                url: dataUrl,
+                success: function(data){
+                    utils.log("hostname.bind data retrieved", env.debugMode);
+
+                    if (env.debugMode){
+                        env.lastDownloadBytes = utils.objectSize(data);
+                        env.downoadedBytes += env.lastDownloadBytes;
+                    }
+
+                    callback.call(context, data);
+                    delete data; // Force garbage
+                },
+
+                fail: function(){
+                    utils.log("It is not possible to retrieve hostname.bind data", env.debugMode);
                 }
             });
         };

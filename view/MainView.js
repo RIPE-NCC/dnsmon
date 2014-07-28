@@ -653,7 +653,7 @@ define([
 
 
         /**
-         * This method moves the throbber image in order to follow the cursor
+         * This method updates the time domain
          *
          * @method updateXDomain
          * @input {Object} pullData If true a new data-set will be requested
@@ -956,7 +956,7 @@ define([
 
         this.update = function(data){
             utils.log("Visualization update starts", env.debugMode);
-            var yRowsToDomainAndMagnets, numberOfRows;
+            var yRowsToDomainAndMagnets;
 
             this.rows = data.rows;
 

@@ -215,6 +215,29 @@ define([
             connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);
         };
 
+        /**
+         * Get the closest hostname.bind and checks errors
+         *
+         * @method getClosestHostnameBind
+         * @param {Object} cell A cell object
+         * @param {Function} callback A function taking the retrieved data as input when it is ready
+         * @param {Object} context The context of the callback
+         */
+
+        this.getClosestHostnameBind = function(cell, callback, context){
+            var msmId, prbId, timestamp, measurementType;
+
+            measurementType = "hostname_bind";
+
+            msmId = this._getMeasurementIdByType(cell, measurementType);
+            prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
+            timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
+
+            // No errors checks for now
+            connector.getClosestHostnameBind(msmId, prbId, timestamp, callback, context);
+        };
+
+
 
         /** Get the measurement id given a cell
          *

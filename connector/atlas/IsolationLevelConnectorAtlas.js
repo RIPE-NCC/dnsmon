@@ -32,7 +32,7 @@ define(
          * @module connector.Atlas
          */
 
-        var IsolationLevelConnectorAtlas = function(env){
+        var IsolationLevelConnectorAtlas = function(env) {
 
             var connector, dataNomenclatureMapping, maxUsedDate, minUsedDate, crowdestRow, envelop, config, originalTime;
 
@@ -117,12 +117,12 @@ define(
              * @param {Object} context The context of the callback
              */
 
-            this.retrieveData = function(params, callback, context){
+            this.retrieveData = function (params, callback, context) {
 
                 params = this._parseParams(params); //Translates the internal format of the parameters in the format valid outside
 
                 //Just an indirection for now
-                connector.retrieveData(params, function(data){
+                connector.retrieveData(params, function (data) {
                     var wrappedData = this._parseData(data);
 
                     callback.call(context, wrappedData); // Back to the normal data flow
@@ -138,7 +138,7 @@ define(
              * @param {Object} params A params vector
              * @return {Object} A params vector in the internal format
              */
-            this._parseParams = function(params){
+            this._parseParams = function (params) {
                 return paramsManager.fromInternalToExternal(params);
             };
 
@@ -151,13 +151,13 @@ define(
              * @return {Object} A server described in the internal format
              */
 
-            this._parseSingleServer = function(server){
+            this._parseSingleServer = function (server) {
                 var serverNomenclature, serverObj;
 
                 serverNomenclature = dataNomenclatureMapping.server;
                 serverObj = {
                     id: paramsManager.convertRemoteToLocalId(server[serverNomenclature.id]),
-                    label: server[serverNomenclature.label] || server[serverNomenclature.hostname] + ' ' + ((server[serverNomenclature.ipVersion] == 4) ? 'IPv4': 'IPv6'),
+                    label: server[serverNomenclature.label] || server[serverNomenclature.hostname] + ' ' + ((server[serverNomenclature.ipVersion] == 4) ? 'IPv4' : 'IPv6'),
                     description: server[serverNomenclature.description],
                     urlsMap: this._generateJsonUrls(server[serverNomenclature.urlsMap])
                 };
@@ -174,7 +174,7 @@ define(
              * @return {Object} A zone described in the internal format
              */
 
-            this._parseZone = function(zone){
+            this._parseZone = function (zone) {
                 var zoneNomenclature, zoneObj;
 
                 zoneNomenclature = dataNomenclatureMapping.zone;
@@ -198,7 +198,7 @@ define(
              * @return {Object} The internal data structure
              */
 
-            this._parseData = function(data){
+            this._parseData = function (data) {
                 maxUsedDate = null;
                 minUsedDate = null;
 
@@ -223,18 +223,18 @@ define(
 
                 env.retrievedAggregationLevel = data[dataNomenclatureMapping.aggregationLevel];
 
-                if (data.type == "server-probes"){ // Different parser based on data.type
+                if (data.type == "server-probes") { // Different parser based on data.type
 
                     envelop.group = this._parseSingleServer(data[dataNomenclatureMapping.singleServer]);
                     envelop.root = this._parseZone(data[dataNomenclatureMapping.singleZone]);
                     this._parseProbes(data[dataNomenclatureMapping.probesList]);
 
-                }else if (data.type == "zone-servers"){
+                } else if (data.type == "zone-servers") {
 
                     envelop.group = this._parseZone(data[dataNomenclatureMapping.singleZone]);
                     this._parseServers(data[dataNomenclatureMapping.serversList]);
 
-                }else{
+                } else {
                     console.log("Malformed json!");
                 }
 
@@ -252,11 +252,11 @@ define(
                 env.aggregationLabel = data[dataNomenclatureMapping.aggregationLabel];
                 env.isNativeAvailable = data[dataNomenclatureMapping.nativeAvailable];
 
-                envelop.usedTimeWindowSeconds = Math.ceil((maxUsedDate - minUsedDate)/1000);
-                env.timeWindowSeconds = Math.ceil((env.params.endDate - env.params.startDate)/1000);
+                envelop.usedTimeWindowSeconds = Math.ceil((maxUsedDate - minUsedDate) / 1000);
+                env.timeWindowSeconds = Math.ceil((env.params.endDate - env.params.startDate) / 1000);
                 envelop.crowdestRow = crowdestRow;
 
-                if (minUsedDate < env.params.startDate){
+                if (minUsedDate < env.params.startDate) {
                     utils.log('Warning: an element retrieved is before the start date', env.debugMode);
                 }
 
@@ -272,14 +272,14 @@ define(
              * @param {Object} servers A list of server
              */
 
-            this._parseServers = function(servers){
+            this._parseServers = function (servers) {
                 var row, rowId, rowLabel, objRow, serverNomenclature, rowResults, resultsObjList, rowGroup, rowIpVersion,
                     rowDescription, externalId, rowHostname, rowIp, multipleLabels;
 
                 serverNomenclature = dataNomenclatureMapping.server;
                 multipleLabels = {};
 
-                for (var n=0,length=servers.length; n<length; n++){ // For all the servers
+                for (var n = 0, length = servers.length; n < length; n++) { // For all the servers
                     row = servers[n];
 
                     externalId = row[serverNomenclature.id];
@@ -294,16 +294,16 @@ define(
 
                     rowDescription = row[serverNomenclature.description] || rowIp + ' (' + rowHostname + ')';
 
-                    rowLabel = row[serverNomenclature.label] || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4': 'IPv6');
+                    rowLabel = row[serverNomenclature.label] || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4' : 'IPv6');
 
-                    if (multipleLabels[rowLabel]){
+                    if (multipleLabels[rowLabel]) {
                         multipleLabels[rowLabel]++;
                         rowLabel += '(' + multipleLabels[rowLabel] + ')';
-                    }else{
+                    } else {
                         multipleLabels[rowLabel] = 1;
                     }
 
-                    objRow  = new Row(rowId, rowLabel); // Create a row object of the model layer
+                    objRow = new Row(rowId, rowLabel); // Create a row object of the model layer
                     objRow.group = rowGroup;
                     objRow.internalOrder = rowIpVersion;
                     objRow.description = rowDescription;
@@ -330,7 +330,7 @@ define(
              * @return {Object} A map of URLs translated in the internal format
              */
 
-            this._generateJsonUrls = function(urlsMap){
+            this._generateJsonUrls = function (urlsMap) {
                 var jsonOverviewUrls, jsonSampleUrls, dataUrl, overviewUrl, label, nomenclatureUrlMap, mapUrlItem,
                     current, measurementId, typeId, samplingFrequency;
 
@@ -338,7 +338,7 @@ define(
                 jsonSampleUrls = [];
                 nomenclatureUrlMap = dataNomenclatureMapping.urlItem;
 
-                for (var n=0,length=urlsMap.length; n<length; n++){
+                for (var n = 0, length = urlsMap.length; n < length; n++) {
 
                     mapUrlItem = urlsMap[n];
                     label = mapUrlItem[nomenclatureUrlMap.label];
@@ -350,11 +350,11 @@ define(
 
                     samplingFrequency = mapUrlItem[nomenclatureUrlMap.samplingFrequency];
 
-                    if (current){
+                    if (current) {
                         env.samplingFrequency = samplingFrequency;
                     }
 
-                    if (typeId != 3){
+                    if (typeId != 3) {
                         jsonOverviewUrls.push({type: typeId, label: label, url: overviewUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
                         jsonSampleUrls.push({type: typeId, label: label, url: dataUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
                     }
@@ -372,7 +372,7 @@ define(
              * @param {String} label An IP address
              */
 
-            this._abbreviateIPv6Label = function(label){
+            this._abbreviateIPv6Label = function (label) {
                 var blocks, fullBlocks, blockTmp, resultBlocksHead, resultBlocksTail, labelOut;
 
                 fullBlocks = [];
@@ -380,14 +380,14 @@ define(
                 resultBlocksTail = [];
                 blocks = label.split(":");
 
-                for (var n=0,length=blocks.length; n<length; n++){
+                for (var n = 0, length = blocks.length; n < length; n++) {
                     blockTmp = blocks[n];
                     if (blockTmp != "") {
                         fullBlocks.push(blockTmp);
                     }
                 }
 
-                if (fullBlocks.length > 4){
+                if (fullBlocks.length > 4) {
                     resultBlocksHead.push(fullBlocks[0]);
                     resultBlocksHead.push(fullBlocks[1]);
 
@@ -395,14 +395,13 @@ define(
                     resultBlocksTail.push(fullBlocks[fullBlocks.length - 1]);
 
                     labelOut = utils.join(resultBlocksHead, ":") + ":..:" + utils.join(resultBlocksTail, ":");
-                }else{
+                } else {
                     labelOut = label;
                 }
 
                 return labelOut;
 
             };
-
 
 
             /**
@@ -413,18 +412,18 @@ define(
              * @param {String} label A label
              */
 
-            this._abbreviateLabel = function(label){
+            this._abbreviateLabel = function (label) {
                 var stringOut, firstPart, secondPart, startSecondPart, length;
 
                 length = label.length;
-                if (length >= config.maxYLabelLength){
+                if (length >= config.maxYLabelLength) {
                     startSecondPart = length - 4;
 
                     firstPart = (label.charAt(7) != '.') ? label.substring(0, 8) : label.substring(0, 7);
                     secondPart = (label.charAt(startSecondPart) != '.') ? label.substring(startSecondPart, length) : label.substring(startSecondPart + 1, length);
 
                     stringOut = firstPart + '...' + secondPart;
-                }else{
+                } else {
                     stringOut = label;
                 }
 
@@ -440,13 +439,13 @@ define(
              * @param {Object} probes A list of probes
              */
 
-            this._parseProbes = function(probes){
+            this._parseProbes = function (probes) {
                 var row, rowId, rowLabel, objRow, probeNomenclature, rowResults, resultsObjList, rowGroup,
                     rowDescription, externalId, rowCountry, rowHostname;
 
                 probeNomenclature = dataNomenclatureMapping.probe;
 
-                for (var n=0,length=probes.length; n<length; n++){
+                for (var n = 0, length = probes.length; n < length; n++) {
                     row = probes[n];
 
                     externalId = row[probeNomenclature.id];
@@ -459,7 +458,7 @@ define(
                     rowLabel = row[probeNomenclature.label] || rowHostname + ' (' + rowCountry + ')';
                     rowDescription = row[probeNomenclature.description] || rowHostname;
 
-                    objRow  = new Row(rowId, rowLabel); //Label modified for now
+                    objRow = new Row(rowId, rowLabel); //Label modified for now
                     objRow.group = rowGroup;
                     objRow.internalOrder = rowId;
                     objRow.description = rowDescription;
@@ -485,13 +484,13 @@ define(
              * @param {Object} row An object of the model layer representing the row
              */
 
-            this._parseResults = function(results, row){
+            this._parseResults = function (results, row) {
                 var cell, objCell, cellResponseTime, cellTime, resultNomenclature, cellLoss, cellTimeEnd,
                     lastSampleDate, startTimestamp, endTimestamp;
 
                 resultNomenclature = dataNomenclatureMapping.result; // Get the nomenclature for a result item
 
-                for (var n=0,length=results.length; n<length; n++){ // Iterate an all the results
+                for (var n = 0, length = results.length; n < length; n++) { // Iterate an all the results
                     cell = results[n];
 
                     startTimestamp = cell[resultNomenclature.time];
@@ -499,17 +498,17 @@ define(
 
                     cellTime = paramsManager.convertRemoteToLocalDate(startTimestamp); // The start time MUST be every time specified by the server
 
-                    if (endTimestamp){ // The end time is specified by the server
+                    if (endTimestamp) { // The end time is specified by the server
 
                         cellTimeEnd = paramsManager.convertRemoteToLocalDate(endTimestamp);
 
-                    }else{
+                    } else {
 
-                        if (env.retrievedAggregationLevel != 0){ // It is an aggregation, so every single cell is representing a period with start and end time
+                        if (env.retrievedAggregationLevel != 0) { // It is an aggregation, so every single cell is representing a period with start and end time
 
                             cellTimeEnd = paramsManager.convertRemoteToLocalDate(startTimestamp + env.retrievedAggregationLevel); // Computes the end time
 
-                        }else{ // It is a sample with just startTime
+                        } else { // It is a sample with just startTime
 
                             cellTimeEnd = null;
 
@@ -519,10 +518,10 @@ define(
                     cellResponseTime = this._computeRespondingTime(cell);
                     cellLoss = this._computePacketLoss(cell);
 
-                    if (maxUsedDate == null){
+                    if (maxUsedDate == null) {
                         maxUsedDate = cellTime;
                         minUsedDate = cellTime;
-                    }else{
+                    } else {
                         maxUsedDate = (maxUsedDate > cellTime) ? maxUsedDate : cellTime;
                         minUsedDate = (minUsedDate < cellTime) ? minUsedDate : cellTime;
                     }
@@ -540,9 +539,9 @@ define(
 
                     row.cells.push(objCell); // Set the current cell to the current row
 
-                    if (cellResponseTime != null){
+                    if (cellResponseTime != null) {
                         row.minimumResponseTime = ((row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime);
-                     }
+                    }
 
                     crowdestRow = (row.cells.length > crowdestRow.cells.length) ? row : crowdestRow;
 
@@ -559,7 +558,7 @@ define(
              * @param {Object} cellData A result/cell of the JSON input
              */
 
-            this._parseRcodes = function(cell, cellData){
+            this._parseRcodes = function (cell, cellData) {
                 var errorsData, importantErrors, others, totalNumber, cellError, numberOfErrorsOfThisType;
 
                 others = 0;
@@ -568,13 +567,13 @@ define(
                 errorsData = cellData[dataNomenclatureMapping.result.errors];
                 cellError = {};
 
-                for (var errorName in errorsData){
+                for (var errorName in errorsData) {
 
-                    if (utils.indexOf(errorName, importantErrors)){
+                    if (utils.indexOf(errorName, importantErrors)) {
                         numberOfErrorsOfThisType = errorsData[errorName];
                         totalNumber += numberOfErrorsOfThisType;
                         cellError[errorName] = numberOfErrorsOfThisType;
-                    }else{
+                    } else {
                         totalNumber++;
                         others++;
                     }
@@ -595,7 +594,7 @@ define(
              * @return {Number} Returns a percentage
              */
 
-            this._computeNumberCorrectResponses = function(cellData, numberOfErrors){
+            this._computeNumberCorrectResponses = function (cellData, numberOfErrors) {
                 var packetLoss, packetLossPercentage, packetSent, packetReceived;
 
                 packetSent = cellData[dataNomenclatureMapping.result.packetSent];
@@ -619,7 +618,7 @@ define(
              * @return {float} Returns a percentage
              */
 
-            this._computePacketLoss = function(cellData){
+            this._computePacketLoss = function (cellData) {
                 var packetLoss, packetLossPercentage, packetSent, packetReceived;
 
                 packetSent = cellData[dataNomenclatureMapping.result.packetSent];
@@ -643,7 +642,7 @@ define(
              * @param {Object} cellData A result/cell of the JSON input
              * @return {Number} Returns a RTT value
              */
-            this._computeRespondingTime = function(cellData){
+            this._computeRespondingTime = function (cellData) {
                 var rtt, resultNomenclature;
 
                 resultNomenclature = dataNomenclatureMapping.result;
@@ -664,7 +663,7 @@ define(
              * @param {Object} context The context of the callback
              */
 
-            this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){
+            this.getNativeDnsResult = function (msmId, prbId, timestamp, callback, context) {
                 var nomenclatureDnsResponse;
 
                 nomenclatureDnsResponse = {
@@ -676,12 +675,12 @@ define(
                     error: "error"
                 };
 
-                connector.getNativeDnsResult(msmId, prbId, timestamp, function(data){
+                connector.getNativeDnsResult(msmId, prbId, timestamp, function (data) {
                     var internalResponse, newData, dataItem;
 
                     newData = [];
 
-                    for (var n= 0,length=data.length; n<length; n++){
+                    for (var n = 0, length = data.length; n < length; n++) {
                         dataItem = data[n];
 
                         internalResponse = { // Translate to internal object
@@ -712,36 +711,17 @@ define(
              * @param {Object} context The context of the callback
              */
 
-            this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
-                var nomenclatureDnsResponse, tracerouteAtlas;
+            this.getClosestTraceroutes = function (msmId, prbId, timestamp, callback, context) {
+                var tracerouteAtlas;
 
-//                nomenclatureDnsResponse = {
-//                    probeId: "prb_id",
-//                    date: "timestamp",
-//                    response: "result"
-//                };
-
-                connector.getClosestTraceroutes(msmId, prbId, timestamp, function(data){
-                    var closestTraceroutes, newData, dataItem;
+                connector.getClosestTraceroutes(msmId, prbId, timestamp, function (data) {
+                    var newData;
 
                     newData = [];
 
-//                    for (var n= 0,length=data.length; n<length; n++){
-//                        dataItem = data[n];+
-//
-//                        closestTraceroutes = { // Translate to internal object
-//                            probeId: dataItem[nomenclatureDnsResponse.probeId],
-//                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
-//                            response: dataItem[nomenclatureDnsResponse.response]
-//                        };
-//
-//                        newData.push(closestTraceroutes);
-//                    }
-
-
-                    for (var n=0,length=data.length; n<length; n++){
+                    for (var n = 0, length = data.length; n < length; n++) {
                         tracerouteAtlas = new AtlasTraceroute(data[n]);
-                        tracerouteAtlas.renderTimestring = function(timestamp){
+                        tracerouteAtlas.renderTimestring = function (timestamp) {
                             return '>>> ' + utils.dateToString(utils.timestampToLocalDate(timestamp));
                         };
 
@@ -752,8 +732,53 @@ define(
                 }, this);
             };
 
+
+            /**
+             * Get the closest hostname.bind and checks errors
+             *
+             * @method getClosestHostnameBind
+             * @param {Number} msmId The id of the measurement
+             * @param {Number} prbId The id of the probe
+             * @param {Number} timestamp A UNIX timestamp
+             * @param {Function} callback A function taking the retrieved data as input when it is ready
+             * @param {Object} context The context of the callback
+             */
+
+            this.getClosestHostnameBind = function (msmId, prbId, timestamp, callback, context) { // Just indirection for now
+                var internalResponse, newData, dataItem, nomenclatureHostnameBindResponse;
+
+                connector.getClosestHostnameBind(msmId, prbId, timestamp, function (data) {
+                    newData = [];
+                    nomenclatureHostnameBindResponse = {
+                        probeId: "prb_id",
+                        responseTime: "rt",
+                        msmId: "msm_id",
+                        date: "timestamp",
+                        response: "answer",
+                        error: "error"
+                    };
+
+                    for (var n=0,length=data.length; n<length; n++) {
+                        dataItem = data[n];
+
+                        internalResponse = { // Translate to internal object
+                            probeId: dataItem[nomenclatureHostnameBindResponse.probeId],
+                            responseTime: dataItem[nomenclatureHostnameBindResponse.responseTime] || "NA",
+                            date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureHostnameBindResponse.date]),
+                            msmId: dataItem[nomenclatureHostnameBindResponse.msmId],
+                            response: dataItem[nomenclatureHostnameBindResponse.response],
+                            error: dataItem[nomenclatureHostnameBindResponse.error]
+                        };
+
+                        newData.push(internalResponse);
+                    }
+
+                    callback.call(context, newData);
+                }, this);
+
+            };
+
         };
 
-
-        return IsolationLevelConnectorAtlas;
-    });
+            return IsolationLevelConnectorAtlas;
+        });

@@ -62,6 +62,16 @@ define([], function(){
 
         noDataForRow: "We don't have data for this server in the selected time period",
 
+        hostBindResponsePrbId: "Probe ID",
+        hostBindResponseRt: "Response time",
+        hostBindResponseMsmId: "Measurement ID",
+        hostBindResponseDate: "Date",
+        hostBindResponseNoAnswer: "The response has no answer",
+
+        tab1Title: 'DNS response',
+        tab2Title: 'Traceroute',
+        tab3Title: 'hostname.bind',
+
         thresholdsDescritions: {
             pls: "Change the unanswered queries colours range: these thresholds are used to colours the cells based on the percentage of packets lost.",
             rtt: "Change the response time colours range: these thresholds are used to colours the cells based on the response time.",

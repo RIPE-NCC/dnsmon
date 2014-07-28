@@ -76,6 +76,7 @@ define([], function(){
         aggregationLegendUpdatedDuration: 3000,
 
         tracerouteSurrounding: 1, // How many traceroute on the left and right of the selected sample?
+        nsidSurrounding: 1,
 
         localCacheActiveByDefault: true,
         activeKeysByDefault: true,

@@ -211,7 +211,6 @@ define([
                 .attr("class", "grid-background")
                 .attr("width", innerWidth)
                 .attr("height", innerHeight);
-//                .attr("ry", 3);
 
             svg.append("g")
                 .attr("class", "x grid")
@@ -270,7 +269,7 @@ define([
         this.update = function(domainRange, currentSelection){
             var points;
 
-            if (this.domainRange == domainRange){
+            if (this.domainRange[0] == domainRange[0] && this.domainRange[1] == domainRange[1]){
                 return this.updateSelection(currentSelection);
             }else{
                 dom

@@ -15,7 +15,7 @@ define([
      */
 
     var TemplateManagerView = function(env){
-        var widgetUrl;
+        var widgetUrl, config;
 
         widgetUrl = env.widgetUrl;
         config = env.config;
@@ -97,7 +97,6 @@ define([
 
         this.thresholdsPopup =
             '<div>' +
-//                '<label>' + env.lang.packetLossRangesLabel + '</label>' +
                 '<div class="thresholds-internal-legend">' + '<div class="popup-pls-text"></div>' +
                 '<div class="popup-pls-item"><div class="pls-color"></div>&nbsp;&gt;&nbsp;<input class="pls-percentage max-val" value="0"/>&nbsp;<span class="pls-unit"></span>&nbsp;</div>' +
                 '<div class="popup-pls-item"><div class="pls-color"></div>&nbsp;&le;&nbsp;<input class="pls-percentage min-val" value="0"/>&nbsp;<span class="pls-unit"></span>&nbsp;</div>' +
@@ -126,8 +125,22 @@ define([
                 '<div style="margin-top: 10px;">' + env.lang.extraInfoDialogTextOverview + ':' +
                 '<div class="popup-overview-raw-data"></div>' +
                 '</div>' +
-                '<div class="popup-dns-response"></div>' +
-                '<div class="popup-traceroute"></div>' +
+                '<div class="popup-tabs">' +
+                    '<ul>' +
+                        '<li><a href="#tabs-1">' + env.lang.tab1Title + '</a></li>' +
+                        '<li><a href="#tabs-2">' + env.lang.tab2Title + '</a></li>' +
+                        '<li><a href="#tabs-3">' + env.lang.tab3Title + '</a></li>' +
+                    '</ul>' +
+                    '<div id="tabs-1">' +
+                        '<div class="popup-dns-response"></div>' +
+                    '</div>' +
+                    '<div id="tabs-2">' +
+                        '<div class="popup-traceroute"></div>' +
+                    '</div>' +
+                    '<div id="tabs-3">' +
+                        '<div class="popup-hostnamebind-response"></div>' +
+                    '</div>' +
+                '</div>' +
                 '</div>';
 
         this.dnsResponse =
@@ -143,6 +156,21 @@ define([
                 '<tr class="dns-response-bottom">' +
                 '<td colspan = "3"><span class="dns-response-plaintext"></span></td>' +
                 '</tr>' +
+            '</table>';
+
+        this.hostBindResponse =
+            '<table class="hostbind-response-table" border="1">' +
+            '<tr class="hostbind-response-top">' +
+            '<td>' + env.lang.hostBindResponsePrbId + ': <span class="hostbind-response-prbid"></span>' + '</td>' +
+            '<td>' + env.lang.hostBindResponseRt + ': <span class="hostbind-response-rt"></span>' + '</td>' +
+            '<td>' + env.lang.hostBindResponseDate + ': <span class="hostbind-response-date"></span>' + '</td>' +
+            '</tr>' +
+            '<tr class="hostbind-response-msmId-rd">' +
+            '<td colspan = "3">' + env.lang.hostBindResponseMsmId + ': <span class="hostbind-response-msmId"></span></td>' +
+            '</tr>' +
+            '<tr class="hostbind-response-bottom">' +
+            '<td colspan = "3"><span class="hostbind-response-plaintext"></span></td>' +
+            '</tr>' +
             '</table>';
 
         this.tracerouteRensponse =

@@ -318,6 +318,24 @@ define([
             connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);
         };
 
+
+        /**
+         * Get the closest hostname.bind and checks errors
+         *
+         * @method getClosestHostnameBind
+         * @param {Number} msmId The id of the measurement
+         * @param {Number} prbId The id of the probe
+         * @param {Number} timestamp A UNIX timestamp
+         * @param {Function} callback A function taking the retrieved data as input when it is ready
+         * @param {Object} context The context of the callback
+         */
+
+        this.getClosestHostnameBind = function(msmId, prbId, timestamp, callback, context){ // Just indirection for now
+
+            // No errors checks for now
+            connector.getClosestHostnameBind(msmId, prbId, timestamp, callback, context);
+        };
+
     };
 
     return ErrorsHandlerConnectorAtlas;
