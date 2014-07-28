@@ -986,7 +986,7 @@ define([
             overviewUrls = env.connector.getDataUrls(cell);
             sampleUrls = env.connector.getCellDataUrls(cell);
 
-            dialogHeight = 410;
+            dialogHeight = 210;
 
             this.dialogPopUp.dialog({
                 title: lang.extraInfoDialogTitle,
@@ -1047,7 +1047,7 @@ define([
             this.dialogPopUp.dialog("option", "resizable", false);
 
             if (env.retrievedAggregationLevel == 0) {
-                this.dialogPopUp.find('.popup-tabs').tabs().find('a').on('click', function () {
+                this.dialogPopUp.find('.popup-tabs').show().tabs().find('a').on('click', function () {
                     var tab, tabId;
 
                     tab = $(this);
@@ -1068,9 +1068,10 @@ define([
                             break;
                     }
                 });
+                this._showDnsResponse(cell, dnsResponsePlace);
+            } else {
+                this.dialogPopUp.find('.popup-tabs').hide();
             }
-
-            this._showDnsResponse(cell, dnsResponsePlace);
 
         };
 
