@@ -181,8 +181,9 @@
     text-shadow: 1px 1px 2px #C0C0C0;
 }
 
-.dnsmon-container .dnsmon-popup{
+.dnsmon-popup{
     display: none;
+    height: auto!important;
 }
 
 .date-field{
