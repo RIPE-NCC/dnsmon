@@ -267,7 +267,7 @@ define([
          */
 
         this.update = function(domainRange, currentSelection){
-            var points;
+            var points, out;
 
             if (this.domainRange[0] == domainRange[0] && this.domainRange[1] == domainRange[1]){
                 return this.updateSelection(currentSelection);
@@ -276,10 +276,11 @@ define([
                     .select(".time-overview")
                     .remove();
 
+                out = this.render(domainRange, currentSelection);
                 points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
                 changeCallback.call(this, currentSelection[0], currentSelection[1], points);
 
-                return this.render(domainRange, currentSelection);
+                return out;
             }
         };
 

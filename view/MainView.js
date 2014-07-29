@@ -134,7 +134,8 @@ define([
 
             env.container.updateList.push({
                 update: this.controlPanel.updateWidth,
-                context: this.controlPanel});
+                context: this.controlPanel
+            });
 
 
             /*
@@ -783,7 +784,6 @@ define([
                     cellWidth = (pxToSec * ((cellData.endTime - cellData.time)/1000)) - config.xCellsMargin;
                 }else{
                     cellWidth = (pxToSec * (env.samplingFrequency/100) * config.nativeCellWidthFrequencyPercentage) - config.xCellsMargin;
-//                    cellWidth = config.cellsMinWidth;
                 }
 
                 if (cellWidth < config.cellsMinWidth){
