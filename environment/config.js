@@ -172,7 +172,7 @@ define([], function(){
         style: {
             selectionCursor: "crosshair",
             axisLabelsFontSizeDefault: "10px",
-            axisLabelsFontSizeSelected: "11px",
+            axisLabelsFontSizeSelected: "10px",
             selectorRectColor: "#687B87",
             noRttAvailableColor: "#BDBDBD",
             noRttAvailableSelectionColor: "#BAC5D1",

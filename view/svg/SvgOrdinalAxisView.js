@@ -59,7 +59,6 @@ define([
             var colorIndex;
 
             colorIndex = uniqueGroups.indexOf(group);
-
             return this.colors[colorIndex] || this._generateRandomColor();
         };
 
@@ -232,7 +231,7 @@ define([
                             groupsCount[group] = 1;
                             groupsRepresentation[group] = thisParentNode
                                 .append("svg:rect")
-                                .attr("width", 5)
+                                .attr("width", 4)
                                 .attr("y", -$this.scale.rangeBand()/2)
                                 .attr("x", -container.chart.margin.left + 1)
                                 .attr("height", $this.scale.rangeBand())
