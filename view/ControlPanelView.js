@@ -846,7 +846,8 @@ define([
         this._showDnsResponse = function(cell, dnsResponsePlace){
             var htmlDnsResponse, dataItem;
 
-            this.dialogPopUp.dialog({height: 320});
+            this.dialogPopUp.dialog({height: 320, minWidth: 0, minHeight: 0, maxHeight: 0});
+            this.dialogPopUp.dialog("option", "resizable", false);
             if (!lazyLoadTab1) {
                 env.connector.getNativeDnsResult(cell, function (data) { // Show the DNS response
 
@@ -884,22 +885,20 @@ define([
         this._showTraceroutes = function(cell, traceroutePlace){
             var dataItem, textareaWidth, tracerouteArea;
 
-            this.dialogPopUp.dialog({height: 490});
+            this.dialogPopUp.dialog({height: 512, minWidth: 490, minHeight: 512, maxHeight: 512});
+            this.dialogPopUp.dialog("option", "resizable", true);
             if (!lazyLoadTab2) {
                 env.connector.getClosestTraceroutes(cell, function (data) { // Show the closest Traceroutes
                     lazyLoadTab2 = true;
                     if (data.length > 0) {
-
-                        this.dialogPopUp.dialog("option", "resizable", false);
                         tracerouteDom = this.extraDataPopup.tracerouteDom.clone();
-
                         traceroutePlace.append(tracerouteDom);
 
                         if (data.length >= 2) {
-                            this.dialogPopUp.dialog("option", "resizable", true);
+//                            this.dialogPopUp.dialog("option", "resizable", true);
                             this.dialogPopUp.dialog({
                                 resize: function (event, ui) {
-                                    if (ui.size.width > textareaWidth * 2) {
+                                    if (ui.size.width > textareaWidth * 2 + 74) {
                                         $(this).addClass("resized-dialog-traceroute");
                                     } else {
                                         $(this).removeClass("resized-dialog-traceroute");
@@ -926,7 +925,7 @@ define([
 
                             tracerouteArea.html(dataItem);
                             tracerouteDom.append(tracerouteArea);
-                            textareaWidth = tracerouteArea.width();
+                            textareaWidth = tracerouteArea.outerWidth();
                         }
 
                     }
@@ -937,7 +936,8 @@ define([
         this._showHostonameBindResponse = function(cell, hostBindResponsePlace){
             var htmlHostnameResponse, dataItem;
 
-            this.dialogPopUp.dialog({height: 380});
+            this.dialogPopUp.dialog({height: 380, minWidth: 0, minHeight: 0, maxHeight: 0});
+            this.dialogPopUp.dialog("option", "resizable", false);
             if (!lazyLoadTab3) {
                 env.connector.getClosestHostnameBind(cell, function (data) { // Show the closest Traceroutes
                     lazyLoadTab3 = true;
@@ -992,15 +992,17 @@ define([
                 title: lang.extraInfoDialogTitle,
                 width: 500,
                 height: dialogHeight,
+                close: function(){
+                    var $this;
+
+                    $this = $(this);
+                    $this.removeClass("resized-dialog-traceroute");
+                    $this.dialog({height: 0, minWidth: 0, minHeight: 0, maxHeight: Infinity});
+                    $this.dialog("option", "resizable", false);
+                },
                 buttons: {
                     "Close": function() {
-                        var $this;
-
-                        $this = $(this);
-
-                        $this.removeClass("resized-dialog-traceroute");
-                        $this.dialog("option", "resizable", false);
-                        $this.dialog("close");
+                        $(this).dialog("close");
                     }
                 }
             });
