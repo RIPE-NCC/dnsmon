@@ -181,6 +181,7 @@ define([
                     }
 
                     callback.call(context, data);
+                    data = null;
                     delete data; // Force garbage
                 },
 
@@ -225,6 +226,7 @@ define([
                     }
 
                     callback.call(context, data);
+                    data = null;
                     delete data; // Force garbage
                 },
 
@@ -269,6 +271,7 @@ define([
                     }
 
                     callback.call(context, data);
+                    data = null;
                     delete data; // Force garbage
                 },
 

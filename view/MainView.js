@@ -810,6 +810,8 @@ define([
 
             this.d3Cells
                 .exit()
+                .on('click', null)
+                .on('mousemove', null)
                 .remove();
 
             this.d3Cells
