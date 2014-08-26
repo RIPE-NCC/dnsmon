@@ -420,14 +420,14 @@ define([
          */
 
         this.keepUpdated = function(keepUpdate){
-            var $this;
+            var $this, interval, refreshFunction;
 
             $this = this;
+            interval = ((env.debugMode) ? 6000 : (config.updateEverySeconds * 1000));
 
             if (keepUpdate){
                 this.getNewData(null); // First refresh
-
-                updateTimer = setInterval($this.getNewData, ((env.debugMode) ? 6000 : (config.updateEverySeconds * 1000) ));
+                updateTimer = setInterval($this.getNewData, interval);
             }else{
                 clearInterval(updateTimer);
             }

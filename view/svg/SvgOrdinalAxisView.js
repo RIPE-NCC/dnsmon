@@ -120,6 +120,7 @@ define([
             container.dom.$
                 .find(".y.axis text")
                 .off("mousemove")
+                .off("mouseout")
                 .on("mousemove", function(evt){
                     axisTooltip.show();
                     axisTooltip

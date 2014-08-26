@@ -11,7 +11,7 @@ define([
      */
 
     var Connector = function(env){
-        var perServerDataUrl, serversDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
+        var perServerDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
             commonServer, closestNsidDataUrl;
 
         config = env.config;
@@ -100,7 +100,7 @@ define([
          */
 
         this.retrieveData = function(params, callback, context){
-            var dataUrl, externalParams;
+            var dataUrl, externalParams, xhrEnvelop;
 
             externalParams = params;
 
@@ -108,7 +108,7 @@ define([
 
             utils.log('Ajax call: ' + dataUrl, env.debugMode);
 
-            $.ajax({
+            xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 cache : false,
@@ -127,8 +127,8 @@ define([
                     data.type = params.type;
                     env.lastDownload = new Date();
                     callback.call(context, data);
-                    delete data; // Force garbage
-
+                    data = null;
+//                    delete data; // Force garbage
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -146,6 +146,15 @@ define([
 
             });
 
+            setTimeout(function(){
+                try {
+                    xhrEnvelop.onreadystatechange = null;
+                    xhrEnvelop.abort = null;
+                } catch(ex) {
+                }
+                xhrEnvelop = null;
+//                delete xhrEnvelop;
+            }, 500);
         };
 
 
@@ -161,7 +170,7 @@ define([
          */
 
         this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl;
+            var dataUrl, xhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, nativeDnsResultDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -169,9 +178,10 @@ define([
 
             utils.log('Retrieve native DNS data: '+ dataUrl, env.debugMode);
 
-            $.ajax({
+            xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
+                cache: false,
                 success: function(data){
                     utils.log("Native DNS data retrieved", env.debugMode);
 
@@ -182,13 +192,23 @@ define([
 
                     callback.call(context, data);
                     data = null;
-                    delete data; // Force garbage
+//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve native DNS data", env.debugMode);
                 }
             });
+
+            setTimeout(function(){
+                try {
+                    xhrEnvelop.onreadystatechange = null;
+                    xhrEnvelop.abort = null;
+                } catch(ex) {
+                }
+                xhrEnvelop = null;
+//                delete xhrEnvelop;
+            }, 500);
         };
 
 
@@ -204,7 +224,7 @@ define([
          */
 
         this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl;
+            var dataUrl, xhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, closesttraceroutesDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -214,9 +234,10 @@ define([
 
             utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
 
-            $.ajax({
+            xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
+                cache: false,
                 success: function(data){
                     utils.log("Traceroute data retrieved", env.debugMode);
 
@@ -227,13 +248,23 @@ define([
 
                     callback.call(context, data);
                     data = null;
-                    delete data; // Force garbage
+//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve traceroute data", env.debugMode);
                 }
             });
+
+            setTimeout(function(){
+                try {
+                    xhrEnvelop.onreadystatechange = null;
+                    xhrEnvelop.abort = null;
+                } catch(ex) {
+                }
+                xhrEnvelop = null;
+//                delete xhrEnvelop;
+            }, 500);
         };
 
 
@@ -249,7 +280,7 @@ define([
          */
 
         this.getClosestHostnameBind = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl;
+            var dataUrl, xhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, closestNsidDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -259,9 +290,10 @@ define([
 
             utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
 
-            $.ajax({
+            xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
+                cache: false,
                 success: function(data){
                     utils.log("hostname.bind data retrieved", env.debugMode);
 
@@ -272,13 +304,23 @@ define([
 
                     callback.call(context, data);
                     data = null;
-                    delete data; // Force garbage
+//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve hostname.bind data", env.debugMode);
                 }
             });
+
+            setTimeout(function(){
+                try {
+                    xhrEnvelop.onreadystatechange = null;
+                    xhrEnvelop.abort = null;
+                } catch(ex) {
+                }
+                xhrEnvelop = null;
+//                delete xhrEnvelop;
+            }, 500);
         };
     };
 

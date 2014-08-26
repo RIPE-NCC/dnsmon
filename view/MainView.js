@@ -812,7 +812,11 @@ define([
                 .exit()
                 .on('click', null)
                 .on('mousemove', null)
+                .on('mouseenter', null)
+                .on('mouseout', null)
                 .remove();
+
+            this.d3Cells.exit()[0] = null;
 
             this.d3Cells
                 .enter()
@@ -901,7 +905,6 @@ define([
             this.drawn = true;
 
             utils.log("Number of cell displayed: " + data.cells.length, env.debugMode);
-
         };
 
 
@@ -964,9 +967,9 @@ define([
 
             env.timeEventsActive = true;
 
-            this.timeController.updateStatus();
-            this.controlPanel.update();
-            env.history.update();
+//            this.timeController.updateStatus();
+//            this.controlPanel.update();
+//            env.history.update();
 
             env.container.height(this._computeWidgetBestHeight());
 
