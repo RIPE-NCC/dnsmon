@@ -93,7 +93,7 @@ define([], function(){
         storageErrorRestApiUrl: 'http://wbr3.webrobotics.net/log.php',
         logAppTag: 'dnsmon',
 
-        updateEverySeconds: 5,
+        updateEverySeconds: 190,
         sensibilityFactorDuringSelection: 2,
         mouseWheelSensibility: 0, // Increase this number to reduce the sensibility
         colorSeparationOffset: 0.0001,
