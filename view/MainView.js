@@ -967,9 +967,9 @@ define([
 
             env.timeEventsActive = true;
 
-//            this.timeController.updateStatus();
-//            this.controlPanel.update();
-//            env.history.update();
+            this.timeController.updateStatus();
+            this.controlPanel.update();
+            env.history.update();
 
             env.container.height(this._computeWidgetBestHeight());
 
