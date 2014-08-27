@@ -816,8 +816,6 @@ define([
                 .on('mouseout', null)
                 .remove();
 
-            this.d3Cells.exit()[0] = null;
-
             this.d3Cells
                 .enter()
                 .append("rect")

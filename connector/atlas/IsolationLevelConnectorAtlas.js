@@ -34,10 +34,15 @@ define(
 
         var IsolationLevelConnectorAtlas = function(env) {
 
-            var connector, dataNomenclatureMapping, maxUsedDate, minUsedDate, crowdestRow, envelop, config, originalTime;
+            var connector, dataNomenclatureMapping, maxUsedDate, minUsedDate, crowdestRow, config, originalTime, dataPool;
 
             connector = new Connector(env);
             config = env.config;
+
+            dataPool = {
+                cells: {},
+                rows: {}
+            };
 
             dataNomenclatureMapping = {
                 startTimestamp: "start_time",
@@ -123,6 +128,7 @@ define(
 
                 //Just an indirection for now
                 connector.retrieveData(params, function (data) {
+                    this._freeMemoryOnPool();
                     var wrappedData = this._parseData(data);
 
                     callback.call(context, wrappedData); // Back to the normal data flow
@@ -199,6 +205,8 @@ define(
              */
 
             this._parseData = function (data) {
+                var envelop;
+
                 maxUsedDate = null;
                 minUsedDate = null;
 
@@ -227,12 +235,12 @@ define(
 
                     envelop.group = this._parseSingleServer(data[dataNomenclatureMapping.singleServer]);
                     envelop.root = this._parseZone(data[dataNomenclatureMapping.singleZone]);
-                    this._parseProbes(data[dataNomenclatureMapping.probesList]);
+                    this._parseProbes(data[dataNomenclatureMapping.probesList], envelop);
 
                 } else if (data.type == "zone-servers") {
 
                     envelop.group = this._parseZone(data[dataNomenclatureMapping.singleZone]);
-                    this._parseServers(data[dataNomenclatureMapping.serversList]);
+                    this._parseServers(data[dataNomenclatureMapping.serversList], envelop);
 
                 } else {
                     console.log("Malformed json!");
@@ -272,8 +280,8 @@ define(
              * @param {Object} servers A list of server
              */
 
-            this._parseServers = function (servers) {
-                var row, rowId, rowLabel, objRow, serverNomenclature, rowResults, resultsObjList, rowGroup, rowIpVersion,
+            this._parseServers = function (servers, envelop) {
+                var row, rowId, rowLabel, objRow, serverNomenclature, rowResults, rowGroup, rowIpVersion,
                     rowDescription, externalId, rowHostname, rowIp, multipleLabels;
 
                 serverNomenclature = dataNomenclatureMapping.server;
@@ -286,36 +294,44 @@ define(
                     rowId = paramsManager.convertRemoteToLocalId(externalId);
                     rowResults = row[serverNomenclature.resultsList];
 
-                    rowHostname = row[serverNomenclature.hostname];
-                    rowGroup = rowHostname; // Grouped by host name
+                    if (!dataPool.rows[rowId]) {
 
-                    rowIpVersion = row[serverNomenclature.ipVersion];
-                    rowIp = row[serverNomenclature.ipAddress];
+                        rowHostname = row[serverNomenclature.hostname];
+                        rowGroup = rowHostname; // Grouped by host name
 
-                    rowDescription = row[serverNomenclature.description] || rowIp + ' (' + rowHostname + ')';
+                        rowIpVersion = row[serverNomenclature.ipVersion];
+                        rowIp = row[serverNomenclature.ipAddress];
 
-                    rowLabel = row[serverNomenclature.label] || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4' : 'IPv6');
+                        rowDescription = row[serverNomenclature.description] || rowIp + ' (' + rowHostname + ')';
 
-                    if (multipleLabels[rowLabel]) {
-                        multipleLabels[rowLabel]++;
-                        rowLabel += '(' + multipleLabels[rowLabel] + ')';
-                    } else {
-                        multipleLabels[rowLabel] = 1;
+                        rowLabel = row[serverNomenclature.label] || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4' : 'IPv6');
+
+                        if (multipleLabels[rowLabel]) {
+                            multipleLabels[rowLabel]++;
+                            rowLabel += '(' + multipleLabels[rowLabel] + ')';
+                        } else {
+                            multipleLabels[rowLabel] = 1;
+                        }
+
+                        objRow = new Row(rowId, rowLabel); // Create a row object of the model layer
+                        objRow.group = rowGroup;
+                        objRow.internalOrder = rowIpVersion;
+                        objRow.description = rowDescription;
+                        objRow.minimumResponseTime = null;
+                        objRow.___externalId___ = externalId;
+                        objRow.___type___ = "server";
+
+                        objRow.urlsMap = this._generateJsonUrls(row[serverNomenclature.urlsMap]); // Get additional data-api URLs
+
+                        dataPool.rows[rowId] = objRow;
                     }
 
-                    objRow = new Row(rowId, rowLabel); // Create a row object of the model layer
-                    objRow.group = rowGroup;
-                    objRow.internalOrder = rowIpVersion;
-                    objRow.description = rowDescription;
-                    objRow.minimumResponseTime = null;
-                    objRow.___externalId___ = externalId;
-                    objRow.___type___ = "server";
+                    envelop.rows.push(dataPool.rows[rowId]);
+                    dataPool.rows[rowId].minimumResponseTime = null;
+                    dataPool.rows[rowId].cells = [];
+                    dataPool.rows[rowId]["__inuse__"] = true;
 
-                    objRow.urlsMap = this._generateJsonUrls(row[serverNomenclature.urlsMap]); // Get additional data-api URLs
-
-                    resultsObjList = this._parseResults(rowResults, objRow); // Parse all the results for this row
-
-                    envelop.rows.push(objRow);
+                    this._parseResults(rowResults, dataPool.rows[rowId], envelop); // Parse all the results for this row
                 }
 
             };
@@ -430,6 +446,24 @@ define(
                 return stringOut;
             };
 
+            this._freeMemoryOnPool = function(){
+                for (var row in dataPool.rows){
+                    if (dataPool.rows[row]["__inuse__"] == false){
+                        delete dataPool.rows[row];
+                    } else {
+                        dataPool.rows[row]["__inuse__"] = false;
+                    }
+                }
+
+                for (var cell in dataPool.cells){
+                    if (dataPool.cells[cell]["__inuse__"] == false){
+                        delete dataPool.cells[cell];
+                    } else {
+                        dataPool.cells[cell]["__inuse__"] = false;
+                    }
+                }
+            };
+
 
             /**
              * Parses all the probes available in the JSON in order to create an internal compatible version of them
@@ -439,8 +473,8 @@ define(
              * @param {Object} probes A list of probes
              */
 
-            this._parseProbes = function (probes) {
-                var row, rowId, rowLabel, objRow, probeNomenclature, rowResults, resultsObjList, rowGroup,
+            this._parseProbes = function (probes, envelop) {
+                var row, rowId, rowLabel, objRow, probeNomenclature, rowResults, rowGroup,
                     rowDescription, externalId, rowCountry, rowHostname;
 
                 probeNomenclature = dataNomenclatureMapping.probe;
@@ -452,24 +486,35 @@ define(
 
                     rowId = paramsManager.convertRemoteToLocalId(externalId);
                     rowResults = row[probeNomenclature.resultsList];
-                    rowCountry = row[probeNomenclature.country];
-                    rowHostname = row[probeNomenclature.hostname];
-                    rowGroup = rowCountry;
-                    rowLabel = row[probeNomenclature.label] || rowHostname + ' (' + rowCountry + ')';
-                    rowDescription = row[probeNomenclature.description] || rowHostname;
 
-                    objRow = new Row(rowId, rowLabel); //Label modified for now
-                    objRow.group = rowGroup;
-                    objRow.internalOrder = rowId;
-                    objRow.description = rowDescription;
-                    objRow.minimumResponseTime = null;
-                    objRow.___externalId___ = externalId;
-                    objRow.___type___ = "probe";
+                    if (!dataPool.rows[rowId]) {
 
-                    objRow.urlsMap = envelop.group.urlsMap;
+                        rowCountry = row[probeNomenclature.country];
+                        rowHostname = row[probeNomenclature.hostname];
+                        rowGroup = rowCountry;
+                        rowLabel = row[probeNomenclature.label] || rowHostname + ' (' + rowCountry + ')';
+                        rowDescription = row[probeNomenclature.description] || rowHostname;
 
-                    resultsObjList = this._parseResults(rowResults, objRow);
-                    envelop.rows.push(objRow);
+
+                        objRow = new Row(rowId, rowLabel);
+                        //Label modified for now
+                        objRow.group = rowGroup;
+                        objRow.internalOrder = rowId;
+                        objRow.description = rowDescription;
+                        objRow.___externalId___ = externalId;
+                        objRow.___type___ = "probe";
+                        objRow.urlsMap = envelop.group.urlsMap;
+
+                        dataPool.rows[rowId] = objRow;
+
+                    }
+
+                    envelop.rows.push(dataPool.rows[rowId]);
+                    dataPool.rows[rowId].minimumResponseTime = null;
+                    dataPool.rows[rowId].cells = [];
+                    dataPool.rows[rowId]["__inuse__"] = true;
+
+                    this._parseResults(rowResults, dataPool.rows[rowId], envelop);
                 }
 
             };
@@ -484,9 +529,9 @@ define(
              * @param {Object} row An object of the model layer representing the row
              */
 
-            this._parseResults = function (results, row) {
+            this._parseResults = function (results, row, envelop) {
                 var cell, objCell, cellResponseTime, cellTime, resultNomenclature, cellLoss, cellTimeEnd,
-                    lastSampleDate, startTimestamp, endTimestamp;
+                    startTimestamp, endTimestamp, cellKey;
 
                 resultNomenclature = dataNomenclatureMapping.result; // Get the nomenclature for a result item
 
@@ -526,8 +571,12 @@ define(
                         minUsedDate = (minUsedDate < cellTime) ? minUsedDate : cellTime;
                     }
 
-                    objCell = new Cell(row, cellTime); // Create a new object of the model layer
+                    cellKey = row.id + '' + cellTime.getTime();
+                    if (!dataPool.cells[cellKey]) {
+                        dataPool.cells[cellKey] = new Cell(row, cellTime); // Create a new object of the model layer
+                    }
 
+                    objCell = dataPool.cells[cellKey];
                     this._parseRcodes(objCell, cell);
 
                     objCell.endTime = cellTimeEnd;
@@ -535,17 +584,16 @@ define(
                     objCell.loss = cellLoss;
                     objCell.sent = cell[dataNomenclatureMapping.result.packetSent];
 
-                    envelop.cells.push(objCell);
 
-                    row.cells.push(objCell); // Set the current cell to the current row
+                    row.cells.push(dataPool.cells[cellKey]);
+                    envelop.cells.push(dataPool.cells[cellKey]);
+
+                    dataPool.cells[cellKey]['__inuse__'] = true;
 
                     if (cellResponseTime != null) {
                         row.minimumResponseTime = ((row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime);
                     }
-
                     crowdestRow = (row.cells.length > crowdestRow.cells.length) ? row : crowdestRow;
-
-                    lastSampleDate = cellTime;
                 }
             };
 
@@ -780,5 +828,5 @@ define(
 
         };
 
-            return IsolationLevelConnectorAtlas;
-        });
+        return IsolationLevelConnectorAtlas;
+    });
