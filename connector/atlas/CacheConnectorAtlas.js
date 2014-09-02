@@ -366,6 +366,7 @@ define(
 
             this._updateCache = function(params, data){
 
+
                 this.cache = {
                     data: data,
                     params: utils.lightClone(params),
@@ -497,6 +498,10 @@ define(
                         newResults.push(row);
 
                         this._filterResults(params, row);
+                    } else {
+                        // Force GC
+                        delete data[rowsListNomenclature][cells];
+                        delete data[rowsListNomenclature][n];
                     }
                 }
 
@@ -529,6 +534,10 @@ define(
                         minimumResultDate = (result.time < minimumResultDate || !minimumResultDate) ? result.time : minimumResultDate;
                         maximumResultDate = (maxResultTime > maximumResultDate || !maximumResultDate) ? maxResultTime : maximumResultDate;
                         newResults.push(result);
+                    } else {
+                        // Force GC
+                        row[rowNomenclature.resultsList][n] = null;
+                        delete row[rowNomenclature.resultsList][n];
                     }
 
                 }

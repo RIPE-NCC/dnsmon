@@ -56,7 +56,7 @@ define([
                 url += (env.maxNumberOfCellsPerRow) ? "&max_samples_per_row=" + env.maxNumberOfCellsPerRow : "";
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";
 
-            }else if(params.type == "server-probes"){
+            } else if(params.type == "server-probes"){
 
                 utils.log("Data-api type: single-server-data", env.debugMode);
 
@@ -87,7 +87,6 @@ define([
             return url;
         };
 
-
         /**
          * It is strongly dedicated to a particular data-api.
          * From top to bottom: given some data-api valid parameters, it provides a method to connect to the data-api and query for that parameters.
@@ -100,13 +99,21 @@ define([
          */
 
         this.retrieveData = function(params, callback, context){
-            var dataUrl, externalParams, xhrEnvelop;
+            var dataUrl, externalParams, xhrEnvelop, cleanXhrEnvelop;
 
             externalParams = params;
 
             dataUrl = this.getDataUrl(externalParams);
 
             utils.log('Ajax call: ' + dataUrl, env.debugMode);
+
+            cleanXhrEnvelop = function(xhrEnvelop) {
+                    for (var prop in xhrEnvelop) {
+
+                        delete xhrEnvelop[prop];
+                    }
+                    xhrEnvelop = null;
+            };
 
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
@@ -127,8 +134,12 @@ define([
                     data.type = params.type;
                     env.lastDownload = new Date();
                     callback.call(context, data);
+
+                    // Force garbage collector
+                    for (var prop in data){
+                        delete data[prop];
+                    }
                     data = null;
-//                    delete data; // Force garbage
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -142,19 +153,10 @@ define([
                     };
 
                     callback.call(context, emptyDataSet);
-                }
+                },
 
+                complete: cleanXhrEnvelop
             });
-
-            setTimeout(function(){
-                try {
-                    xhrEnvelop.onreadystatechange = null;
-                    xhrEnvelop.abort = null;
-                } catch(ex) {
-                }
-                xhrEnvelop = null;
-//                delete xhrEnvelop;
-            }, 500);
         };
 
 
@@ -170,7 +172,7 @@ define([
          */
 
         this.getNativeDnsResult = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl, xhrEnvelop;
+            var dataUrl, xhrEnvelop, cleanXhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, nativeDnsResultDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -178,10 +180,18 @@ define([
 
             utils.log('Retrieve native DNS data: '+ dataUrl, env.debugMode);
 
+            cleanXhrEnvelop = function(xhrEnvelop) {
+                for (var prop in xhrEnvelop) {
+                    delete xhrEnvelop[prop];
+                }
+                xhrEnvelop = null;
+            };
+
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 cache: false,
+                timeout : config.connectionTimeout,
                 success: function(data){
                     utils.log("Native DNS data retrieved", env.debugMode);
 
@@ -191,24 +201,20 @@ define([
                     }
 
                     callback.call(context, data);
+
+                    // Force garbage collector
+                    for (var prop in data){
+                        delete data[prop];
+                    }
                     data = null;
-//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve native DNS data", env.debugMode);
-                }
+                },
+                complete: cleanXhrEnvelop
             });
 
-            setTimeout(function(){
-                try {
-                    xhrEnvelop.onreadystatechange = null;
-                    xhrEnvelop.abort = null;
-                } catch(ex) {
-                }
-                xhrEnvelop = null;
-//                delete xhrEnvelop;
-            }, 500);
         };
 
 
@@ -224,7 +230,7 @@ define([
          */
 
         this.getClosestTraceroutes = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl, xhrEnvelop;
+            var dataUrl, xhrEnvelop, cleanXhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, closesttraceroutesDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -234,10 +240,18 @@ define([
 
             utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
 
+            cleanXhrEnvelop = function(xhrEnvelop) {
+                for (var prop in xhrEnvelop) {
+                    delete xhrEnvelop[prop];
+                }
+                xhrEnvelop = null;
+            };
+
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 cache: false,
+                timeout : config.connectionTimeout,
                 success: function(data){
                     utils.log("Traceroute data retrieved", env.debugMode);
 
@@ -247,24 +261,21 @@ define([
                     }
 
                     callback.call(context, data);
+
+                    // Force garbage collector
+                    for (var prop in data){
+                        delete data[prop];
+                    }
                     data = null;
-//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve traceroute data", env.debugMode);
-                }
+                },
+
+                complete: cleanXhrEnvelop
             });
 
-            setTimeout(function(){
-                try {
-                    xhrEnvelop.onreadystatechange = null;
-                    xhrEnvelop.abort = null;
-                } catch(ex) {
-                }
-                xhrEnvelop = null;
-//                delete xhrEnvelop;
-            }, 500);
         };
 
 
@@ -280,7 +291,7 @@ define([
          */
 
         this.getClosestHostnameBind = function(msmId, prbId, timestamp, callback, context){
-            var dataUrl, xhrEnvelop;
+            var dataUrl, xhrEnvelop, cleanXhrEnvelop;
 
             dataUrl = utils.setParam('msm_id', msmId, closestNsidDataUrl);
             dataUrl = utils.setParam('prb_id', prbId, dataUrl);
@@ -290,10 +301,18 @@ define([
 
             utils.log('Retrieve traceroute data: '+ dataUrl, env.debugMode);
 
+            cleanXhrEnvelop = function(xhrEnvelop) {
+                for (var prop in xhrEnvelop) {
+                    delete xhrEnvelop[prop];
+                }
+                xhrEnvelop = null;
+            };
+
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
                 cache: false,
+                timeout : config.connectionTimeout,
                 success: function(data){
                     utils.log("hostname.bind data retrieved", env.debugMode);
 
@@ -303,24 +322,20 @@ define([
                     }
 
                     callback.call(context, data);
+
+                    // Force garbage collector
+                    for (var prop in data){
+                        delete data[prop];
+                    }
                     data = null;
-//                    delete data; // Force garbage
                 },
 
                 fail: function(){
                     utils.log("It is not possible to retrieve hostname.bind data", env.debugMode);
-                }
-            });
+                },
 
-            setTimeout(function(){
-                try {
-                    xhrEnvelop.onreadystatechange = null;
-                    xhrEnvelop.abort = null;
-                } catch(ex) {
-                }
-                xhrEnvelop = null;
-//                delete xhrEnvelop;
-            }, 500);
+                complete: cleanXhrEnvelop
+            });
         };
     };
 

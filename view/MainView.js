@@ -749,7 +749,7 @@ define([
 
         this._renderCells = function(data){
             var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, transformSet, orderingFunction, pxToSec,
-                cellTranslateLeft;
+                cellTranslateLeft, exitCellsSet;
 
             $this = this;
 
@@ -903,6 +903,14 @@ define([
             this.drawn = true;
 
             utils.log("Number of cell displayed: " + data.cells.length, env.debugMode);
+
+            // Force cleaning
+            exitCellsSet = this.d3Cells.exit();
+            for (var svgCell in exitCellsSet){
+                exitCellsSet[svgCell] = null;
+                delete exitCellsSet[svgCell];
+            }
+            exitCellsSet = null;
         };
 
 

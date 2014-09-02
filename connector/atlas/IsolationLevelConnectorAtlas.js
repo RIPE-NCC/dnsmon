@@ -449,6 +449,7 @@ define(
             this._freeMemoryOnPool = function(){
                 for (var row in dataPool.rows){
                     if (dataPool.rows[row]["__inuse__"] == false){
+                        dataPool.rows[row] = null;
                         delete dataPool.rows[row];
                     } else {
                         dataPool.rows[row]["__inuse__"] = false;
@@ -457,6 +458,7 @@ define(
 
                 for (var cell in dataPool.cells){
                     if (dataPool.cells[cell]["__inuse__"] == false){
+                        dataPool.cells[cell] = null;
                         delete dataPool.cells[cell];
                     } else {
                         dataPool.cells[cell]["__inuse__"] = false;
