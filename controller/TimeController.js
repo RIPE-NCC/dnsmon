@@ -420,7 +420,7 @@ define([
          */
 
         this.keepUpdated = function(keepUpdate){
-            var $this, interval, refreshFunction;
+            var $this, interval;
 
             $this = this;
             interval = ((env.debugMode) ? 6000 : (config.updateEverySeconds * 1000));
