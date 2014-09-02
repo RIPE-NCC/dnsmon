@@ -447,6 +447,7 @@ define(
             };
 
             this._freeMemoryOnPool = function(){
+
                 for (var row in dataPool.rows){
                     if (dataPool.rows[row]["__inuse__"] == false){
                         dataPool.rows[row] = null;
@@ -576,21 +577,20 @@ define(
                     cellKey = row.id + '' + cellTime.getTime();
                     if (!dataPool.cells[cellKey]) {
                         dataPool.cells[cellKey] = new Cell(row, cellTime); // Create a new object of the model layer
+                        dataPool.cells[cellKey]["optional"] = {}; // Remove optional attributes
                     }
 
                     objCell = dataPool.cells[cellKey];
                     this._parseRcodes(objCell, cell);
-
                     objCell.endTime = cellTimeEnd;
                     objCell.respondingTime = cellResponseTime;
                     objCell.loss = cellLoss;
                     objCell.sent = cell[dataNomenclatureMapping.result.packetSent];
 
-
                     row.cells.push(dataPool.cells[cellKey]);
                     envelop.cells.push(dataPool.cells[cellKey]);
 
-                    dataPool.cells[cellKey]['__inuse__'] = true;
+                     dataPool.cells[cellKey]['__inuse__'] = true;
 
                     if (cellResponseTime != null) {
                         row.minimumResponseTime = ((row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime);

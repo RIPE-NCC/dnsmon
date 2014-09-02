@@ -660,6 +660,13 @@ define([
             } else {
                 window.onerror = null;
             }
+        },
+
+        clearObject: function(objToBeCleaned){
+            for (var objKey in objToBeCleaned){
+                objToBeCleaned[objKey] = null;
+                delete objToBeCleaned[objKey];
+            }
         }
 
     }

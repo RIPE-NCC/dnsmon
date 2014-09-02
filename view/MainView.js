@@ -684,8 +684,8 @@ define([
                     shakeTransform = function(d){
                         var x, y;
 
-                        x = d.xPosition + Math.floor(Math.random() * config.shakeTuner);
-                        y = d.yPosition + Math.floor(Math.random() * config.shakeTuner);
+                        x = d.optional.xPosition + Math.floor(Math.random() * config.shakeTuner);
+                        y = d.optional.yPosition + Math.floor(Math.random() * config.shakeTuner);
 
                         return "translate(" + x + "," + y + ")";
                     };
@@ -763,10 +763,10 @@ define([
 
             cellsTransform = function(d) {
                 d.selected = false;
-                d.xPosition = $this.xAxis.scale(d.time) - cellTranslateLeft;
-                d.xPosition = (d.xPosition < 0) ? 0 : d.xPosition; // OPTIMISATION: don't call Math.max
-                d.yPosition = $this.yAxis.scale(d.row.label);
-                return "translate(" + d.xPosition + "," + d.yPosition + ")";
+                d.optional.xPosition = $this.xAxis.scale(d.time) - cellTranslateLeft;
+                d.optional.xPosition = (d.optional.xPosition < 0) ? 0 : d.optional.xPosition; // OPTIMISATION: don't call Math.max
+                d.optional.yPosition = $this.yAxis.scale(d.row.label);
+                return "translate(" + d.optional.xPosition + "," + d.optional.yPosition + ")";
             };
 
             cellClass = function(d){
@@ -835,7 +835,7 @@ define([
                         var xPosition, columnWidth;
 
                         columnWidth = parseFloat(d3.select(this).attr("width"));
-                        xPosition = d.xPosition;
+                        xPosition = d.optional.xPosition;
 
                         $this.selectRow(true, d.row.id);
                         $this.selectColumn(true, xPosition, columnWidth);
@@ -857,7 +857,7 @@ define([
                         var xPosition, columnWidth;
 
                         columnWidth = parseFloat(d3.select(this).attr("width"));
-                        xPosition = d.xPosition;
+                        xPosition = d.optional.xPosition;
 
                         $this.popUp.hide();
                         $this.selectRow(true, d.row.id);
@@ -904,13 +904,6 @@ define([
 
             utils.log("Number of cell displayed: " + data.cells.length, env.debugMode);
 
-            // Force cleaning
-            exitCellsSet = this.d3Cells.exit();
-            for (var svgCell in exitCellsSet){
-                exitCellsSet[svgCell] = null;
-                delete exitCellsSet[svgCell];
-            }
-            exitCellsSet = null;
         };
 
 

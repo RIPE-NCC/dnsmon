@@ -493,9 +493,9 @@ define([
 
                             currentRect = d3.select(this); // Points the current cell
 
-                            d.rectVertices = d.rectVertices || utils.getRectangularVertexPoints(d.xPosition, d.yPosition, parseFloat(currentRect.attr("width")), parseFloat(currentRect.attr("height"))); // Calculate the cell vertices
+                            d.optional.rectVertices = d.optional.rectVertices || utils.getRectangularVertexPoints(d.optional.xPosition, d.optional.yPosition, parseFloat(currentRect.attr("width")), parseFloat(currentRect.attr("height"))); // Calculate the cell vertices
 
-                            rectVertices = d.rectVertices;
+                            rectVertices = d.optional.rectVertices;
 
                             isCellSelected = utils.isThereAnIntersection(selectionVertices, rectVertices);// && d.selected == false; // Find if there is an intersection
 

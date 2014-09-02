@@ -27,6 +27,7 @@ define(["env.utils"], function(utils){
 
         this.id = this.getId();
 
+        this.optional = {};
     };
 
 
