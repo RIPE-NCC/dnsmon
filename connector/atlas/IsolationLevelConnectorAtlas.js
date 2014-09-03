@@ -131,11 +131,11 @@ define(
                     this._freeMemoryOnPool();
                     var wrappedData = this._parseData(data);
 
-                    // Force garbage collector
-                    for (var prop in data){
-                        delete data[prop];
-                    }
-                    data = null;
+//                    // Force garbage collector
+//                    for (var prop in data){
+//                        delete data[prop];
+//                    }
+//                    data = null;
 
                     callback.call(context, wrappedData); // Back to the normal data flow
 
