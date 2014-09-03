@@ -12,7 +12,7 @@ define([
 
     var Connector = function(env){
         var perServerDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
-            commonServer, closestNsidDataUrl;
+            commonServer, closestNsidDataUrl, xhrEnvelop;
 
         config = env.config;
 
@@ -99,7 +99,7 @@ define([
          */
 
         this.retrieveData = function(params, callback, context){
-            var dataUrl, externalParams, xhrEnvelop, cleanXhrEnvelop;
+            var dataUrl, externalParams, cleanXhrEnvelop;
 
             externalParams = params;
 
@@ -107,13 +107,10 @@ define([
 
             utils.log('Ajax call: ' + dataUrl, env.debugMode);
 
-            cleanXhrEnvelop = function(xhrEnvelop) {
-                    for (var prop in xhrEnvelop) {
+            for (var prop in xhrEnvelop) {
+                delete xhrEnvelop[prop];
+            }
 
-                        delete xhrEnvelop[prop];
-                    }
-                    xhrEnvelop = null;
-            };
 
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
@@ -134,12 +131,6 @@ define([
                     data.type = params.type;
                     env.lastDownload = new Date();
                     callback.call(context, data);
-
-                    // Force garbage collector
-                    for (var prop in data){
-                        delete data[prop];
-                    }
-                    data = null;
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -153,10 +144,9 @@ define([
                     };
 
                     callback.call(context, emptyDataSet);
-                },
-
-                complete: cleanXhrEnvelop
+                }
             });
+
         };
 
 

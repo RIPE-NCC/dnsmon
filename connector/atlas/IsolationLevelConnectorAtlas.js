@@ -131,6 +131,12 @@ define(
                     this._freeMemoryOnPool();
                     var wrappedData = this._parseData(data);
 
+                    // Force garbage collector
+                    for (var prop in data){
+                        delete data[prop];
+                    }
+                    data = null;
+
                     callback.call(context, wrappedData); // Back to the normal data flow
 
                 }, this); // Data callback context
@@ -450,7 +456,6 @@ define(
 
                 for (var row in dataPool.rows){
                     if (dataPool.rows[row]["__inuse__"] == false){
-                        dataPool.rows[row] = null;
                         delete dataPool.rows[row];
                     } else {
                         dataPool.rows[row]["__inuse__"] = false;
@@ -459,7 +464,6 @@ define(
 
                 for (var cell in dataPool.cells){
                     if (dataPool.cells[cell]["__inuse__"] == false){
-                        dataPool.cells[cell] = null;
                         delete dataPool.cells[cell];
                     } else {
                         dataPool.cells[cell]["__inuse__"] = false;
@@ -577,10 +581,10 @@ define(
                     cellKey = row.id + '' + cellTime.getTime();
                     if (!dataPool.cells[cellKey]) {
                         dataPool.cells[cellKey] = new Cell(row, cellTime); // Create a new object of the model layer
-                        dataPool.cells[cellKey]["optional"] = {}; // Remove optional attributes
                     }
 
                     objCell = dataPool.cells[cellKey];
+                    objCell.optional = {}; // Remove optional attributes
                     this._parseRcodes(objCell, cell);
                     objCell.endTime = cellTimeEnd;
                     objCell.respondingTime = cellResponseTime;
@@ -590,7 +594,7 @@ define(
                     row.cells.push(dataPool.cells[cellKey]);
                     envelop.cells.push(dataPool.cells[cellKey]);
 
-                     dataPool.cells[cellKey]['__inuse__'] = true;
+                    objCell.__inuse__ = true;
 
                     if (cellResponseTime != null) {
                         row.minimumResponseTime = ((row.minimumResponseTime == null || row.minimumResponseTime > cellResponseTime) ? cellResponseTime : row.minimumResponseTime);

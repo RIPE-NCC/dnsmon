@@ -452,7 +452,7 @@ define([
 
                 if (currentElement != null && updateSelectionTimes == 0) {
 
-                    allCells = env.mainView.d3Cells;
+                    allCells = env.container.chart.svg.selectAll("rect.cell");
 
                     updateSelectionLowProfile();
 

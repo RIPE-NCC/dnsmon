@@ -34,7 +34,7 @@ define([
      */
 
     var MainView = function(env){
-        var representedTimeWindowInSeconds, loadingImageDom, config, $this, oldStartDate, oldEndDate;
+        var representedTimeWindowInSeconds, loadingImageDom, config, $this, oldStartDate, oldEndDate, d3Cells;
 
         config = env.config;
         $this = this;
@@ -303,8 +303,8 @@ define([
 
             this.colorDomainBreakPoints = [this.colorDomainAndRange.valueRange[2], this.colorDomainAndRange.valueRange[3]];
 
-            this.d3Cells
-                .style("fill", $this.getCellColor);
+
+            d3Cells.style("fill", $this.getCellColor);
         };
 
 
@@ -538,7 +538,7 @@ define([
 
                             });
 
-                    }else{
+                    } else {
 
                         if ($this._previusoSelectedRowCells){
                             $this._previusoSelectedRowCells
@@ -565,6 +565,7 @@ define([
                         }
                     }
 
+                    delete $this._previusoSelectedRowCells;
                 }
             }, (selected) ? config.selectRowColumnTimer : 0);
 
@@ -692,10 +693,10 @@ define([
 
                     elementIndex = 0;
                     shakeIterations = 5;
-                    shakingElementsReduction = (this.d3Cells.length < 40) ? 1 : 4;
+                    shakingElementsReduction = (d3Cells.length < 40) ? 1 : 4;
                     shakeDuration = config.shakeDuration/shakeIterations;
 
-                    this.d3Cells
+                    d3Cells
                         .each(function(d){
                             var that = this;
                             if (elementIndex % shakingElementsReduction == 0){
@@ -749,7 +750,7 @@ define([
 
         this._renderCells = function(data){
             var cellsTransform, cellWidth, cellHeight, rect, $this, cellClass, transformSet, orderingFunction, pxToSec,
-                cellTranslateLeft, exitCellsSet;
+                cellTranslateLeft, cellsSVG;
 
             $this = this;
 
@@ -775,7 +776,7 @@ define([
 
             pxToSec = (env.container.chart.width() / env.timeWindowSeconds);
 
-            this.cellsSVG = env.container.chart.svg.selectAll("rect.cell");
+            cellsSVG = env.container.chart.svg.selectAll("rect.cell");
 
             cellWidth = function(cellData){
                 var cellWidth;
@@ -805,10 +806,10 @@ define([
 
             this.cellWidth = cellWidth;
 
-            this.d3Cells = this.cellsSVG
+            d3Cells = cellsSVG
                 .data(data.cells, orderingFunction);
 
-            this.d3Cells
+            d3Cells
                 .exit()
                 .on('click', null)
                 .on('mousemove', null)
@@ -816,7 +817,7 @@ define([
                 .on('mouseout', null)
                 .remove();
 
-            this.d3Cells
+            d3Cells
                 .enter()
                 .append("rect")
                 .attr("class", cellClass)
@@ -879,8 +880,8 @@ define([
                 });
 
 
-            if (this.drawn && env.lowProfile == false && this.previosNumberOfCells > this.d3Cells[0].length){
-                transformSet = this.d3Cells
+            if (this.drawn && env.lowProfile == false && this.previosNumberOfCells > d3Cells[0].length){
+                transformSet = d3Cells
                     .transition()
                     .duration(config.zoomAnimationDuration)
                     .attr("width", cellWidth)
@@ -890,7 +891,7 @@ define([
                     .delay(config.zoomAnimationDelay)
                     .style("fill", $this.getCellColor);
             }else{
-                this.d3Cells
+                d3Cells
                     .attr("width", cellWidth)
                     .attr("height", cellHeight)
                     .attr("transform", cellsTransform)
@@ -898,12 +899,13 @@ define([
                     .style("fill", $this.getCellColor);
             }
 
-            this.previosNumberOfCells = this.d3Cells[0].length;
+            this.previosNumberOfCells = d3Cells[0].length;
 
             this.drawn = true;
 
             utils.log("Number of cell displayed: " + data.cells.length, env.debugMode);
 
+//            delete this.d3Cells;
         };
 
 
