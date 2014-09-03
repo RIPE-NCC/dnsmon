@@ -500,7 +500,7 @@ define(
                         this._filterResults(params, row);
                     } else {
                         // Force GC
-                        delete data[rowsListNomenclature][n];
+//                        delete data[rowsListNomenclature][n];
                     }
                 }
 
@@ -535,7 +535,7 @@ define(
                         newResults.push(result);
                     } else {
                         // Force GC
-                        delete row[rowNomenclature.resultsList][n];
+//                        delete row[rowNomenclature.resultsList][n];
                     }
 
                 }
