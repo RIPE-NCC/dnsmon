@@ -99,7 +99,7 @@ define([
          */
 
         this.retrieveData = function(params, callback, context){
-            var dataUrl, externalParams, cleanXhrEnvelop;
+            var dataUrl, externalParams;
 
             externalParams = params;
 
@@ -107,9 +107,9 @@ define([
 
             utils.log('Ajax call: ' + dataUrl, env.debugMode);
 
-            for (var prop in xhrEnvelop) {
-                delete xhrEnvelop[prop];
-            }
+//            for (var prop in xhrEnvelop) {
+//                delete xhrEnvelop[prop];
+//            }
 
 
             xhrEnvelop = $.ajax({
