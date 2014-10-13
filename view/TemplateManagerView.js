@@ -182,9 +182,29 @@ define([
 
         this.filtersPopup =
             '<div>' +
-                '<label>' + env.lang.filtersPopupTitle + '</label><br/>' +
+                '<label>' + env.lang.filterSelectionTitle + '</label><br/>' +
+                '<div class="filter-popup-item">' +
+                  env.lang.excludeErrorsFilterLabel + '<input type="checkbox" class="exclude-errors" name="exclude-errors">' +
+                '</div>' +
 
-                '<input type="checkbox" class="exclude-errors" name="exclude-errors">' + env.lang.excludeErrorsFilterLabel +
+                '<div class="filter-popup-item">' +
+                  '<span>' + env.lang.protocol3SelectionFilterLabel + ': ' +
+                    '<select class="dnsmon-filter-3protocol">' +
+                      '<option value="both">IPv4 and IPv6</option>' +
+                      '<option value="4">IPv4 only</option>' +
+                      '<option value="6">IPv6 only</option>' +
+                    '</select>' +
+                  '</span>' +
+                '</div>' +
+
+              '<div class="filter-popup-item">' +
+              '<span>' + env.lang.protocol4SelectionFilterLabel + ': ' +
+              '<select class="dnsmon-filter-4protocol">' +
+                '<option value="udp">UDP</option>' +
+                '<option value="tcp">TCP</option>' +
+              '</select>' +
+              '</span>' +
+              '</div>' +
 
             '</div>';
 

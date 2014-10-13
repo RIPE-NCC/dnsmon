@@ -558,6 +558,12 @@ input.pls-percentage{
     right: 0 !important;
 }
 
+.filter-popup-item{
+    clear: both;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
 /* Atlas traceroute render */
 

@@ -122,7 +122,9 @@ define([
 
             this.filtersPopup = {
                 "dom": filtersPopup,
-                "excludeErrorsCheck": filtersPopup.find(".exclude-errors")
+                "excludeErrorsCheck": filtersPopup.find(".exclude-errors"),
+                "filter3Protocol": filtersPopup.find(".dnsmon-filter-3protocol"),
+                "filter4Protocol": filtersPopup.find(".dnsmon-filter-4protocol")
             };
 
             this.datepickers = {
@@ -632,6 +634,31 @@ define([
                             env.session.saveValue('exclude-errors', $(this).is(":checked"));
                             env.mainView.redraw();
                         });
+
+
+                    $this.filtersPopup
+                      .filter3Protocol
+                      .off("change")
+                      .attr("disabled", (env.params.type == "probes"))
+                      .val((env.params.ipVersion == null) ? "both" : env.params.ipVersion)
+                      .on("change", function(){
+                        var actualVal;
+
+                        actualVal = $(this).val();
+                        actualVal = (actualVal == "both") ? null : actualVal;
+                        env.params.selectedRows = [];
+                        env.params.ipVersion = actualVal;
+                        env.mainView.redraw();
+                      });
+
+                    $this.filtersPopup
+                      .filter4Protocol
+                      .off("change")
+                      .val((env.params.isTcp) ? "tcp" : "udp")
+                      .on("change", function(){
+                        env.params.isTcp = $(this).val();
+                        env.mainView.redraw();
+                      });
 
                 });
 
