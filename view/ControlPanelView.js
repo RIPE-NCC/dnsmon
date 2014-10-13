@@ -656,7 +656,7 @@ define([
                       .off("change")
                       .val((env.params.isTcp) ? "tcp" : "udp")
                       .on("change", function(){
-                        env.params.isTcp = $(this).val();
+                        env.params.isTcp = ($(this).val() == "tcp");
                         env.mainView.redraw();
                       });
 
