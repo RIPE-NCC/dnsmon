@@ -13,6 +13,7 @@
     font-family: Verdana;
     line-height: 1em!important;
     border-radius: 4px;
+    box-sizing: content-box!important;
     min-width: 860px!important;
 }
 
