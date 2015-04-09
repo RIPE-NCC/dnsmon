@@ -407,12 +407,6 @@ input.pls-percentage{
     text-shadow: 1px 1px 3px #FFFFFF;
 }
 
-.ui-dialog{
-    position: fixed !important; /* Fix jQuery-ui -.-' */
-    visibility: visible !important;
-    z-index: 100 !important;
-}
-
 .dnsmon-container .time-margins{
     position: absolute;
     right: 5px;
