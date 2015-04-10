@@ -6,10 +6,10 @@ define([], function(){
      */
 
     return {
-        containerWidthDefault: 865,
+        containerWidthDefault: 870,
         containerHeightDefault: 400,
 
-        containerMinWidth: 865,
+        containerMinWidth: 870,
 
         chartMaxHeight: 900,
         chartMinHeight: 500,
