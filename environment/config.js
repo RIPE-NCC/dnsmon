@@ -9,7 +9,7 @@ define([], function(){
         containerWidthDefault: 860,
         containerHeightDefault: 400,
 
-        containerMinWidth: 860,
+        containerMinWidth: 865,
 
         chartMaxHeight: 900,
         chartMinHeight: 500,
