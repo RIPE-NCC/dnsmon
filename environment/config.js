@@ -6,7 +6,7 @@ define([], function(){
      */
 
     return {
-        containerWidthDefault: 860,
+        containerWidthDefault: 865,
         containerHeightDefault: 400,
 
         containerMinWidth: 865,
