@@ -5,8 +5,8 @@
 define([
     "env.utils",
     "env.params-manager",
-    "view.full-screen",
-    "lib.jquery-ui.timepicker"
+    "view.full-screen"
+    //"lib.jquery-ui.timepicker"
 ], function(utils, paramsManager, FullScreenView){
 
     /**

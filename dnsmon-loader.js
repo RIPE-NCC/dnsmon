@@ -32,7 +32,8 @@ requirejs.config({
         "lib.jquery.cookie": DNSMON_LIB_URL + "jquery.cookie",
         "lib.date-format": DNSMON_LIB_URL + "dateFormat",
         "lib.atlas-traceroute-printer": DNSMON_LIB_URL + "atlas.traceroute",
-
+        "lib.jquery-libs": DNSMON_LIB_URL + "libs-dist",
+        "lib.jquery-libs-amd": DNSMON_LIB_URL + "jquery-libs-amd",
 
         /* model */
         "model.cell": DNSMON_MODEL_URL + "Cell",
@@ -108,8 +109,7 @@ define([
     "connector.facade",
     "session.facade",
     "env.history-manager",
-    "lib.jquery",
-    "lib.jquery-ui"
+    "lib.jquery-libs-amd"
 
 ], function(
     utils,
