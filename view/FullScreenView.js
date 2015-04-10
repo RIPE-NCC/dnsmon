@@ -2,8 +2,9 @@
  * Created by mcandela on 19/11/13.
  */
 define([
-    "env.utils"
-], function(utils){
+    "env.utils",
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * FullScreenView is the view component for the full screen feature

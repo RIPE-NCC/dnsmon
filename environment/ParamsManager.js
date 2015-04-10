@@ -3,8 +3,9 @@
  */
 
 define([
-    "env.utils"
-], function(utils){
+    "env.utils",
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * ParamsManager is the only component aware about the translation between external and internal parameters.

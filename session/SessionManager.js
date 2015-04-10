@@ -4,8 +4,8 @@
 
 define([
     "env.utils",
-    "lib.jquery.cookie"
-], function(utils){
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * SessionManager is the layer providing all the functions to manage the session.

@@ -4,10 +4,11 @@
 
 define([
     "env.utils",
+    "lib.jquery-libs-amd",
     "env.params-manager",
     "view.full-screen"
     //"lib.jquery-ui.timepicker"
-], function(utils, paramsManager, FullScreenView){
+], function(utils, $, paramsManager, FullScreenView){
 
     /**
      * ControlPanelView is the view component managing the representation of the control panel

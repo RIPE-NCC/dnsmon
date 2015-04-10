@@ -9,8 +9,9 @@
 define([
     "env.utils",
     "env.config",
+    "lib.jquery-libs-amd",
     "lib.d3"
-], function(utils, config, d3){
+], function(utils, config, $, d3){
 
     /**
      * SvgChartView is the view component representing the chart in SVG terms

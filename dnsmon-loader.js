@@ -104,17 +104,18 @@ define([
     "env.utils",
     "env.config",
     "env.languages.en",
+    "lib.jquery-libs-amd",
     "env.params-manager",
     "view.main",
     "connector.facade",
     "session.facade",
-    "env.history-manager",
-    "lib.jquery-libs-amd"
+    "env.history-manager"
 
 ], function(
     utils,
     config,
     language,
+    $,
     paramsManager,
     MainView,
     ConnectorFacade,

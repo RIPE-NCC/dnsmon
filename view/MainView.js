@@ -9,6 +9,7 @@
 
 define([
     "env.utils",
+    "lib.jquery-libs-amd",
     "lib.d3",
     "view.template-manager",
     "view.time-overview",
@@ -20,7 +21,7 @@ define([
     "view.svg.time-axis",
     "view.svg.ordinal-axis",
     "env.params-manager"
-], function(utils, d3, TemplateManagerView, TimeOverviewView,
+], function(utils, $, d3, TemplateManagerView, TimeOverviewView,
             SvgContainerView, PopUpView, BreadcrumbsView,
             ControlPanelView, TimeController, SvgTimeAxisView, SvgOrdinalAxisView, paramsManager){
 

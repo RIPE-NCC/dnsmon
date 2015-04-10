@@ -3,8 +3,9 @@
  */
 
 define([
-    "env.utils"
-], function(utils){
+    "env.utils",
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * TemplateManagerView is the component in charge of creating and manipulating the HTML dom elements.

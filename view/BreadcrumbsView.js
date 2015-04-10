@@ -4,8 +4,9 @@
 
 define([
     "env.utils",
+    "lib.jquery-libs-amd",
     "env.params-manager"
-], function(utils, paramsManager){
+], function(utils, $, paramsManager){
 
     /**
      * BreadcrumbsView is the view component for the breadcrumbs function
