@@ -1,7 +1,8 @@
 
 define([
-    "lib.d3"
-], function(d3){
+    "lib.d3",
+    "lib.jquery-libs-amd"
+], function(d3, $){
 
     /**
      * SvgOrdinalAxisView is the view component representing the y-axis in SVG terms.

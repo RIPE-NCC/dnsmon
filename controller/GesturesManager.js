@@ -8,8 +8,9 @@
 
 define([
     "env.utils",
+    "lib.jquery-libs-amd",
     "lib.d3"
-], function(utils, d3){
+], function(utils, $, d3){
 
     /**
      * GesturesManager provides all the features handling user gestures/interactions.

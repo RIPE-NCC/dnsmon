@@ -4,7 +4,8 @@
  * Time: 17:17
  */
 define([
-], function(){
+    "lib.jquery-libs-amd"
+], function($){
 
     /**
      * Connector is in charge of connecting the data-apis and providing a JSON format to the layers over.

@@ -1,6 +1,7 @@
 define([
-    "env.utils"
-], function(utils){
+    "env.utils",
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * Connector is in charge of connecting the data-apis and providing a JSON format to the layers over.

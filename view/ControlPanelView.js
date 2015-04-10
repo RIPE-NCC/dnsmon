@@ -44,7 +44,7 @@ define([
         this.updateWidth = function(){
             var margin;
 
-            margin = 3;
+            margin = 6;
             this.dom.css("width", env.container.chart.width() - margin + "px");
         };
 

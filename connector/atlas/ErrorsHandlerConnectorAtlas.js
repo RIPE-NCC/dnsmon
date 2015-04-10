@@ -8,8 +8,9 @@
 
 define([
     "env.utils",
+    "lib.jquery-libs-amd",
     "connector.atlas.rest"
-], function(utils, Connector){
+], function(utils, $, Connector){
 
     /**
      * ErrorsHandlerConnectorAtlas checks the validity of the JSON input and handle errors raised by the data-api.

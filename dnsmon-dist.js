@@ -11308,8 +11308,9 @@ return TimeOverviewView;
 define('view.svg.chart',[
     "env.utils",
     "env.config",
+    "lib.jquery-libs-amd",
     "lib.d3"
-], function(utils, config, d3){
+], function(utils, config, $, d3){
 
     /**
      * SvgChartView is the view component representing the chart in SVG terms
@@ -12210,7 +12211,7 @@ define('view.control-panel',[
         this.updateWidth = function(){
             var margin;
 
-            margin = 3;
+            margin = 6;
             this.dom.css("width", env.container.chart.width() - margin + "px");
         };
 
@@ -13286,8 +13287,9 @@ define('view.control-panel',[
 
 define('controller.gesture-manager',[
     "env.utils",
+    "lib.jquery-libs-amd",
     "lib.d3"
-], function(utils, d3){
+], function(utils, $, d3){
 
     /**
      * GesturesManager provides all the features handling user gestures/interactions.
@@ -14643,8 +14645,9 @@ define('view.svg.time-axis',[
 
 
 define('view.svg.ordinal-axis',[
-    "lib.d3"
-], function(d3){
+    "lib.d3",
+    "lib.jquery-libs-amd"
+], function(d3, $){
 
     /**
      * SvgOrdinalAxisView is the view component representing the y-axis in SVG terms.
@@ -16357,8 +16360,9 @@ define('model.row',[], function(){
     return Row;
 });
 define('connector.atlas.rest',[
-    "env.utils"
-], function(utils){
+    "env.utils",
+    "lib.jquery-libs-amd"
+], function(utils, $){
 
     /**
      * Connector is in charge of connecting the data-apis and providing a JSON format to the layers over.
@@ -16700,8 +16704,9 @@ define('connector.atlas.rest',[
 
 define('connector.atlas.error-handler',[
     "env.utils",
+    "lib.jquery-libs-amd",
     "connector.atlas.rest"
-], function(utils, Connector){
+], function(utils, $, Connector){
 
     /**
      * ErrorsHandlerConnectorAtlas checks the validity of the JSON input and handle errors raised by the data-api.
@@ -18983,7 +18988,8 @@ define(
  * Time: 17:17
  */
 define('connector.log-connector',[
-], function(){
+    "lib.jquery-libs-amd"
+], function($){
 
     /**
      * Connector is in charge of connecting the data-apis and providing a JSON format to the layers over.
