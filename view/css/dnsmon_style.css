@@ -9,7 +9,6 @@
     border: 1px solid #C0C0C0;
     background: #FFFFFF;
     font-size: 10px;
-    /*font-size: 100%;*/
     font-family: Verdana;
     line-height: 1em!important;
     border-radius: 4px;
@@ -19,9 +18,7 @@
 
 .dnsmon-container{
     font-size: 10px;
-    /*font-size: 70%;*/
     position: relative;
-
     -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
@@ -231,7 +228,7 @@ input.pls-percentage{
 
 .dnsmon-container .control-panel .legend .legend-agr-level{
     float: left;
-    width: 160px;
+    width: 165px;
     margin-left: 5px;
     padding-left: 5px;
     border-left: 1px solid #C0C0C0;
