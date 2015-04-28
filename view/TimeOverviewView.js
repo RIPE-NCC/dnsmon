@@ -278,9 +278,10 @@ define([
                     .remove();
 
                 out = this.render(domainRange, currentSelection);
-                points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
-                changeCallback.call(this, currentSelection[0], currentSelection[1], points);
-
+                if (out) {
+                    points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
+                    changeCallback.call(this, currentSelection[0], currentSelection[1], points);
+                }
                 return out;
             }
         };
@@ -321,7 +322,7 @@ define([
         this.updateSelection = function(currentSelection){
             var points;
 
-            if (this.currentSelection != currentSelection){
+            if (this.currentSelection != currentSelection && xAxis){
                 groupOverview
                     .call(brush.extent(currentSelection));
 
