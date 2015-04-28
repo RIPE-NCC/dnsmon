@@ -59,9 +59,10 @@ define([
                 .attr('class', 'time-overview-container');
 
             if (domainRange && currentSelection){
-                this.render(domainRange, currentSelection);
-                points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
-                initCallback.call(this, currentSelection[0], currentSelection[1], points);
+                if (this.render(domainRange, currentSelection)) {
+                    points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
+                    initCallback.call(this, currentSelection[0], currentSelection[1], points);
+                }
             }
         };
 
