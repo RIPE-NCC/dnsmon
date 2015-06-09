@@ -177,7 +177,12 @@ define([
                 timeTicker = d3.time.months.utc;
                 timeGrid = d3.time.weeks.utc;
                 timeUnitGrid = d3.time.week.utc;
-            }else{
+            }else if (timeWindow < (brusherBucketLevelsMinutes.months * 60 * 1000)){
+                timeMapper = d3.time.month.utc;
+                timeTicker = d3.time.months.utc;
+                timeGrid = d3.time.weeks.utc;
+                timeUnitGrid = d3.time.week.utc;
+            }else {
                 timeMapper = d3.time.year.utc;
                 timeTicker = d3.time.years.utc;
                 timeGrid = d3.time.months.utc;

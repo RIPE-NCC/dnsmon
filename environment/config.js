@@ -107,7 +107,9 @@ define([], function(){
         brusherBucketLevelsMinutes: {
             "day": 43200 * 0.5, //0.5 month
             "week": 43200 * 5, //5 months
-            "month": (43200 * 12 * 1) //1 year
+            "month": (43200 * 12 * 1), //1 year,
+            "months": (43200 * 12 * 3), //1 year,
+            "year": (43200 * 12 * 6) //1 year (6 months view)
         },
 
 
