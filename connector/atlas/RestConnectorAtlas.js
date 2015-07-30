@@ -68,7 +68,6 @@ define([
                     url += "?server=" + params.server;
                 }
 
-
                 url += (params.zone) ? "&group=" + params.zone : "";
                 url += (params.maxProbes) ? "&max_probes=" + params.maxProbes : "";
 
