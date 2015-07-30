@@ -158,7 +158,7 @@ define([
          * Init Dependency Injection Vector
          */
         env = {
-            "version": "14.9.3.2",
+            "version": "15.7.30.1",
             "widgetUrl": DNSMON_WIDGET_URL,
             "parentDom": parentDom, //HASH THIS
             "document": utils.encapsulateDom($(document)),

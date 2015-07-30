@@ -52,10 +52,12 @@ define([
         this.fromExternalToInternal = function(params){
             var zone, server, type, startDate, selectedRows, outParams, endDate, zoneName, serverName, typeName,
                 startDateName, endDateName, selectedRowsName, isTcp, ipVersion, isTcpName, ipVersionName, validatorMap,
-                timeWindowName, timeWindow, filterProbesName, filterProbes;
+                timeWindowName, timeWindow, filterProbesName, filterProbes, measurementId, measurement, maxProbesName, maxProbes;
 
             zoneName = "zone";
             serverName = "server";
+            measurementId = "msm";
+            maxProbesName = "maxProbes";
             typeName = "type";
             startDateName = "startTime";
             endDateName = "endTime";
@@ -72,6 +74,14 @@ define([
 
                 "server": {
                     type: "string"
+                },
+
+                "msm":{
+                    type: "number"
+                },
+
+                "maxProbes": {
+                  type: "number"
                 },
 
                 "type": {
@@ -128,6 +138,8 @@ define([
 
             zone = params[zoneName];
             server = params[serverName];
+            measurement = params[measurementId];
+            maxProbes = params[maxProbesName];
             type = params[typeName];
             startDate = params[startDateName];
             endDate = params[endDateName];
@@ -137,16 +149,23 @@ define([
             isTcp = params[isTcpName];
             ipVersion = params[ipVersionName];
 
-            if (server){
-                outParams.group = this.convertRemoteToLocalId(server);
-                if (zone) outParams.root = this.convertRemoteToLocalId(zone);
-            }else{
-                if (zone) outParams.group = this.convertRemoteToLocalId(zone);
+            if (measurement) {
+                outParams.group = measurement;
+                outParams.root = "udm";
+                outParams.isUdm = true;
+            } else {
+                outParams.isUdm = false;
+                if (server) {
+                    outParams.group = this.convertRemoteToLocalId(server);
+                    if (zone) outParams.root = this.convertRemoteToLocalId(zone);
+                } else {
+                    if (zone) outParams.group = this.convertRemoteToLocalId(zone);
+                }
             }
 
             if (type) outParams.type = this.convertRemoteToLocalType(type);
             if (filterProbes != null) outParams.filterProbes = filterProbes;
-
+            if (maxProbes) outParams.maxProbes = maxProbes;
             if (startDate) outParams.startDate = this.convertRemoteToLocalDate(startDate);
             if (endDate) outParams.endDate = this.convertRemoteToLocalDate(endDate);
 
@@ -173,10 +192,11 @@ define([
 
         this.fromInternalToExternal = function(params){
             var zone, server, outParams, zoneName, serverName, typeName, startDateName, endDateName, selectedRowsName,
-                ipVersionName, isTcpName, timeWindowName, filterProbesName;
+                ipVersionName, isTcpName, timeWindowName, filterProbesName, measurementId, maxProbes;
 
             zoneName = "zone";
             serverName = "server";
+            measurementId = "msm";
             typeName = "type";
             startDateName = "startTime";
             endDateName = "endTime";
@@ -185,20 +205,25 @@ define([
             isTcpName = "isTcp";
             timeWindowName = "timeWindow";
             filterProbesName = "filterProbes";
+            maxProbes = "maxProbes";
 
             outParams = {};
 
             outParams[typeName] = this.convertLocalToRemoteType(params.type);
 
-            if (params.type == 'probes'){
-                outParams[serverName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
-                outParams[zoneName] = this.convertLocalToRemoteId(params.root);
-            }else if (params.type == 'servers'){
-                outParams[serverName] = null;
-                outParams[zoneName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
+            if (params.root == "udm"){
+                outParams[measurementId] = params.group;
+            } else {
+                if (params.type == 'probes') {
+                    outParams[serverName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
+                    outParams[zoneName] = this.convertLocalToRemoteId(params.root);
+                } else if (params.type == 'servers') {
+                    outParams[serverName] = null;
+                    outParams[zoneName] = (params.group) ? this.convertLocalToRemoteId(params.group) : null;
+                }
             }
 
-
+            outParams[maxProbes] = params.maxProbes;
             outParams[startDateName] =  (params.startDate) ? this.convertLocalToRemoteDate(params.startDate) : null;
 
             outParams[endDateName] = (params.endDate)  ? this.convertLocalToRemoteDate(params.endDate) : null;

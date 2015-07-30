@@ -57,14 +57,20 @@ define([
                 url += (env.maxNumberOfCellsPerRow) ? "&max_samples_per_row=" + env.maxNumberOfCellsPerRow : "";
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";
 
-            } else if(params.type == "server-probes"){
+            } else if (params.type == "server-probes"){
 
                 utils.log("Data-api type: single-server-data", env.debugMode);
 
-                url = perServerDataUrl
-                    + "?server=" + params.server;
+                url = perServerDataUrl;
+                if (params.msm){
+                    url += "?msm_id=" + params.msm;
+                } else {
+                    url += "?server=" + params.server;
+                }
+
 
                 url += (params.zone) ? "&group=" + params.zone : "";
+                url += (params.maxProbes) ? "&max_probes=" + params.maxProbes : "";
 
                 url += "&filter_probes=" + params.filterProbes;
 

@@ -638,28 +638,29 @@ define([
 
 
                     $this.filtersPopup
-                      .filter3Protocol
-                      .off("change")
-                      .attr("disabled", (env.params.type == "probes"))
-                      .val((env.params.ipVersion == null) ? "both" : env.params.ipVersion)
-                      .on("change", function(){
-                        var actualVal;
+                        .filter3Protocol
+                        .off("change")
+                        .attr("disabled", (env.params.type == "probes"))
+                        .val((env.params.ipVersion == null) ? "both" : env.params.ipVersion)
+                        .on("change", function(){
+                            var actualVal;
 
-                        actualVal = $(this).val();
-                        actualVal = (actualVal == "both") ? null : actualVal;
-                        env.params.selectedRows = [];
-                        env.params.ipVersion = actualVal;
-                        env.mainView.redraw();
-                      });
+                            actualVal = $(this).val();
+                            actualVal = (actualVal == "both") ? null : actualVal;
+                            env.params.selectedRows = [];
+                            env.params.ipVersion = actualVal;
+                            env.mainView.redraw();
+                        });
 
                     $this.filtersPopup
-                      .filter4Protocol
-                      .off("change")
-                      .val((env.params.isTcp) ? "tcp" : "udp")
-                      .on("change", function(){
-                        env.params.isTcp = ($(this).val() == "tcp");
-                        env.mainView.redraw();
-                      });
+                        .filter4Protocol
+                        .off("change")
+                        .val((env.params.isTcp) ? "tcp" : "udp")
+                        .on("change", function(){
+                            env.params.isTcp = ($(this).val() == "tcp");
+                            env.mainView.redraw();
+                        })
+                        .attr("disabled", env.params.isUdm);
 
                 });
 
