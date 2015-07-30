@@ -470,10 +470,13 @@ define([
 
         setParam: function (key, value, url) {
             var baseUrl, paramsUrl, pair, query, pairs, keyTmp, valueTmp, newPairs, inserted, questionMarkPosition,
-                itemUrl;
+                itemUrl, hash;
 
+            hash = window.location.hash || "";
             newPairs = [];
             inserted = false;
+
+            url = url.replace(hash, ""); // Remove hash
 
             if (url) {
                 questionMarkPosition = url.indexOf('?');
@@ -519,8 +522,9 @@ define([
 
             query = this.join(newPairs, '&');
 
-            return baseUrl + '?' + query;
+            return baseUrl + '?' + query + hash;
         },
+
 
         containsAll: function (containerArray, containedArray) {
             var item;
