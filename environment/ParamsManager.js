@@ -77,11 +77,17 @@ define([
                 },
 
                 "msm":{
-                    type: "number"
+                    type: "number",
+                    cast: function(val){
+                        return parseInt(val);
+                    }
                 },
 
                 "maxProbes": {
-                  type: "number"
+                    type: "number",
+                    cast: function(val){
+                        return parseInt(val);
+                    }
                 },
 
                 "type": {
