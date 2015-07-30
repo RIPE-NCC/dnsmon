@@ -13,10 +13,13 @@ define([
 
     var Connector = function(env){
         var perServerDataUrl, serversDataUrl, nativeDnsResultDataUrl, closesttraceroutesDataUrl, config,
-            commonServer, closestNsidDataUrl, xhrEnvelop;
+            commonServer, closestNsidDataUrl, xhrEnvelop, firstCall, lowLevelParams;
 
         config = env.config;
-
+        firstCall = true;
+        lowLevelParams = {
+            totalProbes: "total_probes"
+        };
         this.maxNumberOfCells = env.muxNumberOfCells || config.maxNumberOfCells;
         env.downoadedBytes = 0;
 
@@ -113,11 +116,6 @@ define([
 
             utils.log('Ajax call: ' + dataUrl, env.debugMode);
 
-//            for (var prop in xhrEnvelop) {
-//                delete xhrEnvelop[prop];
-//            }
-
-
             xhrEnvelop = $.ajax({
                 dataType: "jsonp",
                 url: dataUrl,
@@ -136,6 +134,19 @@ define([
 
                     data.type = params.type;
                     env.lastDownload = new Date();
+
+                    data.messages = data.messages || [];
+
+                    if (firstCall && env.params.maxProbes && data[totalProbes] && env.params.maxProbes < data[totalProbes]){
+                        data.messages.push({
+                            type: "info", text:
+                                env.lang.probesLimitationAlert
+                                    .replace("%f", env.params.maxProbes)
+                                    .replace("%o", data[totalProbes])
+                        });
+                    }
+
+                    firstCall = false;
                     callback.call(context, data);
                 },
 

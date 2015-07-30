@@ -261,7 +261,9 @@ define([
             switch (queryType) {
 
                 case "probes":
-                    window.open(env.connector.getProbesPageUrl(rowMagnet, env.params), "_blank");
+                    if (!env.params.isUdm) {
+                        window.open(env.connector.getProbesPageUrl(rowMagnet, env.params), "_blank");
+                    }
                     break;
 
                 case "servers":

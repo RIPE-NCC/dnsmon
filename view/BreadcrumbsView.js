@@ -136,15 +136,17 @@ define([
         this._addLevelWithParams = function(levelString, params){
             var label;
 
-            label = this._getLabelPrefix(params.type);
-            levelString = label + levelString;
+            if (!(params.type == "servers" && env.params.isUdm)) {
+                label = this._getLabelPrefix(params.type);
+                levelString = label + levelString;
 
-            if (utils.indexOf(levelString, levelsIndex) == -1){
-                levelsIndex.push(levelString);
+                if (utils.indexOf(levelString, levelsIndex) == -1) {
+                    levelsIndex.push(levelString);
 
 
-                stateStack[levelString] = utils.lightClone(params);
-                this.update();
+                    stateStack[levelString] = utils.lightClone(params);
+                    this.update();
+                }
             }
         };
 
