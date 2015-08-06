@@ -373,8 +373,7 @@ define([
             map = {};
             atLeastOne = false;
             suffix = this.getInstanceSuffix(domName) + '.';
-
-            parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            parts = window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 
                 key = key.toString().replace(suffix, ''); // Creates the map removing the suffix
 

@@ -285,7 +285,6 @@ define([
             this.dom.loadingImage = utils.encapsulateDom($(this.loadingImage));
             env.mainDom.$.append(this.dom.loadingImage.$);
 
-
             this.dom.message = utils.encapsulateDom($(this.overlayMessage));
             env.mainDom.$.append(this.dom.message.$);
 

@@ -137,12 +137,12 @@ define([
 
                     data.messages = data.messages || [];
 
-                    if (firstCall && env.params.maxProbes && data[totalProbes] && env.params.maxProbes < data[totalProbes]){
+                    if (firstCall && env.params.maxProbes && data[lowLevelParams.totalProbes] && env.params.maxProbes < data[lowLevelParams.totalProbes]){
                         data.messages.push({
                             type: "info", text:
                                 env.lang.probesLimitationAlert
                                     .replace("%f", env.params.maxProbes)
-                                    .replace("%o", data[totalProbes])
+                                    .replace("%o", data[lowLevelParams.totalProbes])
                         });
                     }
 
