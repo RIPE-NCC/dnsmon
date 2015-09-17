@@ -4,7 +4,7 @@
  * Time: 17:17
  */
 define([
-    "lib.jquery-libs-amd"
+    "dnsmon.lib.jquery-libs-amd"
 ], function($){
 
     /**

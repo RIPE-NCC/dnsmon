@@ -1,5 +1,5 @@
 define([
-    "lib.date-format"
+    "dnsmon.lib.date-format"
 ], function(){
     var locale;
 

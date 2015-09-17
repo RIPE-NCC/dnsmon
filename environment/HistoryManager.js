@@ -3,8 +3,8 @@
  */
 
 define([
-    "env.utils",
-    "env.params-manager"
+    "dnsmon.env.utils",
+    "dnsmon.env.params-manager"
 ], function(utils, paramsManager){
 
     /**

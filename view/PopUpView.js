@@ -2,8 +2,8 @@
  * Created by mcandela on 19/11/13.
  */
 define([
-    "lib.d3",
-    "env.utils"
+    "dnsmon.lib.d3",
+    "dnsmon.env.utils"
 ], function(d3, utils){
 
     /**

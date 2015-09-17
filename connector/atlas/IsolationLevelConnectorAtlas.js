@@ -12,12 +12,12 @@
 
 define(
     [
-        "env.utils",
-        "env.params-manager",
-        "model.cell",
-        "model.row",
-        "connector.atlas.cache",
-        "lib.atlas-traceroute-printer"
+        "dnsmon.env.utils",
+        "dnsmon.env.params-manager",
+        "dnsmon.model.cell",
+        "dnsmon.model.row",
+        "dnsmon.connector.atlas.cache",
+        "dnsmon.lib.atlas-traceroute-printer"
     ],
     function(utils, paramsManager, Cell, Row, Connector){
 

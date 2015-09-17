@@ -1,6 +1,6 @@
 define([
-    "env.utils",
-    "lib.jquery-libs-amd"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd"
 ], function(utils, $){
 
     /**

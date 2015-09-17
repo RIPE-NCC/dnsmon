@@ -7,9 +7,9 @@
  */
 
 define([
-    "env.utils",
-    "lib.jquery-libs-amd",
-    "connector.atlas.rest"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.connector.atlas.rest"
 ], function(utils, $, Connector){
 
     /**

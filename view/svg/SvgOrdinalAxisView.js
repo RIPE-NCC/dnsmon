@@ -1,7 +1,7 @@
 
 define([
-    "lib.d3",
-    "lib.jquery-libs-amd"
+    "dnsmon.lib.d3",
+    "dnsmon.lib.jquery-libs-amd"
 ], function(d3, $){
 
     /**

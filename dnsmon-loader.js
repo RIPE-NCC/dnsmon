@@ -14,85 +14,85 @@
 requirejs.config({
     paths:{
         /* environment */
-        "env": DNSMON_ENVIRONMENT_URL + "environment",
-        "env.utils": DNSMON_ENVIRONMENT_URL + "utils",
-        "env.config": DNSMON_ENVIRONMENT_URL + "config",
-        "env.params-manager": DNSMON_ENVIRONMENT_URL + "ParamsManager",
-        "env.history-manager": DNSMON_ENVIRONMENT_URL + "HistoryManager",
+        "dnsmon.env": DNSMON_ENVIRONMENT_URL + "environment",
+        "dnsmon.env.utils": DNSMON_ENVIRONMENT_URL + "utils",
+        "dnsmon.env.config": DNSMON_ENVIRONMENT_URL + "config",
+        "dnsmon.env.params-manager": DNSMON_ENVIRONMENT_URL + "ParamsManager",
+        "dnsmon.env.history-manager": DNSMON_ENVIRONMENT_URL + "HistoryManager",
 
-        "env.languages.en": DNSMON_ENVIRONMENT_URL + "languages/lang-en",
+        "dnsmon.env.languages.en": DNSMON_ENVIRONMENT_URL + "languages/lang-en",
 
         /* libs */
-        "lib.d3": DNSMON_LIB_URL + "d3.v3.amd",
-        "lib.jquery": (typeof DNSMON_JQUERY_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery.min",
+        "dnsmon.lib.d3": DNSMON_LIB_URL + "d3.v3.amd",
+        "dnsmon.lib.jquery": (typeof DNSMON_JQUERY_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery.min",
 
-        "lib.jquery-ui": (typeof DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery-ui.min",
-        "lib.jquery-ui.timepicker": DNSMON_LIB_URL + "jquery-ui.timepicker",
+        "dnsmon.lib.jquery-ui": (typeof DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL != 'undefined') ? DNSMON_JQUERY_UI_GLOBAL_DECLARED_URL : DNSMON_LIB_URL + "jquery-ui.min",
+        "dnsmon.lib.jquery-ui.timepicker": DNSMON_LIB_URL + "jquery-ui.timepicker",
 
-        "lib.jquery.cookie": DNSMON_LIB_URL + "jquery.cookie",
-        "lib.date-format": DNSMON_LIB_URL + "dateFormat",
-        "lib.atlas-traceroute-printer": DNSMON_LIB_URL + "atlas.traceroute",
-        "lib.jquery-libs": DNSMON_LIB_URL + "libs-dist",
-        "lib.jquery-libs-amd": DNSMON_LIB_URL + "jquery-libs-amd",
+        "dnsmon.lib.jquery.cookie": DNSMON_LIB_URL + "jquery.cookie",
+        "dnsmon.lib.date-format": DNSMON_LIB_URL + "dateFormat",
+        "dnsmon.lib.atlas-traceroute-printer": DNSMON_LIB_URL + "atlas.traceroute",
+        "dnsmon.lib.jquery-libs": DNSMON_LIB_URL + "libs-dist",
+        "dnsmon.lib.jquery-libs-amd": DNSMON_LIB_URL + "jquery-libs-amd",
 
         /* model */
-        "model.cell": DNSMON_MODEL_URL + "Cell",
-        "model.row": DNSMON_MODEL_URL + "Row",
+        "dnsmon.model.cell": DNSMON_MODEL_URL + "Cell",
+        "dnsmon.model.row": DNSMON_MODEL_URL + "Row",
 
 
         /* view */
-        "view.main": DNSMON_VIEW_URL + "MainView",
-        "view.control-panel": DNSMON_VIEW_URL + "ControlPanelView",
-        "view.full-screen": DNSMON_VIEW_URL + "FullScreenView",
-        "view.breadcrumbs": DNSMON_VIEW_URL + "BreadcrumbsView",
-        "view.ordinal-axis": DNSMON_VIEW_URL + "OrdinalAxisView",
-        "view.pop-up": DNSMON_VIEW_URL + "PopUpView",
-        "view.template-manager": DNSMON_VIEW_URL + "TemplateManagerView",
-        "view.time-axis": DNSMON_VIEW_URL + "TimeAxisView",
-        "view.time-overview": DNSMON_VIEW_URL + "TimeOverviewView",
+        "dnsmon.view.main": DNSMON_VIEW_URL + "MainView",
+        "dnsmon.view.control-panel": DNSMON_VIEW_URL + "ControlPanelView",
+        "dnsmon.view.full-screen": DNSMON_VIEW_URL + "FullScreenView",
+        "dnsmon.view.breadcrumbs": DNSMON_VIEW_URL + "BreadcrumbsView",
+        "dnsmon.view.ordinal-axis": DNSMON_VIEW_URL + "OrdinalAxisView",
+        "dnsmon.view.pop-up": DNSMON_VIEW_URL + "PopUpView",
+        "dnsmon.view.template-manager": DNSMON_VIEW_URL + "TemplateManagerView",
+        "dnsmon.view.time-axis": DNSMON_VIEW_URL + "TimeAxisView",
+        "dnsmon.view.time-overview": DNSMON_VIEW_URL + "TimeOverviewView",
 
 
         /* view.svg */
-        "view.svg.chart": DNSMON_VIEW_URL + "svg/SvgChartView",
-        "view.svg.container": DNSMON_VIEW_URL + "svg/SvgContainerView",
-        "view.svg.time-axis": DNSMON_VIEW_URL + "svg/SvgTimeAxisView",
-        "view.svg.ordinal-axis": DNSMON_VIEW_URL + "svg/SvgOrdinalAxisView",
+        "dnsmon.view.svg.chart": DNSMON_VIEW_URL + "svg/SvgChartView",
+        "dnsmon.view.svg.container": DNSMON_VIEW_URL + "svg/SvgContainerView",
+        "dnsmon.view.svg.time-axis": DNSMON_VIEW_URL + "svg/SvgTimeAxisView",
+        "dnsmon.view.svg.ordinal-axis": DNSMON_VIEW_URL + "svg/SvgOrdinalAxisView",
 
 
         /* controller */
-        "controller.gesture-manager": DNSMON_CONTROLLER_URL + "GesturesManager",
-        "controller.time": DNSMON_CONTROLLER_URL + "TimeController",
+        "dnsmon.controller.gesture-manager": DNSMON_CONTROLLER_URL + "GesturesManager",
+        "dnsmon.controller.time": DNSMON_CONTROLLER_URL + "TimeController",
 
 
         /* connector */
-        "connector.facade": DNSMON_CONNECTOR_URL + "ConnectorFacade",
-        "connector.aggregation-level": DNSMON_CONNECTOR_URL + "AggregationLevelConnector",
-        "connector.anti-flood": DNSMON_CONNECTOR_URL + "AntiFloodConnector",
-        "connector.filter": DNSMON_CONNECTOR_URL + "FilterConnector",
-        "connector.log-connector": DNSMON_CONNECTOR_URL + "log/LogRestConnector",
+        "dnsmon.connector.facade": DNSMON_CONNECTOR_URL + "ConnectorFacade",
+        "dnsmon.connector.aggregation-level": DNSMON_CONNECTOR_URL + "AggregationLevelConnector",
+        "dnsmon.connector.anti-flood": DNSMON_CONNECTOR_URL + "AntiFloodConnector",
+        "dnsmon.connector.filter": DNSMON_CONNECTOR_URL + "FilterConnector",
+        "dnsmon.connector.log-connector": DNSMON_CONNECTOR_URL + "log/LogRestConnector",
 
 
         /* connector.atlas */
-        "connector.atlas.rest": DNSMON_CONNECTOR_URL + "atlas/RestConnectorAtlas",
-        "connector.atlas.cache": DNSMON_CONNECTOR_URL + "atlas/CacheConnectorAtlas",
-        "connector.atlas.error-handler": DNSMON_CONNECTOR_URL + "atlas/ErrorsHandlerConnectorAtlas",
-        "connector.atlas.isolation-level": DNSMON_CONNECTOR_URL + "atlas/IsolationLevelConnectorAtlas",
+        "dnsmon.connector.atlas.rest": DNSMON_CONNECTOR_URL + "atlas/RestConnectorAtlas",
+        "dnsmon.connector.atlas.cache": DNSMON_CONNECTOR_URL + "atlas/CacheConnectorAtlas",
+        "dnsmon.connector.atlas.error-handler": DNSMON_CONNECTOR_URL + "atlas/ErrorsHandlerConnectorAtlas",
+        "dnsmon.connector.atlas.isolation-level": DNSMON_CONNECTOR_URL + "atlas/IsolationLevelConnectorAtlas",
 
 
         /* session */
-        "session.facade": DNSMON_SESSION_URL + "SessionManager"
+        "dnsmon.session.facade": DNSMON_SESSION_URL + "SessionManager"
     },
     shim:{
-        "lib.jquery-ui": {
-            deps: ["lib.jquery"]
+        "dnsmon.lib.jquery-ui": {
+            deps: ["dnsmon.lib.jquery"]
         },
 
-        "lib.jquery.cookie": {
-            deps: ["lib.jquery"]
+        "dnsmon.lib.jquery.cookie": {
+            deps: ["dnsmon.lib.jquery"]
         },
 
-        "lib.jquery-ui.timepicker": {
-            deps: ["lib.jquery-ui"]
+        "dnsmon.lib.jquery-ui.timepicker": {
+            deps: ["dnsmon.lib.jquery-ui"]
         }
     }
 });
@@ -101,15 +101,15 @@ requirejs.config({
 
 define([
 
-    "env.utils",
-    "env.config",
-    "env.languages.en",
-    "lib.jquery-libs-amd",
-    "env.params-manager",
-    "view.main",
-    "connector.facade",
-    "session.facade",
-    "env.history-manager"
+    "dnsmon.env.utils",
+    "dnsmon.env.config",
+    "dnsmon.env.languages.en",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.env.params-manager",
+    "dnsmon.view.main",
+    "dnsmon.connector.facade",
+    "dnsmon.session.facade",
+    "dnsmon.env.history-manager"
 
 ], function(
     utils,

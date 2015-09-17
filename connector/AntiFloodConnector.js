@@ -8,7 +8,7 @@
 
 define(
     [
-        "connector.aggregation-level"
+        "dnsmon.connector.aggregation-level"
     ],
     function(Connector){
 

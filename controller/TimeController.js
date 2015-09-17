@@ -7,8 +7,8 @@
  */
 
 define([
-    "env.utils",
-    "controller.gesture-manager"
+    "dnsmon.env.utils",
+    "dnsmon.controller.gesture-manager"
 ], function(utils, GesturesManager){
 
     /**

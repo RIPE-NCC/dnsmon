@@ -9,7 +9,7 @@
 /*
  *
  */
-define(["env.utils"], function(utils){
+define(["dnsmon.env.utils"], function(utils){
 
     /**
      * Cell is the model object for a cell.
