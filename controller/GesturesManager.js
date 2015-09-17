@@ -7,9 +7,9 @@
  */
 
 define([
-    "env.utils",
-    "lib.jquery-libs-amd",
-    "lib.d3"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.lib.d3"
 ], function(utils, $, d3){
 
     /**

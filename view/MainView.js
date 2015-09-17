@@ -8,19 +8,19 @@
 
 
 define([
-    "env.utils",
-    "lib.jquery-libs-amd",
-    "lib.d3",
-    "view.template-manager",
-    "view.time-overview",
-    "view.svg.container",
-    "view.pop-up",
-    "view.breadcrumbs",
-    "view.control-panel",
-    "controller.time",
-    "view.svg.time-axis",
-    "view.svg.ordinal-axis",
-    "env.params-manager"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.lib.d3",
+    "dnsmon.view.template-manager",
+    "dnsmon.view.time-overview",
+    "dnsmon.view.svg.container",
+    "dnsmon.view.pop-up",
+    "dnsmon.view.breadcrumbs",
+    "dnsmon.view.control-panel",
+    "dnsmon.controller.time",
+    "dnsmon.view.svg.time-axis",
+    "dnsmon.view.svg.ordinal-axis",
+    "dnsmon.env.params-manager"
 ], function(utils, $, d3, TemplateManagerView, TimeOverviewView,
             SvgContainerView, PopUpView, BreadcrumbsView,
             ControlPanelView, TimeController, SvgTimeAxisView, SvgOrdinalAxisView, paramsManager){

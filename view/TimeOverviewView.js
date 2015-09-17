@@ -7,7 +7,7 @@
  */
 
 define([
-    "lib.d3" // Load d3 - put your path here
+    "dnsmon.lib.d3" // Load d3 - put your path here
 ], function(d3){
 
     /**

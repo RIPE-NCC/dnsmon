@@ -7,10 +7,10 @@
  */
 
 define([
-    "env.utils",
-    "env.config",
-    "lib.d3",
-    "view.svg.chart"
+    "dnsmon.env.utils",
+    "dnsmon.env.config",
+    "dnsmon.lib.d3",
+    "dnsmon.view.svg.chart"
 ], function(utils, config, d3, SvgChartView){
 
     /**

@@ -3,7 +3,7 @@
  */
 
 define([
-    "connector.atlas.isolation-level"
+    "dnsmon.connector.atlas.isolation-level"
 ],
     function(Connector){
 

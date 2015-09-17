@@ -3,9 +3,9 @@
  */
 
 define([
-    "env.utils",
-    "lib.jquery-libs-amd",
-    "env.params-manager"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.env.params-manager"
 ], function(utils, $, paramsManager){
 
     /**

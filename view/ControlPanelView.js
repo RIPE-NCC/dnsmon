@@ -3,10 +3,10 @@
  */
 
 define([
-    "env.utils",
-    "lib.jquery-libs-amd",
-    "env.params-manager",
-    "view.full-screen"
+    "dnsmon.env.utils",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.env.params-manager",
+    "dnsmon.view.full-screen"
     //"lib.jquery-ui.timepicker"
 ], function(utils, $, paramsManager, FullScreenView){
 

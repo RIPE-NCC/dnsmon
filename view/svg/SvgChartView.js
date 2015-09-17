@@ -7,10 +7,10 @@
  */
 
 define([
-    "env.utils",
-    "env.config",
-    "lib.jquery-libs-amd",
-    "lib.d3"
+    "dnsmon.env.utils",
+    "dnsmon.env.config",
+    "dnsmon.lib.jquery-libs-amd",
+    "dnsmon.lib.d3"
 ], function(utils, config, $, d3){
 
     /**

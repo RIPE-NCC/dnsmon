@@ -8,8 +8,8 @@
 
 define(
     [
-        "env.utils",
-        "connector.atlas.error-handler"
+        "dnsmon.env.utils",
+        "dnsmon.connector.atlas.error-handler"
     ],
     function(utils, Connector){
 

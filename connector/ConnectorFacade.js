@@ -3,10 +3,10 @@
  */
 
 define([
-    "env.utils",
-    "connector.anti-flood",
-    "env.params-manager",
-    "connector.log-connector"
+    "dnsmon.env.utils",
+    "dnsmon.connector.anti-flood",
+    "dnsmon.env.params-manager",
+    "dnsmon.connector.log-connector"
 ], function(utils, Connector, paramsManager, LogRestConnector){
 
     /**
