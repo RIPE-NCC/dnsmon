@@ -76,7 +76,6 @@ define([
 
                                     this._handle("error", env.lang.emptyDataset);
                                     env.mainView.loadingImage(false);
-                                    env.mainView.controlPanel.keepUpdatedActive(true);
 
                                 }
 

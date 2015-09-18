@@ -85,6 +85,6 @@ define([], function(){
         protocol4SelectionFilterLabel: "Layer 4 protocol",
         probesLimitationAlert: "Only showing the first %f of %o probes",
 
-        emptyDataset: "There is not data for this measurement yet. Wait..."
+        emptyDataset: "There is not data for this measurement yet. Please, try again later."
     }
 });
