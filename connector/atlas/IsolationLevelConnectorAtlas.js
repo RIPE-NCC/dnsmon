@@ -298,7 +298,7 @@ define(
 
                     externalId = row[serverNomenclature.id];
                     rowId = paramsManager.convertRemoteToLocalId(externalId);
-                    rowResults = row[serverNomenclature.resultsList];
+                    rowResults = row[serverNomenclature.resultsList] || [];
 
                     if (!dataPool.rows[rowId]) {
 
@@ -492,7 +492,7 @@ define(
                     externalId = row[probeNomenclature.id];
 
                     rowId = paramsManager.convertRemoteToLocalId(externalId);
-                    rowResults = row[probeNomenclature.resultsList];
+                    rowResults = row[probeNomenclature.resultsList] || [];
 
                     if (!dataPool.rows[rowId]) {
 
