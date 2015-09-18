@@ -67,7 +67,7 @@ define([
 
                             if (this._checkDataFormat(data)){ //If the json format is correct
 
-                                if (this._checkAllFields(data, ["probes"]) || this._checkAllFields(data, ["server"])){
+                                if (this._checkAllFields(data, ["probes"]) || this._checkAllFields(data, ["servers"])){
                                     lastRequestWorkingParams = utils.lightClone(params); // Store last working request
                                     firstConnection = false;
 
