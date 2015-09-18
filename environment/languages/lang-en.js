@@ -83,6 +83,8 @@ define([], function(){
 
         protocol3SelectionFilterLabel: "Layer 3 protocol",
         protocol4SelectionFilterLabel: "Layer 4 protocol",
-        probesLimitationAlert: "Only showing the first %f of %o probes"
+        probesLimitationAlert: "Only showing the first %f of %o probes",
+
+        emptyDataset: "There is not data for this measurement. Please, try again later."
     }
 });

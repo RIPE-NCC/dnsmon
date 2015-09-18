@@ -67,10 +67,17 @@ define([
 
                             if (this._checkDataFormat(data)){ //If the json format is correct
 
-                                lastRequestWorkingParams = utils.lightClone(params); // Store last working request
-                                firstConnection = false;
+                                if (this._checkAllFields(data, ["probes"]) || this._checkAllFields(data, ["server"])){
+                                    lastRequestWorkingParams = utils.lightClone(params); // Store last working request
+                                    firstConnection = false;
 
-                                callback.call(context, data);
+                                    callback.call(context, data);
+                                } else {
+
+                                    this._handle("error", env.lang.emptyDataset);
+                                    env.mainView.loadingImage(false);
+
+                                }
 
                             }else{ //If the json format is malformed
 
@@ -219,8 +226,8 @@ define([
 
             requiredFields = {};
 
-            requiredFields["zone-servers"] = ["start_time", "end_time", "earliest_available", "latest_available", "aggregation", "aggregation_levels", "native_available", "servers", "group"];
-            requiredFields["server-probes"] = ["start_time", "end_time", "earliest_available", "latest_available", "aggregation", "aggregation_levels", "native_available", "probes", "group", "server"];
+            requiredFields["zone-servers"] = ["start_time", "end_time", "earliest_available", "latest_available", "aggregation", "aggregation_levels", "native_available", "group"];
+            requiredFields["server-probes"] = ["start_time", "end_time", "earliest_available", "latest_available", "aggregation", "aggregation_levels", "native_available", "group", "server"];
 
 
             return this._checkAllFields(data, requiredFields["zone-servers"]) || this._checkAllFields(data, requiredFields["server-probes"]);
