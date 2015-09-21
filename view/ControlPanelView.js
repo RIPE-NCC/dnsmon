@@ -1077,28 +1077,33 @@ define([
 
             this.dialogPopUp.dialog("option", "resizable", false);
 
-            if (env.retrievedAggregationLevel == 0) {
-                this.dialogPopUp.find('.popup-tabs').show().tabs().find('a').on('click', function () {
-                    var tab, tabId;
+            if (env.retrievedAggregationLevel == 0 && !env.params.isUdm) {
+                this.dialogPopUp
+                    .find('.popup-tabs')
+                    .show()
+                    .tabs()
+                    .find('a')
+                    .on('click', function () {
+                        var tab, tabId;
 
-                    tab = $(this);
-                    tabId = tab.attr('href');
+                        tab = $(this);
+                        tabId = tab.attr('href');
 
-                    switch (tabId) {
+                        switch (tabId) {
 
-                        case '#tabs-1':
-                            $this._showDnsResponse(cell, dnsResponsePlace);
-                            break;
+                            case '#tabs-1':
+                                $this._showDnsResponse(cell, dnsResponsePlace);
+                                break;
 
-                        case '#tabs-2':
-                            $this._showTraceroutes(cell, traceroutePlace);
-                            break;
+                            case '#tabs-2':
+                                $this._showTraceroutes(cell, traceroutePlace);
+                                break;
 
-                        case '#tabs-3':
-                            $this._showHostonameBindResponse(cell, hostBindResponsePlace);
-                            break;
-                    }
-                });
+                            case '#tabs-3':
+                                $this._showHostonameBindResponse(cell, hostBindResponsePlace);
+                                break;
+                        }
+                    });
                 this._showDnsResponse(cell, dnsResponsePlace);
             } else {
                 this.dialogPopUp.find('.popup-tabs').hide();
