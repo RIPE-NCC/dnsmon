@@ -201,6 +201,16 @@ define([
             utils.callCallbacks(env.callbacks["load"], paramsManager.fromInternalToExternal(env.params));
 
             this.loadingImage(false);
+
+            if (env.params.type == "probes"){
+                this.breadcrumbs.enrichLabel(data.group.id, data.group.label, "probes");
+                this.breadcrumbs.enrichLabel(data.root.id, data.root.label, "servers");
+            } else if (env.params.type == "servers"){
+                this.breadcrumbs.enrichLabel(data.group.id, data.group.label, "servers");
+            }
+
+
+
             utils.log("Visualization ends", env.debugMode);
         };
 

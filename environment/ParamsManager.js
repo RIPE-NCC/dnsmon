@@ -52,7 +52,8 @@ define([
         this.fromExternalToInternal = function(params){
             var zone, server, type, startDate, selectedRows, outParams, endDate, zoneName, serverName, typeName,
                 startDateName, endDateName, selectedRowsName, isTcp, ipVersion, isTcpName, ipVersionName, validatorMap,
-                timeWindowName, timeWindow, filterProbesName, filterProbes, measurementId, measurement, maxProbesName, maxProbes;
+                timeWindowName, timeWindow, filterProbesName, filterProbes, measurementId, measurement, maxProbesName,
+                maxProbes, labelsName, labels;
 
             zoneName = "zone";
             serverName = "server";
@@ -66,6 +67,7 @@ define([
             ipVersionName = "ipVersion";
             timeWindowName = "defaultTimeWindow";
             filterProbesName = "filterProbes";
+            labelsName = "labels";
 
             validatorMap = {
                 "zone": {
@@ -76,11 +78,15 @@ define([
                     type: "string"
                 },
 
-                "msm":{
+                "msm": {
                     type: "number",
                     cast: function(val){
                         return parseInt(val);
                     }
+                },
+
+                "labels": {
+                    type: "string"
                 },
 
                 "maxProbes": {
@@ -154,6 +160,7 @@ define([
             filterProbes = params[filterProbesName];
             isTcp = params[isTcpName];
             ipVersion = params[ipVersionName];
+            labels = params[labelsName];
 
             if (measurement) {
                 outParams.group = measurement;
@@ -169,6 +176,7 @@ define([
                 }
             }
 
+            if (labels) outParams.labels = labels.split(",");
             if (type) outParams.type = this.convertRemoteToLocalType(type);
             if (filterProbes != null) outParams.filterProbes = filterProbes;
             if (maxProbes) outParams.maxProbes = maxProbes;
@@ -198,7 +206,7 @@ define([
 
         this.fromInternalToExternal = function(params){
             var zone, server, outParams, zoneName, serverName, typeName, startDateName, endDateName, selectedRowsName,
-                ipVersionName, isTcpName, timeWindowName, filterProbesName, measurementId, maxProbes;
+                ipVersionName, isTcpName, timeWindowName, filterProbesName, measurementId, maxProbes, labels;
 
             zoneName = "zone";
             serverName = "server";
@@ -212,6 +220,7 @@ define([
             timeWindowName = "timeWindow";
             filterProbesName = "filterProbes";
             maxProbes = "maxProbes";
+            labels = "labels";
 
             outParams = {};
 
@@ -242,6 +251,10 @@ define([
             outParams[ipVersionName] = params.ipVersion || 'both';
 
             outParams[isTcpName] = params.isTcp;
+
+            if (params.labels){
+                outParams[labels] = params.labels.join(",");
+            }
 
             return outParams;
         };

@@ -152,7 +152,6 @@ define([
             env.mainView = new MainView(env); //Representation Facade
             env.connector = new ConnectorFacade(env); //Connector Facade
             env.session = new SessionFacade(env); //Session Facade
-
             env.mainView.init(parentDom, instanceParams);
 
             return {

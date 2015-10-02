@@ -119,7 +119,10 @@ define([
          */
 
         this.addLevel = function(levelString){
-
+            if (!env.params.labels){
+                env.params.labels = [];
+            }
+            env.params.labels.push(levelString);
             this._addLevelWithParams(levelString, env.params);
         };
 
@@ -142,7 +145,6 @@ define([
 
                 if (utils.indexOf(levelString, levelsIndex) == -1) {
                     levelsIndex.push(levelString);
-
 
                     stateStack[levelString] = utils.lightClone(params);
                     this.update();
@@ -191,12 +193,36 @@ define([
 
                 group = env.connector.getGroup();
 
-                entryId = (group && group.id == historicParamItem.id) ? group.label : historicParamItem.id; // To be improved
+                entryId = historicParamItem.id;
+
+                if (group && group.id == historicParamItem.id) {
+                    entryId = group.label
+                }
 
                 this._addLevelWithParams(paramsManager.convertLocalToRemoteId(entryId), historicParams);
+
             }
         };
 
+
+        this.enrichLabel = function(id, label, type) {
+            var levelStringOld, prefix, element, levelStringNew;
+
+            prefix = this._getLabelPrefix(type);
+            levelStringOld = prefix + paramsManager.convertLocalToRemoteId(id);
+            levelStringNew = prefix + label;
+
+            element = stateStack[levelStringOld];
+
+            if (element) {
+                delete stateStack[levelStringOld];
+
+                stateStack[levelStringNew] = element;
+                levelsIndex[levelsIndex.indexOf(levelStringOld)] = levelStringNew;
+
+                this.update();
+            }
+        };
 
         /**
          * This method returns the introducing label of an entry based on its type
@@ -226,7 +252,7 @@ define([
             }
 
             return label + ': ';
-        }
+        };
 
     };
 
