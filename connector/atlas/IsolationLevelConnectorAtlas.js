@@ -242,6 +242,7 @@ define(
                     envelop.group = this._parseSingleServer(data[dataNomenclatureMapping.singleServer]);
                     envelop.root = this._parseZone(data[dataNomenclatureMapping.singleZone]);
                     this._parseProbes(data[dataNomenclatureMapping.probesList], envelop);
+                    env.params
 
                 } else if (data.type == "zone-servers") {
 
