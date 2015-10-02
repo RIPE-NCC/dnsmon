@@ -119,10 +119,6 @@ define([
          */
 
         this.addLevel = function(levelString){
-            if (!env.params.labels){
-                env.params.labels = [];
-            }
-            env.params.labels.push(levelString);
             this._addLevelWithParams(levelString, env.params);
         };
 
