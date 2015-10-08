@@ -670,6 +670,28 @@ define([
                 objToBeCleaned[objKey] = null;
                 delete objToBeCleaned[objKey];
             }
+        },
+
+        htmlEncode: function(html){
+            if (html === undefined || html === null){
+                return html;
+            } else {
+                return html
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+            }
+        },
+
+        htmlDecode: function(string){
+            return string
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&');
         }
 
     }
