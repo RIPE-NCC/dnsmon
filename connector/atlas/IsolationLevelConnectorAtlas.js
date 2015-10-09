@@ -191,8 +191,8 @@ define(
 
                 zoneNomenclature = dataNomenclatureMapping.zone;
                 zoneObj = {
-                    id: paramsManager.convertRemoteToLocalId(zone[zoneNomenclature.id]),
-                    label: zone[zoneNomenclature.label]
+                    id: utils.htmlEncode(paramsManager.convertRemoteToLocalId(zone[zoneNomenclature.id])),
+                    label: utils.htmlEncode(zone[zoneNomenclature.label])
                 };
 
                 env.isOngoing = zone[zoneNomenclature.isOngoing];
@@ -242,7 +242,6 @@ define(
                     envelop.group = this._parseSingleServer(data[dataNomenclatureMapping.singleServer]);
                     envelop.root = this._parseZone(data[dataNomenclatureMapping.singleZone]);
                     this._parseProbes(data[dataNomenclatureMapping.probesList], envelop);
-                    env.params
 
                 } else if (data.type == "zone-servers") {
 
@@ -306,12 +305,12 @@ define(
                         rowHostname = row[serverNomenclature.hostname];
                         rowGroup = rowHostname; // Grouped by host name
 
-                        rowIpVersion = row[serverNomenclature.ipVersion];
-                        rowIp = row[serverNomenclature.ipAddress];
+                        rowIpVersion = parseInt(row[serverNomenclature.ipVersion]);
+                        rowIp = utils.htmlEncode(row[serverNomenclature.ipAddress]);
 
-                        rowDescription = row[serverNomenclature.description] || rowIp + ' (' + rowHostname + ')';
+                        rowDescription = utils.htmlEncode(row[serverNomenclature.description]) || rowIp + ' (' + rowHostname + ')';
 
-                        rowLabel = row[serverNomenclature.label] || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4' : 'IPv6');
+                        rowLabel = utils.htmlEncode(row[serverNomenclature.label]) || this._abbreviateLabel(rowHostname) + ' ' + ((rowIpVersion == 4) ? 'IPv4' : 'IPv6');
 
                         if (multipleLabels[rowLabel]) {
                             multipleLabels[rowLabel]++;
@@ -378,8 +377,8 @@ define(
                     }
 
                     if (typeId != 3) {
-                        jsonOverviewUrls.push({type: typeId, label: label, url: overviewUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
-                        jsonSampleUrls.push({type: typeId, label: label, url: dataUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
+                        jsonOverviewUrls.push({type: typeId, label: utils.htmlEncode(label), url: overviewUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
+                        jsonSampleUrls.push({type: typeId, label: utils.htmlEncode(label), url: dataUrl, current: current, measurementId: measurementId, samplingFrequency: samplingFrequency});
                     }
                 }
 
@@ -742,9 +741,9 @@ define(
                             probeId: dataItem[nomenclatureDnsResponse.probeId],
                             responseTime: dataItem[nomenclatureDnsResponse.responseTime] || "NA",
                             date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
-                            nsId: dataItem[nomenclatureDnsResponse.nsId],
-                            response: dataItem[nomenclatureDnsResponse.response],
-                            error: dataItem[nomenclatureDnsResponse.error]
+                            nsId: utils.htmlEncode(dataItem[nomenclatureDnsResponse.nsId]),
+                            response: utils.htmlEncode(dataItem[nomenclatureDnsResponse.response]),
+                            error: utils.htmlEncode(dataItem[nomenclatureDnsResponse.error])
                         };
 
                         newData.push(internalResponse);
@@ -821,8 +820,8 @@ define(
                             responseTime: dataItem[nomenclatureHostnameBindResponse.responseTime] || "NA",
                             date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureHostnameBindResponse.date]),
                             msmId: dataItem[nomenclatureHostnameBindResponse.msmId],
-                            response: dataItem[nomenclatureHostnameBindResponse.response],
-                            error: dataItem[nomenclatureHostnameBindResponse.error]
+                            response: utils.htmlEncode(dataItem[nomenclatureHostnameBindResponse.response]),
+                            error: utils.htmlEncode(dataItem[nomenclatureHostnameBindResponse.error])
                         };
 
                         newData.push(internalResponse);

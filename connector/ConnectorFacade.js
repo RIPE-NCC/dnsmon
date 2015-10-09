@@ -188,10 +188,13 @@ define([
             var msmId, prbId, timestamp;
 
             msmId = this._getMeasurementId(cell);
-            prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
-            timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
-
-            connector.getNativeDnsResult(msmId, prbId, timestamp, callback, context);
+            if (msmId) {
+                prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
+                timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
+                connector.getNativeDnsResult(msmId, prbId, timestamp, callback, context);
+            } else {
+                throw "No DNS results collected for this measurement";
+            }
         };
 
 
@@ -209,10 +212,13 @@ define([
             measurementType = "traceroute";
 
             msmId = this._getMeasurementIdByType(cell, measurementType);
-            prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
-            timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
-
-            connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);
+            if (msmId){
+                prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
+                timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
+                connector.getClosestTraceroutes(msmId, prbId, timestamp, callback, context);
+            } else {
+                throw "No traceroutes collected for this measurement";
+            }
         };
 
         /**
@@ -228,13 +234,17 @@ define([
             var msmId, prbId, timestamp, measurementType;
 
             measurementType = "hostname_bind";
-
             msmId = this._getMeasurementIdByType(cell, measurementType);
-            prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
-            timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
 
-            // No errors checks for now
-            connector.getClosestHostnameBind(msmId, prbId, timestamp, callback, context);
+            if (msmId){
+                prbId = paramsManager.convertLocalToRemoteId(cell.row.id);
+                timestamp = paramsManager.convertLocalToRemoteDate(cell.time);
+
+                // No errors checks for now
+                connector.getClosestHostnameBind(msmId, prbId, timestamp, callback, context);
+            } else {
+                throw "No traceroutes collected for this measurement";
+            }
         };
 
 

@@ -70,11 +70,17 @@ define([
 
             validatorMap = {
                 "zone": {
-                    type: "string"
+                    type: "string",
+                    cast: function(val){
+                        return utils.htmlEncode(val);
+                    }
                 },
 
                 "server": {
-                    type: "string"
+                    type: "string",
+                    cast: function(val){
+                        return utils.htmlEncode(val);
+                    }
                 },
 
                 "msm": {
@@ -110,6 +116,9 @@ define([
 
                 "selectedRows": {
                     type: "string",
+                    cast: function(val){
+                        return utils.htmlEncode(val);
+                    },
                     message: "The selectedRows params must be a list of comma-separated ids"
                 },
 
