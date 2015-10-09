@@ -875,38 +875,43 @@ define([
         this._showDnsResponse = function(cell, dnsResponsePlace){
             var htmlDnsResponse, dataItem;
 
-            this.dialogPopUp.dialog({height: 320, minWidth: 0, minHeight: 0, maxHeight: 0});
-            this.dialogPopUp.dialog("option", "resizable", false);
-            if (!lazyLoadTab1) {
-                env.connector.getNativeDnsResult(cell, function (data) { // Show the DNS response
+            try {
+                this.dialogPopUp.dialog({height: 320, minWidth: 0, minHeight: 0, maxHeight: 0});
+                this.dialogPopUp.dialog("option", "resizable", false);
+                if (!lazyLoadTab1) {
+                    env.connector.getNativeDnsResult(cell, function (data) { // Show the DNS response
 
-                    lazyLoadTab1 = true;
-                    for (var n = 0, length = data.length; n < length; n++) {
-                        dataItem = data[n];
-                        htmlDnsResponse = this.extraDataPopup.dnsResponseDom.clone();
+                        lazyLoadTab1 = true;
+                        for (var n = 0, length = data.length; n < length; n++) {
+                            dataItem = data[n];
+                            htmlDnsResponse = this.extraDataPopup.dnsResponseDom.clone();
 
-                        htmlDnsResponse.find(".dns-response-prbid").html(dataItem.probeId);
-                        htmlDnsResponse.find(".dns-response-rt").html(dataItem.responseTime);
-                        htmlDnsResponse.find(".dns-response-date").html(utils.dateToString(dataItem.date));
+                            htmlDnsResponse.find(".dns-response-prbid").html(dataItem.probeId);
+                            htmlDnsResponse.find(".dns-response-rt").html(dataItem.responseTime);
+                            htmlDnsResponse.find(".dns-response-date").html(utils.dateToString(dataItem.date));
 
-                        if (dataItem.nsId) {
-                            htmlDnsResponse.find(".dns-response-nsid").html(dataItem.nsId);
-                        } else {
-                            htmlDnsResponse.find(".dns-response-nsid-rd").hide();
+                            if (dataItem.nsId) {
+                                htmlDnsResponse.find(".dns-response-nsid").html(dataItem.nsId);
+                            } else {
+                                htmlDnsResponse.find(".dns-response-nsid-rd").hide();
+                            }
+
+                            if (dataItem.response && dataItem.response != '') {
+                                htmlDnsResponse.find(".dns-response-plaintext").html(dataItem.response);
+                            }
+
+                            if (dataItem.error) {
+                                htmlDnsResponse.find(".dns-response-plaintext").addClass("dns-response-error").html('[' + dataItem.error.type + '] ' + dataItem.error.message);
+                            }
+
+                            dnsResponsePlace.append(htmlDnsResponse);
                         }
 
-                        if (dataItem.response && dataItem.response != '') {
-                            htmlDnsResponse.find(".dns-response-plaintext").html(dataItem.response);
-                        }
+                    }, this);
+                }
 
-                        if (dataItem.error) {
-                            htmlDnsResponse.find(".dns-response-plaintext").addClass("dns-response-error").html('[' + dataItem.error.type + '] ' + dataItem.error.message);
-                        }
-
-                        dnsResponsePlace.append(htmlDnsResponse);
-                    }
-
-                }, this);
+            } catch(error){
+                dnsResponsePlace.html("No DNS measurement set.");
             }
         };
 
@@ -914,84 +919,95 @@ define([
         this._showTraceroutes = function(cell, traceroutePlace){
             var dataItem, textareaWidth, tracerouteArea;
 
-            this.dialogPopUp.dialog({height: 512, minWidth: 490, minHeight: 512, maxHeight: 512});
-            this.dialogPopUp.dialog("option", "resizable", true);
-            if (!lazyLoadTab2) {
-                env.connector.getClosestTraceroutes(cell, function (data) { // Show the closest Traceroutes
-                    lazyLoadTab2 = true;
-                    if (data.length > 0) {
-                        tracerouteDom = this.extraDataPopup.tracerouteDom.clone();
-                        traceroutePlace.append(tracerouteDom);
+            try {
 
-                        if (data.length >= 2) {
+                this.dialogPopUp.dialog({height: 512, minWidth: 490, minHeight: 512, maxHeight: 512});
+                this.dialogPopUp.dialog("option", "resizable", true);
+                if (!lazyLoadTab2) {
+                    env.connector.getClosestTraceroutes(cell, function (data) { // Show the closest Traceroutes
+                        lazyLoadTab2 = true;
+                        if (data.length > 0) {
+                            tracerouteDom = this.extraDataPopup.tracerouteDom.clone();
+                            traceroutePlace.append(tracerouteDom);
+
+                            if (data.length >= 2) {
 //                            this.dialogPopUp.dialog("option", "resizable", true);
-                            this.dialogPopUp.dialog({
-                                resize: function (event, ui) {
-                                    if (ui.size.width > textareaWidth * 2 + 74) {
-                                        $(this).addClass("resized-dialog-traceroute");
-                                    } else {
-                                        $(this).removeClass("resized-dialog-traceroute");
-                                    }
-                                }
-                            });
-
-                        } else {
-                            this.dialogPopUp.dialog("option", "resizable", false);
-                        }
-
-                        for (var n = 0, length = data.length; n < length; n++) {
-
-                            dataItem = data[n];
-
-                            tracerouteArea = $('<div class="textarea"></div>').tooltip(
-                                {
-                                    tooltipClass: 'custom-jquery-ui-tooltip',
-                                    hide: {
-                                        effect: "fade",
-                                        duration: config.tooltipFade
+                                this.dialogPopUp.dialog({
+                                    resize: function (event, ui) {
+                                        if (ui.size.width > textareaWidth * 2 + 74) {
+                                            $(this).addClass("resized-dialog-traceroute");
+                                        } else {
+                                            $(this).removeClass("resized-dialog-traceroute");
+                                        }
                                     }
                                 });
 
-                            tracerouteArea.html(dataItem);
-                            tracerouteDom.append(tracerouteArea);
-                            textareaWidth = tracerouteArea.outerWidth();
-                        }
+                            } else {
+                                this.dialogPopUp.dialog("option", "resizable", false);
+                            }
 
-                    }
-                }, this);
+                            for (var n = 0, length = data.length; n < length; n++) {
+
+                                dataItem = data[n];
+
+                                tracerouteArea = $('<div class="textarea"></div>').tooltip(
+                                    {
+                                        tooltipClass: 'custom-jquery-ui-tooltip',
+                                        hide: {
+                                            effect: "fade",
+                                            duration: config.tooltipFade
+                                        }
+                                    });
+
+                                tracerouteArea.html(dataItem);
+                                tracerouteDom.append(tracerouteArea);
+                                textareaWidth = tracerouteArea.outerWidth();
+                            }
+
+                        }
+                    }, this);
+                }
+
+            } catch(error){
+                traceroutePlace.html("No traceroute measurement set.");
             }
         };
 
         this._showHostonameBindResponse = function(cell, hostBindResponsePlace){
             var htmlHostnameResponse, dataItem;
 
-            this.dialogPopUp.dialog({height: 380, minWidth: 0, minHeight: 0, maxHeight: 0});
-            this.dialogPopUp.dialog("option", "resizable", false);
-            if (!lazyLoadTab3) {
-                env.connector.getClosestHostnameBind(cell, function (data) { // Show the closest Traceroutes
-                    lazyLoadTab3 = true;
-                    if (data.length > 0) {
+            try {
+                this.dialogPopUp.dialog({height: 380, minWidth: 0, minHeight: 0, maxHeight: 0});
+                this.dialogPopUp.dialog("option", "resizable", false);
+                if (!lazyLoadTab3) {
+                    env.connector.getClosestHostnameBind(cell, function (data) { // Show the closest Hostname Bind
+                        lazyLoadTab3 = true;
 
-                        for (var n = 0, length = data.length; n < length; n++) {
-                            dataItem = data[n];
+                        if (data.length > 0) {
+                            for (var n = 0, length = data.length; n < length; n++) {
+                                dataItem = data[n];
 
-                            htmlHostnameResponse = this.extraDataPopup.hostBindResponseDom.clone();
-                            htmlHostnameResponse.find(".hostbind-response-prbid").html(dataItem.probeId);
-                            htmlHostnameResponse.find(".hostbind-response-msmId").html(dataItem.msmId);
-                            htmlHostnameResponse.find(".hostbind-response-rt").html(dataItem.responseTime);
-                            htmlHostnameResponse.find(".hostbind-response-date").html(utils.dateToString(dataItem.date));
+                                htmlHostnameResponse = this.extraDataPopup.hostBindResponseDom.clone();
+                                htmlHostnameResponse.find(".hostbind-response-prbid").html(dataItem.probeId);
+                                htmlHostnameResponse.find(".hostbind-response-msmId").html(dataItem.msmId);
+                                htmlHostnameResponse.find(".hostbind-response-rt").html(dataItem.responseTime);
+                                htmlHostnameResponse.find(".hostbind-response-date").html(utils.dateToString(dataItem.date));
 
-                            if (dataItem.response && dataItem.response != '') {
-                                htmlHostnameResponse.find(".hostbind-response-plaintext").html(dataItem.response);
-                            } else {
-                                htmlHostnameResponse.find(".hostbind-response-plaintext").html(env.lang.hostBindResponseNoAnswer);
+                                if (dataItem.response && dataItem.response != '') {
+                                    htmlHostnameResponse.find(".hostbind-response-plaintext").html(dataItem.response);
+                                } else {
+                                    htmlHostnameResponse.find(".hostbind-response-plaintext").html(env.lang.hostBindResponseNoAnswer);
+                                }
+
+                                hostBindResponsePlace.append(htmlHostnameResponse);
                             }
 
-                            hostBindResponsePlace.append(htmlHostnameResponse);
                         }
+                    }, this);
+                }
 
-                    }
-                }, this);
+            } catch(error){
+                hostBindResponsePlace.html("No hostname.bind measurement set.");
             }
         };
 
@@ -1077,7 +1093,7 @@ define([
 
             this.dialogPopUp.dialog("option", "resizable", false);
 
-            if (env.retrievedAggregationLevel == 0 && !env.params.isUdm) {
+            if (env.retrievedAggregationLevel == 0) { //&& !env.params.isUdm
                 this.dialogPopUp
                     .find('.popup-tabs')
                     .show()
