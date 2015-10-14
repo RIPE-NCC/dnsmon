@@ -17,11 +17,12 @@ define([
      */
 
     var BreadcrumbsView = function(env){
-        var levelsIndex, dom, stateStack, config;
+        var levelsIndex, dom, stateStack, config, $this;
 
         config = env.config;
         levelsIndex = [];
         stateStack = {};
+        $this = this;
 
         dom = $(env.mainView.templateManager.breadcrumbs);
 
@@ -37,9 +38,8 @@ define([
          */
 
         this.update = function(){
-            var domElement, $this, item, positionIndex;
+            var domElement, item, positionIndex;
 
-            $this = this;
             domElement = $(this._getTitle());
 
             domElement
@@ -216,7 +216,13 @@ define([
                 stateStack[levelStringNew] = element;
                 levelsIndex[levelsIndex.indexOf(levelStringOld)] = levelStringNew;
 
-                this.update();
+                if (!env.fullScreenActive){
+                    this.update();
+                } else {
+                    setTimeout(function(){
+                        $this.update.call($this);
+                    }, 4000);
+                }
             }
         };
 

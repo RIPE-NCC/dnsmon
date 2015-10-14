@@ -67,7 +67,6 @@ define([
             var aggregationLevel, virtualZoom;
 
             aggregationLevel = this._getAggregationLevel(startDate, endDate);
-
             virtualZoom = (aggregationLevel > (env.minAggregation * config.virtualZoomFactor));
 
             return virtualZoom;
@@ -113,7 +112,7 @@ define([
 
             aggregationSeconds = timeInterval / maxNumberOfCells;
 
-            return (aggregationSeconds > 0) ? aggregationSeconds.toFixed(2) : 0;
+            return (aggregationSeconds > 0) ? parseFloat(aggregationSeconds.toFixed(2)) : 0;
         };
 
 
@@ -272,11 +271,8 @@ define([
             var isZoomableIn, isTimeChangend, isSelectionReduced;
 
             isZoomableIn = this._isZoomableIn(startDate, endDate);
-
             isTimeChangend = !((env.params.startDate == startDate) && (env.params.endDate == endDate));
-
             isSelectionReduced = this.isSelectionReduced(selectedRows);
-
 
             return isZoomableIn || (!isZoomableIn && !isTimeChangend && isSelectionReduced);
         };

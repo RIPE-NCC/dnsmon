@@ -215,7 +215,6 @@ define([
 
                     history.push({
                         id: params.group + "",
-                        label: params.labels[0],
                         params: utils.lightClone(params)
                     });
 
@@ -225,7 +224,6 @@ define([
 
                     history.push({
                         id: params.root + "",
-                        label: params.labels[0],
                         params: {
                             type: "servers",
                             root: null,
@@ -236,7 +234,6 @@ define([
 
                     history.push({
                         id: params.group + "",
-                        label: params.labels[1],
                         params: utils.lightClone(params)
                     });
 
