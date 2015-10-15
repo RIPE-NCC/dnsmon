@@ -222,9 +222,10 @@ define([
          */
 
         this.updateColorScales = function(){
-            var rangeInSession, showFilter, internalColorScale;
+            var rangeInSession, showFilter, internalColorScale, initialRange, sessionKey;
 
             showFilter = env.showFilter;
+            sessionKey = "color_range_" + showFilter;
 
             if (!this.normalColorScales){
                 this.normalColorScales = config.normalColorScales;
@@ -234,8 +235,18 @@ define([
             this.colorDomainAndRange = utils.computeColorScale(this.normalColorScales[showFilter]);
             this.selectionColorDomainAndRange = utils.computeColorScale(this.selectionColorScales[showFilter]);
 
+            // Set the actual range from the embedding code
+            if (env.colorRanges && env.colorRanges[showFilter] && env.colorRanges[showFilter].length == 2){
+                this.colorDomainAndRange.valueRange[1] = env.colorRanges[showFilter][0];
+                this.colorDomainAndRange.valueRange[2] = env.colorRanges[showFilter][0];
+                this.colorDomainAndRange.valueRange[3] = env.colorRanges[showFilter][1];
+
+                initialRange = utils.join(this.colorDomainAndRange.valueRange, "-");
+                env.session.setInitialisationValues(sessionKey, initialRange);
+            }
+
             // Get the actual range from the session
-            rangeInSession = env.session.getValue("color_range_" + showFilter);
+            rangeInSession = env.session.getValue(sessionKey);
 
             // Apply the range in session
             if (rangeInSession){
@@ -243,7 +254,7 @@ define([
                 this._applyRange(rangeInSession);
             }else{
                 // Save the current range
-                env.session.saveValue("color_range_" + showFilter,  utils.join(this.colorDomainAndRange.valueRange, "-"));
+                env.session.saveValue(sessionKey,  utils.join(this.colorDomainAndRange.valueRange, "-"));
 
             }
 
@@ -717,7 +728,7 @@ define([
                                             d3.select(that)
                                                 .attr("transform", shakeTransform);
                                         },
-                                            shakeDuration * n
+                                        shakeDuration * n
                                     );
                                 }
                             }
