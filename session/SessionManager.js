@@ -19,7 +19,7 @@ define([
 
     var SessionManager = function(env){
         var volatileValues, session, defaultSession, cookieSuffix, cookiePreSuffix, config, useLocalPersistence,
-            expireDate, localParamsChecked;
+            expireDate, localParamsChecked, initialisationSession;
 
         config = env.config;
         useLocalPersistence = config.useLocalPersistenceForSettings;
@@ -27,9 +27,11 @@ define([
         expireDate = new Date((new Date()).getTime() + (config.localPersistenceValidityTimeMinutes * 60 * 1000)); // Expiration date for the persistence
         localParamsChecked = false;
 
-        defaultSession = { // Pre-filled session with default values
+        defaultSession = { // Pre-filled session with default values. Will be replaced by stored/permalink parameters
             "exclude-errors": config.excludeErrorsByDefault
         };
+
+        initialisationSession = {};// Contains the parameters coming from the embedding code. Will be replaced by permalink only
 
         volatileValues = []; // Keys in this list are not stored persistently
         cookiePreSuffix = "dnsmon_"; // A suffix to create a better scope for the cookies
@@ -37,6 +39,19 @@ define([
         //Compute the final suffix
         cookieSuffix = utils.getInstanceSuffix(env.parentDom);
         cookieSuffix = cookiePreSuffix + cookieSuffix + "_";
+
+
+        /**
+         * This method set a value for a session parameter expressed in the embedding code
+         *
+         * @method setInitialisationValues
+         * @input {String} key A key
+         * @input {String} value A value
+         */
+
+        this.setInitialisationValues = function(key, value){
+            initialisationSession[key] = value;
+        };
 
 
         /**
@@ -62,7 +77,7 @@ define([
 
 
         /**
-         * This method saves a session values if it is not in the volatileValues list
+         * This method checks if the current values are different from the one stored locally
          *
          * @method saveValue
          * @input {String} key A key
@@ -77,7 +92,7 @@ define([
                 if (utils.indexOf(paramKey, volatileValues) == -1){
                     retrievedVersion = this._retrieveValue(paramKey); // Do this after all the checks (it is expensive)
 
-                    if (retrievedVersion != null && retrievedVersion != '' + session[paramKey]){
+                    if (retrievedVersion != null && retrievedVersion != '' + session[paramKey]){ // Different from the one contained locally
                         return true;
                     }
                 }
@@ -98,6 +113,14 @@ define([
             var keyString;
 
             keyString = key.toString();
+
+            /*
+            * Priority order: 1) permalink, 2) embedding code, 3) local storage/cookies, 4) default values
+            */
+            if (session[keyString] == null && initialisationSession[key]){ // Lazy approach && the current item is imposed in the embedding code
+                utils.log("The session parameter " + key + " has been initialised with the value in the embedding code", env.debugMode);
+                session[keyString] = initialisationSession[key];
+            }
 
             if (useLocalPersistence && session[keyString] == null && utils.indexOf(keyString, volatileValues) == -1){ // Lazy approach && the current item is not volatile
                 session[keyString] = this._retrieveValue(keyString);

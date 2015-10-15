@@ -158,7 +158,7 @@ define([
          * Init Dependency Injection Vector
          */
         env = {
-            "version": "15.10.14.2",
+            "version": "15.10.15.2",
             "widgetUrl": DNSMON_WIDGET_URL,
             "parentDom": parentDom, //HASH THIS
             "document": utils.encapsulateDom($(document)),
@@ -181,7 +181,8 @@ define([
             "grouping": ((instanceParams.hasOwnProperty("grouping")) ? instanceParams.grouping : config.groupingByDefault),
             "timeEventsActive": config.timeEventsActiveByDefault,
             "isUpdatedPeriodicallyActive": ((instanceParams.hasOwnProperty("autoUpdate")) ? instanceParams.autoUpdate : config.autoUpdateActiveByDefault),
-            "fullScreenActive": ((instanceParams.hasOwnProperty("fullScreen")) ? instanceParams.fullScreen : config.fullScreenActiveByDefault)
+            "fullScreenActive": ((instanceParams.hasOwnProperty("fullScreen")) ? instanceParams.fullScreen : config.fullScreenActiveByDefault),
+            "colorRanges": ((instanceParams.hasOwnProperty("colorRanges")) ? instanceParams.colorRanges : null)
         };
 
 

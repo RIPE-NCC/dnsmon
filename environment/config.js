@@ -116,7 +116,6 @@ define([], function(){
         normalColorScales: {
             "pls": [
                 {colorRange: ["#38B000", "#38B000"], valueRange: [0, 66]},
-                //{colorRange: ["#397A27", "#397A27"], valueRange: [0, 66]},
                 {colorRange: ["#FAB669", "red"], valueRange: [66, 99]},
                 {colorRange: ["red"], valueRange: [100]}
             ],
@@ -143,8 +142,6 @@ define([], function(){
 
         selectionColorScales: {
             "pls": [
-//          {colorRange: ["#368BFB", "#368BFB"], valueRange: [0, 66]},
-//            {colorRange: ["#4168B0", "#4168B0"], valueRange: [0, 66]},
                 {colorRange: ["#6171C7", "#6171C7"], valueRange: [0, 66]},
                 {colorRange: ["#B0D2FF", "#02295C"], valueRange: [66, 99]},
                 {colorRange: ["#02295C"], valueRange: [100]}
