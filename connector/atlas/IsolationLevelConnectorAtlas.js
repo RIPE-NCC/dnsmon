@@ -75,6 +75,7 @@ define(
                     ipVersion: "ip_version",
                     ipAddress: "ip_address",
                     label: "label",
+                    url: "url",
                     description: "description",
                     urlsMap: "atlas_measurements"
                 },
@@ -93,6 +94,7 @@ define(
                     id: "id",
                     country: "country",
                     label: "label",
+                    url: "url",
                     description: "description",
                     hostname: "hostname",
                     resultsList: "results"
@@ -288,7 +290,7 @@ define(
 
             this._parseServers = function (servers, envelop) {
                 var row, rowId, rowLabel, objRow, serverNomenclature, rowResults, rowGroup, rowIpVersion,
-                    rowDescription, externalId, rowHostname, rowIp, multipleLabels;
+                    rowDescription, externalId, rowHostname, rowIp, multipleLabels, rowUrl;
 
                 serverNomenclature = dataNomenclatureMapping.server;
                 multipleLabels = {};
@@ -304,6 +306,7 @@ define(
 
                         rowHostname = row[serverNomenclature.hostname];
                         rowGroup = rowHostname; // Grouped by host name
+                        rowUrl = row[serverNomenclature.url];
 
                         rowIpVersion = parseInt(row[serverNomenclature.ipVersion]);
                         rowIp = utils.htmlEncode(row[serverNomenclature.ipAddress]);
@@ -321,6 +324,7 @@ define(
 
                         objRow = new Row(rowId, rowLabel); // Create a row object of the model layer
                         objRow.group = rowGroup;
+                        objRow.url = rowUrl;
                         objRow.internalOrder = rowIpVersion;
                         objRow.description = rowDescription;
                         objRow.minimumResponseTime = null;
@@ -482,7 +486,7 @@ define(
 
             this._parseProbes = function (probes, envelop) {
                 var row, rowId, rowLabel, objRow, probeNomenclature, rowResults, rowGroup,
-                    rowDescription, externalId, rowCountry, rowHostname;
+                    rowDescription, externalId, rowCountry, rowHostname, rowUrl;
 
                 probeNomenclature = dataNomenclatureMapping.probe;
 
@@ -498,6 +502,7 @@ define(
 
                         rowCountry = row[probeNomenclature.country];
                         rowHostname = row[probeNomenclature.hostname];
+                        rowUrl = row[probeNomenclature.url];
                         rowGroup = rowCountry;
                         rowLabel = row[probeNomenclature.label] || rowHostname + ' (' + rowCountry + ')';
                         rowDescription = row[probeNomenclature.description] || rowHostname;
@@ -506,6 +511,7 @@ define(
                         objRow = new Row(rowId, rowLabel);
                         //Label modified for now
                         objRow.group = rowGroup;
+                        objRow.url = rowUrl;
                         objRow.internalOrder = rowId;
                         objRow.description = rowDescription;
                         objRow.___externalId___ = externalId;

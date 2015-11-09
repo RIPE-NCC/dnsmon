@@ -145,7 +145,10 @@ define([
          */
 
         this.getProbesPageUrl = function(probeId, params){
-            return 'https://atlas.ripe.net/dnsmon/probes/' + paramsManager.convertLocalToRemoteId(probeId)+ '?zone=' + paramsManager.convertLocalToRemoteId(params.root);
+            var row = this.getRowById(probeId);
+
+            return row.url;
+            //return 'https://atlas.ripe.net/dnsmon/probes/' + paramsManager.convertLocalToRemoteId(probeId)+ '?zone=' + paramsManager.convertLocalToRemoteId(params.root);
         };
 
 

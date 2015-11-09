@@ -48,6 +48,7 @@ define([
 
         this._isZoomableOut = function(startDate, endDate){
             var aggregationLevel;
+
             aggregationLevel = this._getAggregationLevel(startDate, endDate);
             return (aggregationLevel <= env.maxAggregation && startDate >= env.measurementStartTime && endDate <= env.measurementEndTime);
         };
