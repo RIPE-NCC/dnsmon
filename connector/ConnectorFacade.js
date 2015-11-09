@@ -37,6 +37,7 @@ define([
         this.retrieveData = function(callback, context){
 
             env.lastRequest = new Date();
+            indexedRows = null;
             connector.retrieveData(env.params, function(data){
                 this.rows = data.rows;
                 this.group = data.group;
