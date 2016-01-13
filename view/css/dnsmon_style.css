@@ -23,6 +23,10 @@
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
+    background-image: url('../img/dnsmon_watermark.svg');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: 100px 30px;
 }
 
 .dnsmon-container .dnsmon-svg{
