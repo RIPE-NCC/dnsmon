@@ -91,8 +91,16 @@ define([
 
                 }else{
 
-                    window.history.replaceState({}, 'dnsmon_state', currentState);
-
+                    try{
+                        window.history.replaceState({}, 'dnsmon_state', currentState);
+                    } catch (error){
+                        // Don't do anything, too many security conditions where pushState/replaceState
+                        // doesn't work an all the browsers. See DAR-2494
+                        console.log("It's not possible to execute replaceState even if supported by your browser. " +
+                            "This means you cannot navigate the history of your actions in DNSMON, but don't worry, " +
+                            "everything else will work as usual. " +
+                            "To fix it: try to pass through a web server.");
+                    }
                 }
             }else{
                 pushNewStatuses = true;
