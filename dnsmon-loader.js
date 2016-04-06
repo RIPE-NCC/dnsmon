@@ -165,7 +165,7 @@ define([
 
         /*
          * Init Dependency Injection Vector
-         */
+         */g
         env = {
             "version": "16.4.5.2",
             "widgetUrl": DNSMON_WIDGET_URL,
