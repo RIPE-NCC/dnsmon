@@ -31,7 +31,7 @@ define([], function(){
         lastQueryFails: "Last query failed; the current visualisation is not up to date",
         waitingConnection: "Waiting for connection",
         filtersPopupTitle: "Filters",
-        excludeErrorsFilterLabel: "Treat DNS errors (RCODE != NOERROR) as failures",
+        excludeErrorsFilterLabel: "Show DNS errors (RCODE != 0) as failures",
 
         pressToApply: "Press Enter to apply",
         extraInfoDialogTitle: "Result details",
