@@ -339,12 +339,14 @@ define(
                         objRow.___externalId___ = externalId;
                         objRow.___type___ = "server";
 
-                        objRow.urlsMap = this._generateJsonUrls(row[serverNomenclature.urlsMap]); // Get additional data-api URLs
+                        // objRow.urlsMap = this._generateJsonUrls(row[serverNomenclature.urlsMap]); // Get additional data-api URLs
 
                         dataPool.rows[rowId] = objRow;
                     }
 
                     envelop.rows.push(dataPool.rows[rowId]);
+
+                    dataPool.rows[rowId].urlsMap = this._generateJsonUrls(row[serverNomenclature.urlsMap]); // Get additional data-api URLs
                     dataPool.rows[rowId].minimumResponseTime = null;
                     dataPool.rows[rowId].cells = [];
                     dataPool.rows[rowId]["__inuse__"] = true;
@@ -524,13 +526,13 @@ define(
                         objRow.description = rowDescription;
                         objRow.___externalId___ = externalId;
                         objRow.___type___ = "probe";
-                        objRow.urlsMap = envelop.group.urlsMap;
 
                         dataPool.rows[rowId] = objRow;
 
                     }
 
                     envelop.rows.push(dataPool.rows[rowId]);
+                    dataPool.rows[rowId].urlsMap = envelop.group.urlsMap;
                     dataPool.rows[rowId].minimumResponseTime = null;
                     dataPool.rows[rowId].cells = [];
                     dataPool.rows[rowId]["__inuse__"] = true;

@@ -204,7 +204,7 @@ define([
             if (ipVersion) outParams.ipVersion = ((ipVersion == 'both') ? null : ipVersion);
             if (timeWindow) outParams.timeWindow = this.convertRemoteToLocalTimeWindow(timeWindow);
 
-            if (isTcp != null) outParams.isTcp = isTcp;
+            if (isTcp !== null) outParams.isTcp = isTcp;
 
             return outParams;
         };
