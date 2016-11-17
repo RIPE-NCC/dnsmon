@@ -72,7 +72,7 @@ define([
                 url += (!params.startTime && !params.endTime && params.timeWindow) ? "&default_time_period=" + params.timeWindow : "";
 
                 url += (params.ipVersion) ? "&ip_version=" + params.ipVersion : "";
-                url += (params.isTcp) ? "&is_tcp=" + params.isTcp : "";
+                url += (params.isTcp != null) ? "&is_tcp=" + params.isTcp : "";
 
                 url += (env.maxNumberOfCellsPerRow) ? "&max_samples_per_row=" + env.maxNumberOfCellsPerRow : "";
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";
@@ -103,7 +103,7 @@ define([
                 url += (!params.startTime && !params.endTime && params.timeWindow) ? "&default_time_period=" + params.timeWindow : "";
 
                 url += (params.ipVersion) ? "&ip_version=" + params.ipVersion : "";
-                url += (params.isTcp) ? "&is_tcp=" + params.isTcp : "";
+                url += (params.isTcp != null) ? "&is_tcp=" + params.isTcp : "";
 
                 url += (env.maxNumberOfCellsPerRow) ? "&max_samples_per_row=" + env.maxNumberOfCellsPerRow : "";
                 url += (this.maxNumberOfCells) ? "&max_samples=" + this.maxNumberOfCells : "";

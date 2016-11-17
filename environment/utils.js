@@ -520,7 +520,7 @@ define([
                     valueTmp = pair[1];
 
                     if (keyTmp == key) {
-                        if (value != null && value != '') {
+                        if (value !== null && value !== '') {
                             newPairs.push(keyTmp + "=" + value);
                         }
                         inserted = true;
@@ -531,7 +531,7 @@ define([
             }
 
             if (!inserted) {
-                if (value != null && value != "") {
+                if (value !== null && value !== "") {
                     newPairs.push(key + "=" + value);
                 }
             }
