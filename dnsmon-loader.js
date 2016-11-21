@@ -141,7 +141,7 @@ define([
          */
         stylesLoaded = document.styleSheets.length;
         utils.loadCss(DNSMON_VIEW_URL + "css/dnsmon_style.css");
-        utils.loadCss("https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
+        utils.loadCss(DNSMON_LIB_URL + "css/jquery-ui.min.css");
 
         /*
          * Access to the instance
