@@ -45,6 +45,10 @@ define([
         };
 
 
+        this.isSelectionTooBig = function(startDate, endDate){
+            return this._getAggregationLevel(startDate, endDate) > env.maxAggregation;
+        };
+        
         /**
          * Checks if it is possible to zoom-out with the current selection
          *
@@ -110,17 +114,17 @@ define([
             return (endDate <= env.measurementEndTime);
         };
 
+        
+        this.getMaxNumberOfCells = function(){
+            return  env.container.chart.width() / (config.cellsMinWidth + config.xCellsMargin);
+
+        };
 
         this._getAggregationLevel = function(startDate, endDate){
-            var maxNumberOfCells, aggregationSeconds, containerWidth, timeInterval;
+            var aggregationSeconds, timeInterval;
 
             timeInterval = Math.floor((endDate - startDate) / 1000);
-
-            containerWidth = env.container.chart.width();
-
-            maxNumberOfCells = containerWidth / (config.cellsMinWidth + config.xCellsMargin);
-
-            aggregationSeconds = timeInterval / maxNumberOfCells;
+            aggregationSeconds = timeInterval / this.getMaxNumberOfCells();
 
             return (aggregationSeconds > 0) ? parseFloat(aggregationSeconds.toFixed(2)) : 0;
         };

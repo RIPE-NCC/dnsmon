@@ -55,6 +55,7 @@ define([], function(){
 
 
         minimumSelectionImposed: "Sorry, the selection was too small    ",
+        maximumSelectionImposed: "Time range restricted to the maximum possible",
         tooZoomedMessage: "Sorry, we don't have more details. Try to click on a row's name",
         clickToRemoveRow: "Click on a row's name to exclude it from the displayed results",
         bottomInfoSection: "Use your mouse wheel or click and drag a selection to zoom, press the left/right arrow keys to shift the time window, press the shift key to remove rows from the displayed results",

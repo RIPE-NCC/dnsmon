@@ -100,15 +100,31 @@ define([
 
                 {
                     end: function(startDate, endDate, points){
+                        var changedLeft, maxTimeWindowMinutes;
+
+                        if ($this.timeController.isSelectionTooBig(startDate, endDate)){
+
+                            maxTimeWindowMinutes = $this.timeController.getMaxNumberOfCells() * (env.maxAggregation / 60);
+                            $this.showMessage(env.lang.maximumSelectionImposed);
+
+                            changedLeft = (startDate != env.params.startDate);
+
+                            if (changedLeft){
+                                startDate = utils.subMinutes(endDate, maxTimeWindowMinutes);
+                            } else {
+                                endDate = utils.subMinutes(startDate, maxTimeWindowMinutes);
+                            }
+                        }
+
                         env.params.startDate = startDate;
                         env.params.endDate = endDate;
-
-                        if (env.isUpdatedPeriodicallyActive){ // Disable the auto refresh function if active
+                        if (env.isUpdatedPeriodicallyActive) { // Disable the auto refresh function if active
                             $this.controlPanel.keepUpdatedActive(false);
                         }
 
                         env.mainView.updateXDomain(true);
                         env.container.chart.updateBoundaries(points);
+
                     },
 
                     interaction: function(startDate, endDate, points){
