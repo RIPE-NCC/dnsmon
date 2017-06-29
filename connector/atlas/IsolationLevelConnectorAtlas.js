@@ -742,7 +742,9 @@ define(
                     nsId: "nsid",
                     date: "timestamp",
                     response: "answer",
-                    error: "error"
+                    error: "error",
+                    errorMessage: "message",
+                    errorType: "type"
                 };
 
                 connector.getNativeDnsResult(msmId, prbId, timestamp, function (data) {
@@ -759,7 +761,10 @@ define(
                             date: paramsManager.convertRemoteToLocalDate(dataItem[nomenclatureDnsResponse.date]),
                             nsId: utils.htmlEncode(dataItem[nomenclatureDnsResponse.nsId]),
                             response: utils.htmlEncode(dataItem[nomenclatureDnsResponse.response]),
-                            error: utils.htmlEncode(dataItem[nomenclatureDnsResponse.error])
+                            error: {
+                                message: utils.htmlEncode(dataItem[nomenclatureDnsResponse.error][nomenclatureDnsResponse.errorMessage]),
+                                type: utils.htmlEncode(dataItem[nomenclatureDnsResponse.error][nomenclatureDnsResponse.errorType])
+                            }
                         };
 
                         newData.push(internalResponse);
