@@ -40,7 +40,6 @@ define([
         this.maxNumberOfCells = env.muxNumberOfCells || config.maxNumberOfCells;
         env.downoadedBytes = 0;
 
-        //weir-dev
         commonServer = "https://atlas.ripe.net/dnsmon/api";
 
         perServerDataUrl = (typeof DNSMON_PROBES_DATA_API_URL === "undefined") ? commonServer + "/probes" : DNSMON_PROBES_DATA_API_URL;
