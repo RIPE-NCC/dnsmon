@@ -125,7 +125,8 @@ define([], function(){
             "week": 43200 * 5, //5 months
             "month": (43200 * 12 * 1), //1 year,
             "months": (43200 * 12 * 3), //1 year,
-            "year": (43200 * 12 * 6) //1 year (6 months view)
+            "year": (43200 * 12 * 6), //1 year (6 months view)
+            "years": (43200 * 12 * 24) //1 year (24 months view)
         },
 
 

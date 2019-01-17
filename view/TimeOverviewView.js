@@ -67,6 +67,7 @@ define([
                 .append('div')
                 .attr('class', 'time-overview-container');
 
+            
             if (domainRange && currentSelection){
                 if (this.render(domainRange, currentSelection)) {
                     points = [xAxis(currentSelection[0]), xAxis(currentSelection[1])];
