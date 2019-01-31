@@ -271,8 +271,7 @@ define(
                 env.minAggregation = env.aggregationLevels[0];
                 env.maxAggregation = env.aggregationLevels[env.aggregationLevels.length - 1];
 
-                var maxYearsLimit = data[dataNomenclatureMapping.measurementEndTime] - 3600*24*365*2;
-                env.measurementStartTime = paramsManager.convertRemoteToLocalDate(Math.max(maxYearsLimit, data[dataNomenclatureMapping.measurementStartTime]));
+                env.measurementStartTime = paramsManager.convertRemoteToLocalDate(data[dataNomenclatureMapping.measurementStartTime]);
                 env.measurementEndTime = paramsManager.convertRemoteToLocalDate(data[dataNomenclatureMapping.measurementEndTime]);
 
                 env.aggregationLabel = data[dataNomenclatureMapping.aggregationLabel];
