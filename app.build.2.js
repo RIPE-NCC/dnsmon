@@ -3,77 +3,77 @@
     findNestedDependencies: true,
     preserveLicenseComments: false,
 
-    name: 'dnsmon/dnsmon-loader',
+    name: 'dnsmon-loader',
 
     paths:{
         /* environment */
-        "dnsmon.env": "dnsmon/environment/environment",
-        "dnsmon.env.utils": "dnsmon/environment/utils",
+        "dnsmon.env": "environment/environment",
+        "dnsmon.env.utils": "environment/utils",
         "dnsmon.env.config": "empty:",
-        "dnsmon.env.params-manager": "dnsmon/environment/ParamsManager",
-        "dnsmon.env.history-manager": "dnsmon/environment/HistoryManager",
+        "dnsmon.env.params-manager": "environment/ParamsManager",
+        "dnsmon.env.history-manager": "environment/HistoryManager",
 
-        "dnsmon.env.languages.en": "dnsmon/environment/languages/lang-en",
+        "dnsmon.env.languages.en": "environment/languages/lang-en",
 
         /* libs */
-        "dnsmon.lib.d3": "dnsmon/lib/d3.v3.amd",
-        "dnsmon.lib.jquery": "dnsmon/lib/jquery.min",
+        "dnsmon.lib.d3": "lib/d3.v3.amd",
+        "dnsmon.lib.jquery": "lib/jquery.min",
 
-        "dnsmon.lib.jquery-ui": "dnsmon/lib/jquery-ui.min",
-        "dnsmon.lib.jquery-ui.timepicker": "dnsmon/lib/jquery-ui.timepicker",
+        "dnsmon.lib.jquery-ui": "lib/jquery-ui.min",
+        "dnsmon.lib.jquery-ui.timepicker": "lib/jquery-ui.timepicker",
 
-        "dnsmon.lib.jquery.cookie": "dnsmon/lib/jquery.cookie",
-        "dnsmon.lib.date-format": "dnsmon/lib/dateFormat",
-        "dnsmon.lib.atlas-traceroute-printer": "dnsmon/lib/atlas.traceroute",
-        "dnsmon.lib.jquery-libs": "dnsmon/lib/libs-dist",
-        "dnsmon.lib.jquery-libs-amd": "dnsmon/lib/jquery-libs-amd",
+        "dnsmon.lib.jquery.cookie": "lib/jquery.cookie",
+        "dnsmon.lib.date-format": "lib/dateFormat",
+        "dnsmon.lib.atlas-traceroute-printer": "lib/atlas.traceroute",
+        "dnsmon.lib.jquery-libs": "lib/libs-dist",
+        "dnsmon.lib.jquery-libs-amd": "lib/jquery-libs-amd",
 
         /* model */
-        "dnsmon.model.cell": "dnsmon/model/Cell",
-        "dnsmon.model.row": "dnsmon/model/Row",
+        "dnsmon.model.cell": "model/Cell",
+        "dnsmon.model.row": "model/Row",
 
 
         /* view */
-        "dnsmon.view.main": "dnsmon/view/MainView",
-        "dnsmon.view.control-panel": "dnsmon/view/ControlPanelView",
-        "dnsmon.view.full-screen": "dnsmon/view/FullScreenView",
-        "dnsmon.view.breadcrumbs": "dnsmon/view/BreadcrumbsView",
-        "dnsmon.view.ordinal-axis": "dnsmon/view/OrdinalAxisView",
-        "dnsmon.view.pop-up": "dnsmon/view/PopUpView",
-        "dnsmon.view.template-manager": "dnsmon/view/TemplateManagerView",
-        "dnsmon.view.time-axis": "dnsmon/view/TimeAxisView",
-        "dnsmon.view.time-overview": "dnsmon/view/TimeOverviewView",
+        "dnsmon.view.main": "view/MainView",
+        "dnsmon.view.control-panel": "view/ControlPanelView",
+        "dnsmon.view.full-screen": "view/FullScreenView",
+        "dnsmon.view.breadcrumbs": "view/BreadcrumbsView",
+        "dnsmon.view.ordinal-axis": "view/OrdinalAxisView",
+        "dnsmon.view.pop-up": "view/PopUpView",
+        "dnsmon.view.template-manager": "view/TemplateManagerView",
+        "dnsmon.view.time-axis": "view/TimeAxisView",
+        "dnsmon.view.time-overview": "view/TimeOverviewView",
 
 
         /* view.svg */
-        "dnsmon.view.svg.chart": "dnsmon/view/svg/SvgChartView",
-        "dnsmon.view.svg.container": "dnsmon/view/svg/SvgContainerView",
-        "dnsmon.view.svg.time-axis": "dnsmon/view/svg/SvgTimeAxisView",
-        "dnsmon.view.svg.ordinal-axis": "dnsmon/view/svg/SvgOrdinalAxisView",
+        "dnsmon.view.svg.chart": "view/svg/SvgChartView",
+        "dnsmon.view.svg.container": "view/svg/SvgContainerView",
+        "dnsmon.view.svg.time-axis": "view/svg/SvgTimeAxisView",
+        "dnsmon.view.svg.ordinal-axis": "view/svg/SvgOrdinalAxisView",
 
 
         /* controller */
-        "dnsmon.controller.gesture-manager": "dnsmon/controller/GesturesManager",
-        "dnsmon.controller.time": "dnsmon/controller/TimeController",
+        "dnsmon.controller.gesture-manager": "controller/GesturesManager",
+        "dnsmon.controller.time": "controller/TimeController",
 
 
         /* connector */
-        "dnsmon.connector.facade": "dnsmon/connector/ConnectorFacade",
-        "dnsmon.connector.aggregation-level": "dnsmon/connector/AggregationLevelConnector",
-        "dnsmon.connector.anti-flood": "dnsmon/connector/AntiFloodConnector",
-        "dnsmon.connector.filter": "dnsmon/connector/FilterConnector",
-        "dnsmon.connector.log-connector": "dnsmon/connector/log/LogRestConnector",
+        "dnsmon.connector.facade": "connector/ConnectorFacade",
+        "dnsmon.connector.aggregation-level": "connector/AggregationLevelConnector",
+        "dnsmon.connector.anti-flood": "connector/AntiFloodConnector",
+        "dnsmon.connector.filter": "connector/FilterConnector",
+        "dnsmon.connector.log-connector": "connector/log/LogRestConnector",
 
 
         /* connector.atlas */
-        "dnsmon.connector.atlas.rest": "dnsmon/connector/atlas/RestConnectorAtlas",
-        "dnsmon.connector.atlas.cache": "dnsmon/connector/atlas/CacheConnectorAtlas",
-        "dnsmon.connector.atlas.error-handler": "dnsmon/connector/atlas/ErrorsHandlerConnectorAtlas",
-        "dnsmon.connector.atlas.isolation-level": "dnsmon/connector/atlas/IsolationLevelConnectorAtlas",
+        "dnsmon.connector.atlas.rest": "connector/atlas/RestConnectorAtlas",
+        "dnsmon.connector.atlas.cache": "connector/atlas/CacheConnectorAtlas",
+        "dnsmon.connector.atlas.error-handler": "connector/atlas/ErrorsHandlerConnectorAtlas",
+        "dnsmon.connector.atlas.isolation-level": "connector/atlas/IsolationLevelConnectorAtlas",
 
 
         /* session */
-        "dnsmon.session.facade": "dnsmon/session/SessionManager"
+        "dnsmon.session.facade": "session/SessionManager"
     },
     shim:{
         "dnsmon.lib.jquery-ui": {
@@ -92,11 +92,6 @@
     optimize: "uglify2",
     wrapShim: true,
     generateSourceMaps: true,
-//                    optimizeCss: "standard",
 
-    out: "dnsmon/dnsmon-dist.js"
-//    out: function (text) {
-//        document.getElementById('output').value = text;
-//    }
-
+    out: "dnsmon-dist.js"
 })

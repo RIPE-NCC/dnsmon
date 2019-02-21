@@ -12,14 +12,14 @@
     paths:{
 
         /* libs */
-        "lib.jquery": "dnsmon/lib/jquery.min",
-        "lib.jquery-ui": "dnsmon/lib/jquery-ui.min",
-        "lib.jquery-ui.timepicker": "dnsmon/lib/jquery-ui.timepicker",
-        "lib.jquery.cookie": "dnsmon/lib/jquery.cookie"
+        "lib.jquery": "lib/jquery.min",
+        "lib.jquery-ui": "lib/jquery-ui.min",
+        "lib.jquery-ui.timepicker": "lib/jquery-ui.timepicker",
+        "lib.jquery.cookie": "lib/jquery.cookie"
     },
 
     optimize: "uglify2",
     wrapShim: false,
-    out: "dnsmon/lib/libs-dist.js"
+    out: "lib/libs-dist.js"
 
 })

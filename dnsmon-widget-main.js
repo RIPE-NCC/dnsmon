@@ -91,7 +91,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
                     });
                 } else { // Load deployed version
                     require([DNSMON_WIDGET_URL + 'dnsmon-dist.js'], function () {
-                        require(['dnsmon/dnsmon-loader'], function(DNSMON){
+                        require(['dnsmon-loader'], function(DNSMON){
                             instances.running[instance.domElement] = DNSMON(instance);
                         });
                     });
@@ -140,7 +140,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
             var instance = window.atlas._widgets.dnsmon.instances.running[domElement];
 
             if (instance) {
-                instance.setParams(params);
+                return instance.setParams(params);
             } else {
                 throw "Widget not loaded yet. Try again in a few seconds."
             }
@@ -150,7 +150,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
             var instance = window.atlas._widgets.dnsmon.instances.running[domElement];
 
             if (instance) {
-                instance.on(type, callback);
+                return instance.on(type, callback);
             } else {
                 throw "Widget not loaded yet. Try again in a few seconds."
             }
@@ -160,7 +160,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
             var instance = window.atlas._widgets.dnsmon.instances.running[domElement];
 
             if (instance) {
-                instance.off(type);
+                return instance.off(type);
             } else {
                 throw "Widget not loaded yet. Try again in a few seconds."
             }
@@ -170,7 +170,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
             var instance = window.atlas._widgets.dnsmon.instances.running[domElement];
 
             if (instance) {
-                instance.getParams();
+                return instance.getParams();
             } else {
                 throw "Widget not loaded yet. Try again in a few seconds."
             }
@@ -180,7 +180,7 @@ function initDNSmon(domElement, instanceParams, queryParams){
             var instance = window.atlas._widgets.dnsmon.instances.running[domElement];
 
             if (instance) {
-                instance.getEnvironment();
+                return instance.getEnvironment();
             } else {
                 throw "Widget not loaded yet. Try again in a few seconds."
             }
