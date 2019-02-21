@@ -1,0 +1,6 @@
+You don't need to build the libs since we don't have libs conflicts for now.
+
+Run only:
+r.js -o app.build.2.js
+
+If you want to run the development code (single, not minified files), put "dev: true" in the embed code.
